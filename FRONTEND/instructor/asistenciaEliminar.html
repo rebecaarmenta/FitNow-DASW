@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <title>FitNow – Asistencia/eliminar</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS v5.3.8 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="../style.css">
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+
+            body {
+                font-family: 'DM Sans', sans-serif;
+                background: #ede9e2;
+                min-height: 100vh;
+            }
+
+            /* ── HERO BANNER ── */
+            .hero {
+                position: relative;
+                height: 220px;
+                overflow: hidden;
+            }
+
+            .hero img {
+                width: 100%; height: 100%;
+                object-fit: cover;
+                filter: brightness(0.6);
+                transition: transform 0.4s ease;
+            }
+
+            .hero-title {
+                position: absolute; 
+                bottom: 24px; 
+                left: 20px;
+                font-family: 'DM Serif Display', serif;
+                font-size: clamp(28px, 8vw, 48px);
+                color: #ffffff;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            }
+
+            .back-btn {
+                position: absolute; left: 20px; top: 20px;
+                width: 40px; height: 40px; border-radius: 50%;
+                background: rgba(255,255,255,0.2);
+                border: none; cursor: pointer;
+                display: flex; align-items: center; justify-content: center;
+                color: #fff;
+            }
+
+            /* ── CUERPO Y BUSCADOR ── */
+            .body {
+                position: relative;
+                z-index: 1; /* Esto lo separa del header */
+            }
+
+            .search-container {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 30px;
+            }
+
+            .search-box {
+                display: flex;
+                align-items: center;
+                background: #dbd9d0;
+                border: 1px solid #000;
+                border-radius: 30px;
+                padding: 8px 20px;
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .search-box input {
+                border: none; outline: none;
+                background: transparent;
+                flex: 1; font-size: 16px;
+            }
+
+            /* ── LISTA DE CLASES ── */
+            .class-list { display: flex; flex-direction: column; gap: 15px; }
+
+            .class-row {
+                background: #c9c3bb;
+                border-radius: 20px;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                text-align: center;
+                transition: background 0.2s;
+            }
+
+            .col-name { font-weight: bold; font-size: 16px; color: #4a4035; }
+            .col-info { font-size: 14px; color: #7a7166; }
+
+            /* BOTONES DE FILA */
+            .btn-group {
+                display: flex;
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+                margin-top: 5px;
+            }
+
+            .asistencia-btn, .eliminar-btn {
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-size: 11px;
+                text-transform: uppercase;
+                cursor: pointer;
+                flex: 1;
+                max-width: 140px;
+            }
+
+            .asistencia-btn { background: #444; color: #fff; border: none; }
+            .eliminar-btn { background: transparent; color: #888; border: 1px solid #888; }
+
+            /* BOTÓN CREAR SESIÓN */
+            .crear-sesion-btn {
+                background: #4a4a46;
+                color: white;
+                padding: 14px 30px;
+                border-radius: 35px;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                margin: 30px auto;
+                width: fit-content;
+                cursor: pointer;
+            }
+
+            /* ── MODAL ELIMINAR ── */
+            .modal-overlay {
+                position: fixed; inset: 0;
+                background: rgba(0,0,0,0.6);
+                display: flex; justify-content: center; align-items: center;
+                z-index: 2000; opacity: 0; pointer-events: none;
+                transition: 0.3s;
+            }
+            .modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+            .modal-content {
+                background: #c9c3bb;
+                width: 90%; max-width: 400px;
+                padding: 25px; border-radius: 20px;
+                text-align: center;
+            }
+
+            /* ── MEDIA QUERIES PARA PANTALLAS GRANDES ── */
+            @media (min-width: 992px) {
+                .body { padding: 40px 80px; }
+
+                .class-row {
+                    flex-direction: row;
+                    display: grid;
+                    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
+                    text-align: left;
+                    padding: 15px 40px;
+                    border-radius: 40px;
+                }
+
+                .btn-group { width: auto; justify-content: flex-end; }
+
+                .crear-sesion-btn { margin-right: 0; }
+            }
+
+            /* Limpieza de botones del modal */
+            .modal-btn {
+                border: none;
+                outline: none;
+                padding: 10px 25px;
+                border-radius: 25px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .btn-si {
+                background-color: #4a4a46;
+                color: white;
+            }
+
+            .btn-no {
+                background-color: transparent;
+                color: #4a4a46;
+                border: 1px solid #4a4a46;
+            }
+
+            .btn-si:hover { background-color: #333; }
+            .btn-no:hover { background-color: rgba(0,0,0,0.05); }
+
+            .close-modal {
+                float: right;
+                cursor: pointer;
+                font-size: 1.5rem;
+                line-height: 1;
+                color: #666;
+            }
+
+            .class-list { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 15px; 
+                position: relative; /* Crea un nuevo contexto de apilamiento */
+                z-index: 5;        /* Asegura que esté por encima del fondo */
+            }
+
+            .eliminar-btn { 
+                pointer-events: auto !important; /* Fuerza a que reciba clicks */
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <header>
+            <!-- NAVEGACIÓN -->
+            <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
+                <div class="container-fluid px-lg-5"> <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto align-items-center"> <li class="nav-item">
+                                <a class="nav-link nav-links-a" href="#">Crear sesion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-links-a" href="#">Mis clases</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-links-a" href="#">Mi perfil</a>
+                            </li>
+                            <li class="nav-item ms-lg-3">
+                                <button class="nav-logout-btn" title="Cerrar sesión">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main></main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- HERO BANNER -->
+        <div class="hero">
+            <img
+            src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg"
+            alt="Spinning"
+            />
+            <div class="hero-overlay"></div>
+            <button class="back-btn" onclick="history.back()" title="Volver">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            </button>
+            <span class="hero-title">SPINNING</span>
+        </div>
+
+        <!-- HORARIOS -->
+            <div class="body">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar clase">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </div>
+                </div>
+
+                <div class="class-list" id="class-list">
+                    </div>
+
+                <button class="crear-sesion-btn">
+                    CREAR SESIÓN <span>+</span>
+                </button>
+            </div>
+
+            <div class="modal-overlay" id="modalOverlay">
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                    <h2>ELIMINAR CLASE</h2>
+                    <span class="close-modal" id="closeModal">&times;</span>
+                    </div>
+                    
+                    <hr class="modal-divider">
+                    
+                    <div class="modal-body">
+                    <p>Esta seguro que desea eliminar la clase?</p>
+                    </div>
+                    
+                    <div class="modal-footer">
+                    <button class="modal-btn btn-si" id="confirmEliminar">SI</button>
+                    <button class="modal-btn btn-no" id="cancelEliminar">NO</button>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+            // ── LÓGICA DEL MODAL ──
+            const modalOverlay = document.getElementById('modalOverlay');
+            const closeModalBtn = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelEliminar');
+            const confirmBtn = document.getElementById('confirmEliminar');
+
+            let filaAEliminar = null;
+
+            document.getElementById('class-list').addEventListener('click', function(e) {
+            // Buscamos el botón más cercano al click (por si le picas al borde del botón)
+            const btnEliminar = e.target.closest('.eliminar-btn');
+            
+            if (btnEliminar) {
+                e.preventDefault(); // Evita conflictos en emuladores
+                filaAEliminar = btnEliminar.closest('.class-row');
+                abrirModal();
+            }
+        });
+
+            function abrirModal() {
+                modalOverlay.classList.add('show');
+            }
+
+            function cerrarModal() {
+                modalOverlay.classList.remove('show');
+                filaAEliminar = null;
+            }
+
+            closeModalBtn.addEventListener('click', cerrarModal);
+            cancelBtn.addEventListener('click', cerrarModal);
+
+            modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                cerrarModal();
+            }
+            });
+
+            confirmBtn.addEventListener('click', function() {
+            if (filaAEliminar) {
+                filaAEliminar.remove();
+                
+                cerrarModal();
+            }
+            });
+
+            // ── DATOS DE HORARIOS ──
+            const horarios = [
+            { id: 0, nombre: 'Spinning 1', dia: 'Lunes',     hora: '7:00 – 8:00'},
+            { id: 1, nombre: 'Spinning 2', dia: 'Miércoles', hora: '9:00 – 10:00'},
+            { id: 2, nombre: 'Spinning 3', dia: 'Viernes',   hora: '7:00 – 8:00'},
+            { id: 3, nombre: 'Spinning 2', dia: 'Miércoles', hora: '11:00 – 12:00'},
+            { id: 4, nombre: 'Spinning 3', dia: 'Viernes',   hora: '7:00 – 8:00'},
+            ];
+
+            // ── RENDERIZAR LISTA ──
+            function render() {
+                document.getElementById('class-list').innerHTML = horarios.map(h => `
+                    <div class="class-row">
+                    <span class="col-name" style="font-weight: bold; font-size: 16px;">${h.nombre.toUpperCase()}</span>
+                    <span class="col-info">${h.dia}</span>
+                    <span class="col-info">${h.hora}</span>
+                    <span class="col-info">20 personas</span> <div class="btn-group">
+                        <button class="asistencia-btn">ASISTENCIA</button>
+                        <button class="eliminar-btn">ELIMINAR</button>
+                    </div>
+                    </div>
+                `).join('');
+            }
+
+            render();
+        </script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <title>INSTRUCTORES</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS v5.3.8 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
+        />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #e6e4e1;
+            }
+
+            .navbar-custom {
+                background-color: #333;
+                height: 60px;
+            }
+
+            .logo {
+                height: 35px;
+            }
+
+            .navbar-custom a {
+                color: #dcdcdc;
+                margin-left: 40px;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+            .logout-icon {
+                color: #dcdcdc;
+                font-size: 20px;
+                margin-left: 40px;
+                cursor: pointer;
+            }
+
+            .filtro {
+                margin: 30px 0;
+            }
+
+            .select-custom {
+                width: 260px;
+                border-radius: 25px;
+                border: 1.5px solid #333;
+                padding: 8px 15px;
+                background-color: transparent;
+            }
+
+            .card-custom {
+                background-color: #bcb5b0;
+                border-radius: 25px;
+                text-align: center;
+                padding: 25px 15px;
+                margin-bottom: 25px;
+            }
+
+            .card-custom img {
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-bottom: 10px;
+            }
+
+            .nombre {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+
+            .desc {
+                font-size: 12px;
+                color: #444;
+            }
+
+            .clases {
+                font-size: 11px;
+                margin-top: 5px;
+            }
+
+            .logo {
+                height: 35px;  
+                object-fit: contain;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            .navbar-nav {
+                gap: 20px;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
+        ></script>
+                
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
+            <img src="3-Photoroom.png" class="logo">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="menu">
+                <div class="navbar-nav align-items-center">
+                    <a class="nav-link" href="#">MIS CLASES</a>
+                    <a class="nav-link" href="#">INSTRUCTORES</a>
+                    <a class="nav-link" href="#">MI PERFIL</a>
+
+                    <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <div class="filtro">
+                <select class="select-custom">
+                    <option>Selecciona una clase</option>
+                </select>
+            </div>
+
+            <div class="row">
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/1200x/d2/4c/99/d24c996995629ec4c10f22a12b5bc582.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/1200x/0e/9e/08/0e9e08306f6a2064a86a62d277f77825.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/736x/2e/cb/6b/2ecb6be80595fb3b6d3f3d7bdd59123b.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/1200x/f7/4d/14/f74d143ab7ef9b8897777d2719fab8f8.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/736x/2e/b5/c3/2eb5c319bddb1d08f41185877aafcaee.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/736x/93/1b/e8/931be8dffb798b3abc195ddb402ad3b5.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/736x/97/64/5d/97645d6cc0774ce722407f4258c05dca.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="card-custom">
+                        <img src="https://i.pinimg.com/736x/dc/38/ea/dc38eaf88de57efae42f02a2a2684835.jpg">
+                        <div class="nombre">NOMBRE APELLIDO</div>
+                        <div class="desc">----Descripción----</div>
+                        <div class="clases">Clases que imparte</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitNow – Spinning</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #ede9e2;
+      min-height: 100vh;
+    }
+ 
+    /* ── NAV ── */
+    .custom-nav { background: #2a2520; }
+ 
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      color: #f0ebe3 !important;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #c8b89a; }
+ 
+    .nav-links-a {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #b0a898 !important;
+      transition: color 0.2s;
+    }
+    .nav-links-a:hover { color: #f0ebe3 !important; }
+ 
+    .navbar-toggler { border-color: #b0a898; }
+    .navbar-toggler-icon { filter: invert(0.7); }
+ 
+    .navbar-collapse { background: #2a2520; padding: 12px 0; }
+    @media (min-width: 992px) { .navbar-collapse { padding: 0; } }
+ 
+    .nav-logout-btn {
+      background: none; border: none; cursor: pointer;
+      color: #b0a898; padding: 4px; transition: color 0.2s;
+      display: flex; align-items: center;
+    }
+    .nav-logout-btn:hover { color: #f0ebe3; }
+ 
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: clamp(140px, 25vw, 220px);
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: brightness(0.58);
+      transition: transform 0.4s ease;
+    }
+    .hero:hover img { transform: scale(1.02); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 65%);
+    }
+    .hero-title {
+      position: absolute; bottom: 18px; left: 24px;
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 6vw, 48px);
+      color: #ffffff; letter-spacing: 0.02em;
+      text-shadow: 0 2px 14px rgba(0,0,0,0.45);
+    }
+    .back-btn {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.18); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; transition: background 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.32); }
+ 
+    /* ── BODY ── */
+    .page-body {
+      padding: clamp(16px, 4vw, 28px) clamp(16px, 4vw, 32px);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+ 
+    /* ── LISTA ── */
+    .class-list { display: flex; flex-direction: column; gap: 12px; }
+ 
+    .class-row {
+      background: #ddd8ce;
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: grid;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s;
+      grid-template-columns: 1.4fr 1fr 1.2fr 1fr 1.2fr auto;
+    }
+    .class-row:hover { background: #d0cac0; }
+ 
+    @media (max-width: 860px) {
+      .class-row {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+          "nombre  dia    hora"
+          "salon   inst   btn";
+      }
+      .col-nombre { grid-area: nombre; }
+      .col-dia    { grid-area: dia; }
+      .col-hora   { grid-area: hora; }
+      .col-salon  { grid-area: salon; }
+      .col-inst   { grid-area: inst; }
+      .inscribir-btn { grid-area: btn; justify-self: end; }
+    }
+ 
+    @media (max-width: 560px) {
+      .class-row {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "nombre  nombre"
+          "dia     hora"
+          "salon   inst"
+          "btn     btn";
+        padding: 14px 16px;
+        gap: 8px;
+      }
+      .inscribir-btn {
+        justify-self: stretch;
+        text-align: center;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-top: 4px;
+      }
+    }
+ 
+    .col-name { font-size: 13px; font-weight: 500; color: #4a4035; letter-spacing: 0.04em; }
+    .col-info { font-size: 13px; color: #7a7166; }
+ 
+    .col-label {
+      display: none;
+      font-size: 10px; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #a09888; margin-bottom: 2px;
+    }
+    @media (max-width: 560px) { .col-label { display: block; } }
+ 
+    /* ── BOTÓN ── */
+    .inscribir-btn {
+      background: #2a2520; color: #f0ebe3; border: none;
+      border-radius: 20px; padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif; font-size: 11px;
+      font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.18s, transform 0.15s;
+    }
+    .inscribir-btn:hover { background: #4a4035; transform: scale(1.03); }
+    .inscribir-btn:active { transform: scale(0.97); }
+    .inscribir-btn.inscrito { background: #6b8f5e; cursor: default; transform: none; }
+ 
+    /* ── TOAST ── */
+    .toast-msg {
+      position: fixed; bottom: 24px; right: 16px;
+      background: #2a2520; color: #f0ebe3;
+      padding: 10px 20px; border-radius: 8px; font-size: 13px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none; z-index: 999;
+      max-width: calc(100vw - 32px);
+    }
+    .toast-msg.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+ 
+  <!-- NAVEGACIÓN -->
+  <nav class="navbar navbar-expand-lg custom-nav">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
+ 
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+ 
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mis clases</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Instructores</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mi perfil</a></li>
+          <li class="nav-item ms-lg-3">
+            <button class="nav-logout-btn" title="Cerrar sesión">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ 
+  <!-- HERO -->
+  <div class="hero">
+    <img src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg" alt="Spinning" />
+    <div class="hero-overlay"></div>
+    <button class="back-btn" onclick="history.back()" title="Volver">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <span class="hero-title">SPINNING</span>
+  </div>
+ 
+  <!-- HORARIOS -->
+  <div class="page-body">
+    <div class="class-list" id="class-list"></div>
+  </div>
+ 
+  <div class="toast-msg" id="toast"></div>
+ 
+  <script>
+    const horarios = [
+      { id: 0, nombre: 'Spinning 1', dia: 'Lunes',     hora: '7:00 – 8:00',   salon: 'Salón 1', instructor: 'Instructor 1' },
+      { id: 1, nombre: 'Spinning 2', dia: 'Miércoles', hora: '9:00 – 10:00',  salon: 'Salón 1', instructor: 'Instructor 2' },
+      { id: 2, nombre: 'Spinning 3', dia: 'Viernes',   hora: '7:00 – 8:00',   salon: 'Salón 1', instructor: 'Instructor 3' },
+      { id: 3, nombre: 'Spinning 2', dia: 'Miércoles', hora: '11:00 – 12:00', salon: 'Salón 1', instructor: 'Instructor 2' },
+      { id: 4, nombre: 'Spinning 3', dia: 'Viernes',   hora: '7:00 – 8:00',   salon: 'Salón 1', instructor: 'Instructor 2' },
+    ];
+ 
+    const inscritos = new Set();
+ 
+    function render() {
+      document.getElementById('class-list').innerHTML = horarios.map(h => {
+        const ya = inscritos.has(h.id);
+        return `
+          <div class="class-row">
+            <span class="col-name col-nombre">${h.nombre}</span>
+            <span class="col-info col-dia"><span class="col-label">Día</span>${h.dia}</span>
+            <span class="col-info col-hora"><span class="col-label">Hora</span>${h.hora}</span>
+            <span class="col-info col-salon"><span class="col-label">Salón</span>${h.salon}</span>
+            <span class="col-info col-inst"><span class="col-label">Instructor</span>${h.instructor}</span>
+            <button class="inscribir-btn${ya ? ' inscrito' : ''}" onclick="inscribir(${h.id})" ${ya ? 'disabled' : ''}>
+              ${ya ? '✓ Inscrito' : 'Inscribir'}
+            </button>
+          </div>`;
+      }).join('');
+    }
+ 
+    function inscribir(id) {
+      inscritos.add(id);
+      render();
+      const t = document.getElementById('toast');
+      t.textContent = '¡Inscripción exitosa!';
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+ 
+    render();
+  </script>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

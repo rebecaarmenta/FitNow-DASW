@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitNow – Desinscribir</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #ede9e2;
+      min-height: 100vh;
+      color: #2a2520;
+      overflow-x: hidden;
+    }
+ 
+    /* ── NAV ── */
+    .custom-nav {
+      background-color: #2a2520 !important;
+      padding: 10px 0;
+    }
+ 
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      color: #f0ebe3 !important;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #c8b89a; }
+ 
+    .nav-links-a {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #b0a898 !important;
+      padding: 10px 15px !important;
+    }
+    .nav-links-a:hover { color: #f0ebe3 !important; }
+ 
+    .nav-logout-btn {
+      background: none !important;
+      border: none !important;
+      color: #b0a898;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .nav-logout-btn:hover { color: #f0ebe3; }
+ 
+    .navbar-toggler {
+      background: none !important;
+      border: 1px solid #b0a898 !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+    .navbar-toggler-icon { filter: invert(0.7); }
+ 
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background-color: #2a2520;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 10px;
+      }
+      .nav-links-a { display: block; padding: 10px 0 !important; }
+      .nav-logout-btn { margin-top: 10px; padding-left: 15px; }
+    }
+ 
+    /* ── CONTENEDOR ── */
+    .page-body {
+      padding: 24px 16px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+ 
+    @media (min-width: 768px) {
+      .page-body { padding: 40px 60px; }
+    }
+ 
+    /* ── TÍTULO ── */
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(22px, 5vw, 28px);
+      color: #4a4035;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+ 
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+ 
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+ 
+    /* ── TARJETA ── */
+    .card {
+      background: #ddd8ce;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.15s;
+      border: none;
+      padding: 0;
+    }
+ 
+    .card:hover { background: #d0cac0; }
+ 
+    .card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: center center;
+      flex-shrink: 0;
+      border-radius: 0;
+      display: block;
+    }
+ 
+    @media (max-width: 500px) {
+      .card-img { height: 180px; }
+    }
+ 
+    .card-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px 24px;
+      gap: 0;
+    }
+ 
+    .card-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px;
+      color: #2a2520;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+ 
+    .card-details { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+    .card-row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .card-detail { font-size: 12px; color: #7a7166; }
+    .card-detail.hora { color: #4a4035; font-weight: 500; }
+ 
+    /* ── BOTÓN DESINSCRIBIR ── */
+    .desinscribir-btn {
+      margin-top: 16px;
+      width: 100%;
+      background: #2a2520;
+      color: #f0ebe3;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 18px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
+    }
+ 
+    .desinscribir-btn:hover { background: #8b3a3a; transform: scale(1.02); }
+    .desinscribir-btn:active { transform: scale(0.97); }
+ 
+    /* ── VACÍO ── */
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #9a8f82;
+      font-size: 14px;
+      padding: 56px 0;
+    }
+ 
+    /* ── TOAST ── */
+    .toast-msg {
+      position: fixed; bottom: 24px; right: 16px;
+      background: #2a2520; color: #f0ebe3;
+      padding: 10px 20px; border-radius: 8px; font-size: 13px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none; z-index: 999;
+      max-width: calc(100vw - 32px);
+    }
+    .toast-msg.show { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+ 
+  <!-- NAVEGACIÓN -->
+  <nav class="navbar navbar-expand-lg custom-nav sticky-top">
+    <div class="container-fluid px-lg-5">
+      <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
+ 
+      <button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+ 
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mis clases</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Instructores</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mi perfil</a></li>
+          <li class="nav-item ms-lg-3">
+            <button class="nav-logout-btn" title="Cerrar sesión">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                <polyline points="16 17 21 12 16 7"/>
+                <line x1="21" y1="12" x2="9" y2="12"/>
+              </svg>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ 
+  <!-- CUERPO -->
+  <div class="page-body">
+    <p class="page-title">Mis clases</p>
+    <div class="grid" id="grid"></div>
+  </div>
+ 
+  <div class="toast-msg" id="toast"></div>
+ 
+  <script>
+    let clases = [
+      {
+        id: 0,
+        nombre: 'Pilates 1',
+        dia: 'Lunes',
+        hora: '7:00–8:00',
+        salon: 'Salón 1',
+        instructor: 'Instructor 1',
+        img: 'https://i.pinimg.com/1200x/5c/8a/2b/5c8a2bc97a4993d9013bef88eb008272.jpg'
+      },
+      {
+        id: 1,
+        nombre: 'Zumba 1',
+        dia: 'Martes',
+        hora: '7:00–8:00',
+        salon: 'Salón 1',
+        instructor: 'Instructor 1',
+        img: 'https://i.pinimg.com/736x/d6/c3/ba/d6c3bab99ea80eebafdafedb9a1162f8.jpg'
+      },
+      {
+        id: 2,
+        nombre: 'Spinning 1',
+        dia: 'Miércoles',
+        hora: '7:00–8:00',
+        salon: 'Salón 1',
+        instructor: 'Instructor 1',
+        img: 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg'
+      },
+      {
+        id: 3,
+        nombre: 'Pilates 2',
+        dia: 'Viernes',
+        hora: '7:00–8:00',
+        salon: 'Salón 1',
+        instructor: 'Instructor 1',
+        img: 'https://i.pinimg.com/1200x/5c/8a/2b/5c8a2bc97a4993d9013bef88eb008272.jpg'
+      },
+    ];
+ 
+    function render() {
+      const grid = document.getElementById('grid');
+ 
+      if (clases.length === 0) {
+        grid.innerHTML = '<div class="empty">No tienes clases inscritas aún.</div>';
+        return;
+      }
+ 
+      grid.innerHTML = clases.map(c => `
+        <div class="card" id="card-${c.id}">
+          <img class="card-img" src="${c.img}" alt="${c.nombre}" loading="lazy" />
+          <div class="card-info">
+            <div>
+              <p class="card-name">${c.nombre}</p>
+              <div class="card-details">
+                <div class="card-row">
+                  <span class="card-detail">${c.dia}</span>
+                  <span class="card-detail hora">${c.hora}</span>
+                </div>
+                <span class="card-detail">${c.salon}</span>
+                <span class="card-detail">${c.instructor}</span>
+              </div>
+            </div>
+            <button class="desinscribir-btn" onclick="desinscribir(${c.id})">
+              Desinscribir
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+ 
+    function desinscribir(id) {
+      const card = document.getElementById('card-' + id);
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        clases = clases.filter(c => c.id !== id);
+        render();
+        showToast('Desinscripción exitosa');
+      }, 300);
+    }
+ 
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+ 
+    render();
+  </script>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
