@@ -51,8 +51,9 @@
 
             .logo-img {
                 position: absolute;
-                width: 500px;
-                left: 38.5%;
+                max-width: 500px;
+                width: 100%;
+                left: 39%;
                 top: 54%;
                 transform: translate(-50%, -50%);
                 z-index: 2;
@@ -70,6 +71,12 @@
                 font-size: 21px;
                 z-index: 2;
                 text-decoration: none;
+            }
+
+            @media (max-width: 576px) {
+                .logo-img {
+                    left: 49%;
+                }
             }
         </style>
     </head>
@@ -102,7 +109,7 @@
 
             <div class="overlay"></div>
 
-            <img src="3-Photoroom.png" alt="logo" class="logo-img">
+            <img src="3-Photoroom.png" alt="logo" class="logo-img img-fluid start-md-auto">
 
             <a href="LogIn.html" class="boton-join">
                 JOIN NOW
