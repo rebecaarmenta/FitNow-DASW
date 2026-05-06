@@ -1,7 +1,7 @@
 import User from '../models/user.js';
 import Session from '../models/session.js';
 
-//GET instructores
+//GET /instructores
 export async function getInstructors(req, res) {
     try {
         const instructors = await User.find({ rol: 'instructor' }, '-password'); 
@@ -11,7 +11,7 @@ export async function getInstructors(req, res) {
     }
 }
 
-//GET info de instructores
+//GET /instructores/:id
 export async function getInstructorDetail(req, res) {
     try {
         const instructor = await User.findById(req.params.id, '-password');
