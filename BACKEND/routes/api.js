@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as usersController from '../controllers/users_controller.js';
+import usersRouter from './users.js';
  
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,12 +19,7 @@ routerApi.get('/login', (req, res) => {
 routerApi.get('/register', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../../SigIn.html'));
 });
- 
-// usuarios
-routerApi.post('/login', usersController.login);
-routerApi.post('/users', usersController.register);
-routerApi.get('/users/:id', usersController.getUser);
-routerApi.patch('/users/:id', usersController.updateUser);
-routerApi.delete('/users/:id', usersController.deleteUser);
+
+routerApi.use('/users', usersRouter);
  
 export default routerApi;
