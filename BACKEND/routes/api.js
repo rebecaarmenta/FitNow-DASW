@@ -7,6 +7,7 @@ import usersRouter from './users.js';
 import disciplinesRouter from './disciplines.js';
 import sessionsRouter from './sessions.js';
 import enrollmentsRouter from './enrollments.js';
+import attendancesRouter from './attendances.js';
  
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,5 +29,6 @@ routerApi.use('/users', usersRouter);
 routerApi.use('/disciplines', disciplinesRouter);
 routerApi.use('/sessions', sessionsRouter);
 routerApi.use('/enrollments', enrollmentsRouter);
+routerApi.use('/attendances', attendancesRouter);
  
 export default routerApi;
