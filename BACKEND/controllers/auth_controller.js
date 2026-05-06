@@ -1,5 +1,6 @@
 import User from '../models/user.js';
 
+//POST signup
 export function signup(req, res) {
     const { name, email, password, rol } = req.body;
 
@@ -31,6 +32,7 @@ export function signup(req, res) {
     });
 }
 
+//POST login
 export function login(req, res) {
     const { email, password } = req.body;
 
