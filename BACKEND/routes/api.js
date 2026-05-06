@@ -29,7 +29,7 @@ routerApi.get('/register', (req, res) => {
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
 
-router.get('/:id/history', usersController.getUserHistory);
+routerApi.get('/:id/history', usersController.getUserHistory);
 routerApi.get('/instructores', instructorsController.getInstructors);
 routerApi.get('/instructores/:id', instructorsController.getInstructorDetail);
 
