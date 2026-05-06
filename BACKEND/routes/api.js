@@ -2,7 +2,9 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as usersController from '../controllers/users_controller.js';
+
 import usersRouter from './users.js';
+import disciplinesRouter from './disciplines.js';
  
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,5 +23,6 @@ routerApi.get('/register', (req, res) => {
 });
 
 routerApi.use('/users', usersRouter);
+routerApi.use('/disciplines', disciplinesRouter);
  
 export default routerApi;
