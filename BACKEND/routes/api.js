@@ -25,6 +25,9 @@ routerApi.get('/register', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../../SigIn.html'));
 });
 
+routerApi.post('/signup', usersController.register);
+routerApi.post('/login', usersController.login);
+
 routerApi.use('/users', usersRouter);
 routerApi.use('/disciplines', disciplinesRouter);
 routerApi.use('/sessions', sessionsRouter);
