@@ -105,6 +105,10 @@
                 color: #5b4d4a;
                 font-size: 28px;
                 line-height: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-decoration: none;
             }
 
             .btn-create {
@@ -153,6 +157,12 @@
 
             .campo-codigo {
                 display: none;
+            }
+            
+            .btn-back {
+                width: 41px;
+                height: 41px;
+                border-radius: 50%;
             }
 
             @media (max-width: 767px) {
@@ -303,7 +313,7 @@
                             </div>
 
                             <div class="botones">
-                                <button type="button" class="btn-back">‹</button>
+                                <a href="LogIn.html" class="btn-back">‹</a>
                                 <button type="submit" class="btn-create">CREATE ACCOUNT</button>
                             </div>
                         </form>
