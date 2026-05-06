@@ -27,7 +27,7 @@ routerApi.get('/register', (req, res) => {
 
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
-
+router.get('/:id/history', usersController.getUserHistory);
 routerApi.use('/users', usersRouter);
 routerApi.use('/disciplines', disciplinesRouter);
 routerApi.use('/sessions', sessionsRouter);

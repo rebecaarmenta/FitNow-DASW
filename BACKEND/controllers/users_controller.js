@@ -82,3 +82,17 @@ export async function deleteUser(req, res) {
         res.status(500).send(err.message);
     }
 }
+
+//Recuperar el historial de clases y el progreso
+export async function getUserHistory(req, res) {
+    try {
+        const history = await Enrollment.find({ user_id: req.params.id })
+            .populate({
+                path: 'session_id',
+                populate: { path: 'discipline_id' }
+            });
+        res.json(history);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}
