@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as usersController from '../controllers/users_controller.js';
+import * as instructorsController from '../controllers/instructors_controller.js';
 
 import usersRouter from './users.js';
 import disciplinesRouter from './disciplines.js';
@@ -27,7 +28,11 @@ routerApi.get('/register', (req, res) => {
 
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
+
 router.get('/:id/history', usersController.getUserHistory);
+routerApi.get('/instructores', instructorsController.getInstructors);
+routerApi.get('/instructores/:id', instructorsController.getInstructorDetail);
+
 routerApi.use('/users', usersRouter);
 routerApi.use('/disciplines', disciplinesRouter);
 routerApi.use('/sessions', sessionsRouter);
