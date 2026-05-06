@@ -1,4 +1,5 @@
 import User from '../models/user.js';
+import jwt from 'jsonwebtoken';
  
 const CODIGO_INSTRUCTOR = 'FITNOW2026';
  
@@ -7,8 +8,16 @@ export async function login(req, res) {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email, password });
-        if (!user) return res.sendStatus(401);
-        res.json(user);
+        if (!user) return res.status(401).send('Credenciales incorrectas');
+
+        // Generar el token
+        const token = jwt.sign(
+            { id: user._id, rol: user.rol }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '24h' }
+        );
+
+        res.json({ token, user: { id: user._id, name: user.name, rol: user.rol } });
     } catch (err) {
         res.status(500).send(err.message);
     }
