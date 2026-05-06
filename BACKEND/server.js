@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import routerApi from './routes/api.js';
  
 dotenv.config();
@@ -8,13 +9,13 @@ dotenv.config();
 const app = express();
 const puerto = process.env.PORT || 3000;
  
+app.use(cors());
 app.use(express.json());
  
 // archivos estaticos del frontend
 app.use(express.static('../'));
 app.use('/instructor', express.static('../instructor'));
 app.use('/usuario', express.static('../usuario'));
-app.use('/controllers', express.static('../controllers'));
  
 app.use(routerApi);
  
