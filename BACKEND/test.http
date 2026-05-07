@@ -23,7 +23,7 @@ Content-Type: application/json
 @authToken = {{login.response.body.token}}
 
 ### 3. Obtener historial (PROTEGIDO)
-GET http://localhost:3000/1/history
+GET http://localhost:3000/69fcbf69529f42706ea3dc0d/history
 Authorization: Bearer {{authToken}}
 
 ### 4. Ver todas las disciplinas (PROTEGIDO)
