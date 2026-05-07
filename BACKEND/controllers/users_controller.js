@@ -18,7 +18,15 @@ export async function login(req, res) {
             { expiresIn: '24h' }
         );
 
-        res.json({ token, user: { id: user._id, name: user.name, rol: user.rol } });
+        res.set('Authorization', `Bearer ${token}`)
+           .json({ 
+               user: { 
+                   id: user._id, 
+                   name: user.name, 
+                   rol: user.rol 
+               } 
+           });
+
     } catch (err) {
         res.status(500).send(err.message);
     }
