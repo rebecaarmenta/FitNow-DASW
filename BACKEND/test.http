@@ -46,7 +46,7 @@ Content-Type: application/json
 }
 
 ### Guardamos el token en una variable
-@authToken = {{login.response.body.token}}
+@authToken = {{login.response.headers.Authorization}}
 
 ### Guardamos el ID del usuario que regresó el login
 @userId = {{login.response.body.user.id}}
