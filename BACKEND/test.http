@@ -55,7 +55,7 @@ Content-Type: application/json
 # @name createDiscipline
 POST http://localhost:3000/disciplines
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 {
     "name": "Yoga Flow",
@@ -67,16 +67,16 @@ Authorization: Bearer {{authToken}}
 
 ### Ver todas las disciplinas
 GET http://localhost:3000/disciplines
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 ### Ver una sola disciplina por ID
 GET http://localhost:3000/disciplines/{{disciplineId}}
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 ### Actualizar disciplina
 PATCH http://localhost:3000/disciplines/{{disciplineId}}
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 {
     "name": "Yoga Avanzado",
@@ -85,7 +85,7 @@ Authorization: Bearer {{authToken}}
 
 ### Ver historial
 GET http://localhost:3000/{{userId}}/history
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 ### Prueba de Seguridad: Acceso sin Token
 GET http://localhost:3000/users
