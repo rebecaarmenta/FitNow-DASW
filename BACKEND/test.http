@@ -1,0 +1,38 @@
+### 1. Registro de usuario (Público)
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name": "Maria Rebeca",
+    "email": "rebeca.test@iteso.mx",
+    "password": "password123"
+}
+
+###
+
+### 2. Login (Público) - ¡Aquí obtendrás el token!
+# @name login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "rebeca.test@iteso.mx",
+    "password": "password123"
+}
+
+### Guardamos el token en una variable
+@authToken = {{login.response.body.token}}
+
+
+### 3. Obtener historial (PROTEGIDO)
+GET http://localhost:3000/1/history
+Authorization: Bearer {{authToken}}
+
+
+### 4. Ver todas las disciplinas (PROTEGIDO)
+GET http://localhost:3000/disciplines
+Authorization: Bearer {{authToken}}
+
+
+### 5. Intentar entrar SIN TOKEN
+GET http://localhost:3000/users
