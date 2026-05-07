@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import * as usersController from '../controllers/users_controller.js';
 import jwt from 'jsonwebtoken';
+import { verificarToken } from '../middlewares/auth.js';
 
 import usersRouter from './users.js';
 import disciplinesRouter from './disciplines.js';
@@ -29,6 +30,8 @@ routerApi.get('/register', (req, res) => {
 
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
+
+routerApi.use(verificarToken);
 
 routerApi.get('/:id/history', usersController.getUserHistory);
 
