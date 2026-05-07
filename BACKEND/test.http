@@ -22,8 +22,11 @@ Content-Type: application/json
 ### Guardamos el token en una variable
 @authToken = {{login.response.body.token}}
 
+### Guardamos el ID del usuario que regresó el login
+@userId = {{login.response.body.user.id}}
+
 ### 3. Obtener historial (PROTEGIDO)
-GET http://localhost:3000/69fcbf69529f42706ea3dc0d/history
+GET http://localhost:3000/{{{{userId}}}}/history
 Authorization: Bearer {{authToken}}
 
 ### 4. Ver todas las disciplinas (PROTEGIDO)
