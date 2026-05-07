@@ -1,4 +1,5 @@
 import User from '../models/user.js';
+import Enrollment from '../models/enrollment.js';
 import jwt from 'jsonwebtoken';
  
 const CODIGO_INSTRUCTOR = 'FITNOW2026';
