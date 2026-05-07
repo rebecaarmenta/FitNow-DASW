@@ -26,7 +26,7 @@ Content-Type: application/json
 @userId = {{login.response.body.user.id}}
 
 ### 3. Obtener historial (PROTEGIDO)
-GET http://localhost:3000/{{{{userId}}}}/history
+GET http://localhost:3000/{{userId}}/history
 Authorization: Bearer {{authToken}}
 
 ### 4. Ver todas las disciplinas (PROTEGIDO)
