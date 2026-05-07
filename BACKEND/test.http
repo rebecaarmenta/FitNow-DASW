@@ -1,21 +1,47 @@
-### 1. Registro de usuario (Público)
+### Registro de usuario (Público)
 POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-    "name": "Maria Rebeca",
-    "email": "rebeca.test@iteso.mx",
+    "name": "Ana Lopez",
+    "email": "ana.test@iteso.mx",
     "password": "password123",
     "confirm_password": "password123"
 }
 
-### 2. Login (Público)
+### Registro de Instructor (Código Correcto)
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name": "Instructor Pro",
+    "email": "coach@fitnow.com",
+    "password": "password123",
+    "confirm_password": "password123",
+    "rol": "instructor",
+    "codigo": "FITNOW2026"
+}
+
+### Registro de Instructor (Código erróneo)
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name": "Intento Fallido",
+    "email": "fake@fitnow.com",
+    "password": "password123",
+    "confirm_password": "password123",
+    "rol": "instructor",
+    "codigo": "ERROR123"
+}
+
+### Login (Público)
 # @name login
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "rebeca.test@iteso.mx",
+    "email": "ana.test@iteso.mx",
     "password": "password123"
 }
 
@@ -25,13 +51,41 @@ Content-Type: application/json
 ### Guardamos el ID del usuario que regresó el login
 @userId = {{login.response.body.user.id}}
 
-### 3. Obtener historial (PROTEGIDO)
-GET http://localhost:3000/{{userId}}/history
+### Crear una disciplina
+# @name createDiscipline
+POST http://localhost:3000/disciplines
+Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
-### 4. Ver todas las disciplinas (PROTEGIDO)
+{
+    "name": "Yoga Flow",
+    "description": "Clase de yoga para todos los niveles"
+}
+
+### Guardamos el ID de la disciplina creada
+@disciplineId = {{createDiscipline.response.body._id}}
+
+### Ver todas las disciplinas
 GET http://localhost:3000/disciplines
 Authorization: Bearer {{authToken}}
 
-### 5. Intentar entrar SIN TOKEN
+### Ver una sola disciplina por ID
+GET http://localhost:3000/disciplines/{{disciplineId}}
+Authorization: Bearer {{authToken}}
+
+### Actualizar disciplina
+PATCH http://localhost:3000/disciplines/{{disciplineId}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "name": "Yoga Avanzado",
+    "description": "Solo para expertos"
+}
+
+### Ver historial
+GET http://localhost:3000/{{userId}}/history
+Authorization: Bearer {{authToken}}
+
+### Prueba de Seguridad: Acceso sin Token
 GET http://localhost:3000/users
