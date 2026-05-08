@@ -41,7 +41,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "ana.test@iteso.mx",
+    "email": "coach@fitnow.com",
     "password": "password123"
 }
 
@@ -96,7 +96,7 @@ GET http://localhost:3000/users
 # @name createSession
 POST http://localhost:3000/sessions
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 {
     "discipline_id": "{{disciplineId}}",
@@ -113,16 +113,16 @@ Authorization: Bearer {{authToken}}
 
 ### Ver todas las sesiones programadas
 GET http://localhost:3000/sessions
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 
 ### --- SECCIÓN DE INSCRIPCIONES ---
 
 ### Inscribir al usuario a la sesión creada
 # @name enroll
-POST http://localhost:3000/enrollments/inscripcion
+POST http://localhost:3000/enrollments/
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 {
     "user_id": "{{userId}}",
@@ -133,9 +133,9 @@ Authorization: Bearer {{authToken}}
 @enrollmentId = {{enroll.response.body._id}}
 
 ### Intentar inscribirse de nuevo (Debe fallar por duplicado)
-POST http://localhost:3000/enrollments/inscripcion
+POST http://localhost:3000/enrollments/
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 {
     "user_id": "{{userId}}",
@@ -149,7 +149,7 @@ Authorization: Bearer {{authToken}}
 # @name attendance
 POST http://localhost:3000/attendances
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 {
     "user_id": "{{userId}}",
@@ -159,15 +159,15 @@ Authorization: Bearer {{authToken}}
 
 ### Ver lista de asistencia de una sesión específica
 GET http://localhost:3000/attendances/instructor/{{sessionId}}
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 
 ### --- FINALIZACIÓN Y CANCELACIÓN ---
 
 ### Cancelar la inscripción (Cambia status a cancelada)
 DELETE http://localhost:3000/enrollments/cancelar/{{enrollmentId}}
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
 
 ### Borrar la sesión (Solo instructor)
 DELETE http://localhost:3000/sessions/{{sessionId}}
-Authorization: Bearer {{authToken}}
+Authorization: {{authToken}}
