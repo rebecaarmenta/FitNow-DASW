@@ -366,13 +366,13 @@
                         })
                     });
 
-                    const data = await response.json();
+                    const data = await response.text();
 
                     if (response.ok) {
                         alert('¡Cuenta creada con éxito! Ahora puedes iniciar sesión.');
                         window.location.href = 'LogIn.html';
                     } else {
-                        alert('Error: ' + (typeof data === 'string' ? data : 'No se pudo completar el registro'));
+                        alert('Atención: ' + data);
                     }
                 } catch (error) {
                     console.error('Error:', error);
