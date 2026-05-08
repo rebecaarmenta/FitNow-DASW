@@ -11,6 +11,8 @@ const puerto = process.env.PORT || 3000;
  
 app.use(cors());
 app.use(express.json());
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
  
 // archivos estaticos del frontend
 app.use(express.static('../'));
