@@ -58,8 +58,8 @@ Content-Type: application/json
 Authorization: {{authToken}}
 
 {
-    "name": "Yoga Flow",
-    "description": "Clase de yoga para todos los niveles"
+    "name": "Pilates",
+    "description": "Clase de pilates para todos los niveles"
 }
 
 ### Guardamos el ID de la disciplina creada
