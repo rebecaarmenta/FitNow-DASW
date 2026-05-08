@@ -31,6 +31,10 @@ routerApi.get('/register', (req, res) => {
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
 
+routerApi.get('/view-login', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../LogIn.html'));
+});
+
 routerApi.use(verificarToken);
 
 routerApi.get('/:id/history', usersController.getUserHistory);
