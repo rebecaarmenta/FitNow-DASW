@@ -207,46 +207,7 @@
                 </div>
             </div>
         </div>
-        <script>
-            const loginForm = document.querySelector('form');
-
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-
-                try {
-                    const response = await fetch('http://localhost:3000/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email, password })
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        // Guardamos el token y los datos para usarlos en otras ventanas
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('userId', data.user.id);
-                        localStorage.setItem('userRol', data.user.rol);
-
-                        // Redirigimos según el rol (Instructor o Usuario)
-                        if (data.user.rol === 'instructor') {
-                            window.location.href = '/instructor/misClases.html';
-                        } else {
-                            window.location.href = '/clases.html';
-                        }
-                    } else {
-                        alert('Error: ' + (data.message || 'Credenciales incorrectas'));
-                    }
-                } catch (error) {
-                    console.error('Error en la conexión:', error);
-                    alert('No se pudo conectar con el servidor.');
-                }
-            });
-        </script>
+        <script src="controllers/"></script> 
+        <script src="controllers/"></script>
     </body>
 </html>
