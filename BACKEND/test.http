@@ -14,8 +14,8 @@ POST http://localhost:3000/signup
 Content-Type: application/json
 
 {
-    "name": "Instructor Pro",
-    "email": "coach@fitnow.com",
+    "name": "Instructor X",
+    "email": "instructor@fitnow.com",
     "password": "password123",
     "confirm_password": "password123",
     "rol": "instructor",
@@ -41,7 +41,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "coach@fitnow.com",
+    "email": "instructor@fitnow.com",
     "password": "password123"
 }
 
@@ -101,10 +101,10 @@ Authorization: {{authToken}}
 {
     "discipline_id": "{{disciplineId}}",
     "instructor_id": "{{userId}}",
-    "date": "2026-07-15",
-    "time": "10:00 AM",
-    "capacity": 2,
-    "place": "Salón A",
+    "date": "2026-05-08",
+    "time": "09:00 AM",
+    "capacity": 3,
+    "place": "Salón B",
     "status": "programada"
 }
 
@@ -158,14 +158,14 @@ Authorization: {{authToken}}
 }
 
 ### Ver lista de asistencia de una sesión específica
-GET http://localhost:3000/attendances/instructor/{{sessionId}}
+GET http://localhost:3000/attendances/session/{{sessionId}}
 Authorization: {{authToken}}
 
 
 ### --- FINALIZACIÓN Y CANCELACIÓN ---
 
 ### Cancelar la inscripción (Cambia status a cancelada)
-DELETE http://localhost:3000/enrollments/cancelar/{{enrollmentId}}
+PATCH http://localhost:3000/enrollments/{{enrollmentId}}/cancel
 Authorization: {{authToken}}
 
 ### Borrar la sesión (Solo instructor)
