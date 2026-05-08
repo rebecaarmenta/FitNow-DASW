@@ -39,12 +39,12 @@ function register(event) {
     event.preventDefault();
     let data = new FormData(event.target);
     let body = Object.fromEntries(data.entries());
- 
+
     if (body.rol === 'instructor') {
         body.codigo = document.getElementById('codigoInstructor').value;
     }
- 
-    fetch('/users', {
+
+    fetch(local_url + '/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -53,16 +53,8 @@ function register(event) {
         if (!response.ok) {
             return response.text().then(msg => { alert(msg); });
         }
-        return response.json();
-    })
-    .then(user => {
-        if (!user) return;
-        sessionStorage.setItem('user', JSON.stringify(user));
-        if (user.rol === 'instructor') {
-            window.location.href = local_url + '/instructor/clasesSemana.html';
-        } else {
-            window.location.href = local_url + '/usuario/dashboard.html';
-        }
+        alert("Cuenta creada con éxito. Por favor, inicia sesión.");
+        window.location.href = local_url + '/login';
     })
     .catch(err => console.error('Error en register:', err));
 }
