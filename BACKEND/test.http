@@ -89,3 +89,85 @@ Authorization: {{authToken}}
 
 ### Prueba de Seguridad: Acceso sin Token
 GET http://localhost:3000/users
+
+### --- SECCIÓN DE SESIONES (Clases) ---
+
+### Crear una nueva sesión (Solo Instructores)
+# @name createSession
+POST http://localhost:3000/sessions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "discipline_id": "{{disciplineId}}",
+    "instructor_id": "{{userId}}",
+    "date": "2026-07-15",
+    "time": "10:00 AM",
+    "capacity": 2,
+    "place": "Salón A",
+    "status": "programada"
+}
+
+### Guardamos el ID de la sesión creada
+@sessionId = {{createSession.response.body._id}}
+
+### Ver todas las sesiones programadas
+GET http://localhost:3000/sessions
+Authorization: Bearer {{authToken}}
+
+
+### --- SECCIÓN DE INSCRIPCIONES ---
+
+### Inscribir al usuario a la sesión creada
+# @name enroll
+POST http://localhost:3000/enrollments/inscripcion
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "user_id": "{{userId}}",
+    "session_id": "{{sessionId}}"
+}
+
+### Guardamos el ID de la inscripción para probar cancelación
+@enrollmentId = {{enroll.response.body._id}}
+
+### Intentar inscribirse de nuevo (Debe fallar por duplicado)
+POST http://localhost:3000/enrollments/inscripcion
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "user_id": "{{userId}}",
+    "session_id": "{{sessionId}}"
+}
+
+
+### --- SECCIÓN DE ASISTENCIA ---
+
+### Registrar asistencia (Pase de lista del instructor)
+# @name attendance
+POST http://localhost:3000/attendances
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "user_id": "{{userId}}",
+    "session_id": "{{sessionId}}",
+    "attended": true
+}
+
+### Ver lista de asistencia de una sesión específica
+GET http://localhost:3000/attendances/instructor/{{sessionId}}
+Authorization: Bearer {{authToken}}
+
+
+### --- FINALIZACIÓN Y CANCELACIÓN ---
+
+### Cancelar la inscripción (Cambia status a cancelada)
+DELETE http://localhost:3000/enrollments/cancelar/{{enrollmentId}}
+Authorization: Bearer {{authToken}}
+
+### Borrar la sesión (Solo instructor)
+DELETE http://localhost:3000/sessions/{{sessionId}}
+Authorization: Bearer {{authToken}}
