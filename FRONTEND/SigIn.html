@@ -329,12 +329,56 @@
         <script>
             function seleccionarRol(rol) {
                 document.getElementById('rolSeleccionado').value = rol;
-
                 document.getElementById('btnUsuario').classList.toggle('activo', rol === 'usuario');
                 document.getElementById('btnInstructor').classList.toggle('activo', rol === 'instructor');
-
                 document.getElementById('campoCodigo').style.display = rol === 'instructor' ? 'block' : 'none';
             }
+
+            const signupForm = document.querySelector('form');
+
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirm_password = document.getElementById('confirm_password').value;
+                const rol = document.getElementById('rolSeleccionado').value;
+                const codigo = document.getElementById('codigoInstructor').value;
+
+                if (password !== confirm_password) {
+                    return alert('Las contraseñas no coinciden');
+                }
+
+                try {
+                    const response = await fetch('http://localhost:3000/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            name, 
+                            email, 
+                            password, 
+                            confirm_password, 
+                            rol, 
+                            codigo 
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('¡Cuenta creada con éxito! Ahora puedes iniciar sesión.');
+                        window.location.href = 'LogIn.html';
+                    } else {
+                        alert('Error: ' + (typeof data === 'string' ? data : 'No se pudo completar el registro'));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error al conectar con el servidor.');
+                }
+            });
         </script>
     </body>
 </html>
