@@ -10,7 +10,8 @@ export function createDiscipline(req, res) {
 
         let newDiscipline = new Discipline({
             name: body.name,
-            description: body.description
+            description: body.description,
+            img: body.img
         });
 
         return newDiscipline.save();
@@ -55,7 +56,8 @@ export function updateDiscipline(req, res){
         req.params.id,
         {
             name: body.name,
-            description: body.description
+            description: body.description,
+            img: body.img
         },
         { new: true }
     )
