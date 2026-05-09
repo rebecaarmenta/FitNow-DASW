@@ -61,6 +61,7 @@ async function register(event) {
  
 // LOGOUT
 function logout() {
+    if (event) event.preventDefault();
     sessionStorage.clear();
     window.location.href = local_url + '/login';
 }
@@ -69,15 +70,13 @@ function logout() {
 document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('formLogin');
     const formRegister = document.getElementById('formRegister');
-    const btnLogout = document.getElementById('btnLogout');
 
-    if (formLogin) {
-        formLogin.addEventListener('submit', login);
-    }
-    if (formRegister) {
-        formRegister.addEventListener('submit', register);
-    }
-    if (btnLogout) {
-        btnLogout.addEventListener('click', logout);
-    }
+    if (formLogin) formLogin.addEventListener('submit', login);
+    if (formRegister) formRegister.addEventListener('submit', register);
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('#btnLogout')) {
+            logout(e);
+        }
+    });
 });
