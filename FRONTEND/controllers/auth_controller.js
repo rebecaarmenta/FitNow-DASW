@@ -32,32 +32,40 @@ async function login(event) {
 }
  
 // REGISTER
-function register(event) {
+async function register(event) {
     event.preventDefault();
-    let data = new FormData(event.target);
-    let body = Object.fromEntries(data.entries());
+    const formData = new FormData(event.target);
+    const body = Object.fromEntries(formData.entries());
 
-    if (!body.rol) {
-        body.rol = document.getElementById('rolSeleccionado').value;
+    if (body.password !== body.confirm_password) {
+        alert("Las contraseñas no coinciden");
+        return;
     }
 
-    if (body.rol === 'instructor') {
-        body.codigo = document.getElementById('codigoInstructor').value;
+    if (body.rol === 'instructor' && !body.codigo) {
+        alert("Por favor, ingresa el código de instructor");
+        return;
     }
 
-    fetch(local_url + '/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.text().then(msg => { alert(msg); });
+    try {
+        const response = await fetch(local_url + '/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        const res = await response.json();
+
+        if (response.ok) {
+            alert("Cuenta creada con éxito. ¡Inicia sesión!");
+            window.location.href = local_url + '/login';
+        } else {
+            alert(res.message || "Error al crear la cuenta");
         }
-        alert("Cuenta creada con éxito. Por favor, inicia sesión.");
-        window.location.href = local_url + '/login';
-    })
-    .catch(err => console.error('Error en register:', err));
+    } catch (err) {
+        console.error('Error en register:', err);
+        alert("Error de conexión con el servidor");
+    }
 }
  
 // LOGOUT
