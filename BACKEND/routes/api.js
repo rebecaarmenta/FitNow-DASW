@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import * as usersController from '../controllers/users_controller.js';
 import jwt from 'jsonwebtoken';
 import { verificarToken } from '../middlewares/auth.js';
+import * as disciplinesController from '../controllers/disciplines_controller.js';
 
 import usersRouter from './users.js';
 import disciplinesRouter from './disciplines.js';
