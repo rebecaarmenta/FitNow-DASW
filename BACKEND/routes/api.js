@@ -28,12 +28,12 @@ routerApi.get('/register', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../../SigIn.html'));
 });
 
-routerApi.get('/usuario/clases.html', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../FRONTEND/usuario/clases.html'));
+routerApi.get('/usuario/dashboard.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../FRONTEND/usuario/dashboard.html'));
 });
 
-routerApi.get('/instructor/misClases.html', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../FRONTEND/instructor/misClases.html'));
+routerApi.get('/instructor/clasesSemana.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../FRONTEND/instructor/clasesSemana.html'));
 });
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
