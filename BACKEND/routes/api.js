@@ -51,6 +51,7 @@ routerApi.post('/login', usersController.login);
 routerApi.get('/disciplines', disciplinesController.getDisciplines);
 routerApi.post('/disciplines', disciplinesController.createDiscipline); 
 routerApi.get('/disciplines/:id', disciplinesController.getDiscipline);
+routerApi.delete('/disciplines/:id', disciplinesController.deleteDiscipline);
 
 routerApi.use(verificarToken);
 
