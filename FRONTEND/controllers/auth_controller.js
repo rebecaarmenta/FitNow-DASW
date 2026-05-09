@@ -21,8 +21,8 @@ async function login(event) {
             alert(`Bienvenid@ ${data.user.name}`);
             
             window.location.href = data.user.rol === 'instructor' 
-                ? local_url + '/instructor/misClases.html' 
-                : local_url + '/usuario/clasesSemana.html';
+                ? local_url + '/instructor/clasesSemana.html' 
+                : local_url + '/usuario/dashboard.html';
         } else {
             alert(data.message || "Error de credenciales");
         }
@@ -52,7 +52,7 @@ async function register(event) {
 
         const nuevoUsuario = await response.json();
         alert(`¡Cuenta creada con éxito para ${nuevoUsuario.name}!`);
-        window.location.href = local_url + '/LogIn.html';
+        window.location.href = local_url + '/login';
 
     } catch (err) {
         alert("No se pudo conectar con el servidor.");
