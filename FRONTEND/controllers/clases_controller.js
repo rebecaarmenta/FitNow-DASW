@@ -14,7 +14,7 @@ function renderGrid(disciplinas) {
 
     grid.innerHTML = disciplinas.map(d => `
         <div class="card" onclick="verDetalle('${d._id}')">
-            <img src="${d.image || 'https://via.placeholder.com/300x400'}" alt="${d.name}" />
+            <img src="${d.img}" alt="${d.name}" /> 
             <div class="card-overlay"></div>
             <span class="card-name">${d.name.toUpperCase()}</span>
         </div>

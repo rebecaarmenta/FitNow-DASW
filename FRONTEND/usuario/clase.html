@@ -225,7 +225,34 @@
   <div class="page-body">
     <div class="class-list" id="class-list"></div>
   </div>
- 
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Obtener el ID de la URL
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        if (!id) return;
+
+        try {
+            // Fetch al backend usando el ID
+            const response = await fetch(`${local_url}/disciplines/${id}`);
+            
+            if (response.ok) {
+                const disciplina = await response.json();
+                
+                // Inyectar datos reales de MongoDB
+                document.getElementById('nombre-clase').innerText = disciplina.name.toUpperCase();
+                document.getElementById('descripcion-clase').innerText = disciplina.description;
+                if(disciplina.image) document.getElementById('imagen-clase').src = disciplina.image;
+            } else {
+                document.getElementById('nombre-clase').innerText = "CLASE NO ENCONTRADA";
+            }
+        } catch (error) {
+            console.error("Error al cargar la disciplina:", error);
+        }
+    });
+  </script>
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="../controllers/auth_controller.js"></script>
