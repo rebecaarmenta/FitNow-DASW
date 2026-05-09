@@ -66,9 +66,14 @@ function logout() {
 }
  
 // listeners
-if (document.getElementById('formLogin')) {
-    document.getElementById('formLogin').addEventListener('submit', login);
-}
-if (document.getElementById('formRegister')) {
-    document.getElementById('formRegister').addEventListener('submit', register);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const formLogin = document.getElementById('formLogin');
+    const formRegister = document.getElementById('formRegister');
+
+    if (formLogin) {
+        formLogin.addEventListener('submit', login);
+    }
+    if (formRegister) {
+        formRegister.addEventListener('submit', register);
+    }
+});
