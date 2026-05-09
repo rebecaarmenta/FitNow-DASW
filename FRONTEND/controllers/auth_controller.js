@@ -37,16 +37,6 @@ async function register(event) {
     const formData = new FormData(event.target);
     const body = Object.fromEntries(formData.entries());
 
-    if (body.password !== body.confirm_password) {
-        alert("Las contraseñas no coinciden");
-        return;
-    }
-
-    if (body.rol === 'instructor' && !body.codigo) {
-        alert("Por favor, ingresa el código de instructor");
-        return;
-    }
-
     try {
         const response = await fetch(local_url + '/signup', {
             method: 'POST',
@@ -54,17 +44,19 @@ async function register(event) {
             body: JSON.stringify(body)
         });
 
-        const res = await response.json();
-
-        if (response.ok) {
-            alert("Cuenta creada con éxito. ¡Inicia sesión!");
-            window.location.href = local_url + '/login';
-        } else {
-            alert(res.message || "Error al crear la cuenta");
+        if (!response.ok) {
+            const mensajeError = await response.text();
+            alert("Atención: " + mensajeError);
+            return;
         }
+
+        const nuevoUsuario = await response.json();
+        alert(`¡Cuenta creada con éxito para ${nuevoUsuario.name}!`);
+        window.location.href = local_url + '/login';
+
     } catch (err) {
-        console.error('Error en register:', err);
-        alert("Error de conexión con el servidor");
+        console.error('Error en la conexión:', err);
+        alert("No se pudo conectar con el servidor.");
     }
 }
  
