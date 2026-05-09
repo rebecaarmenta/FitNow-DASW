@@ -18,7 +18,7 @@ async function login(event) {
             sessionStorage.setItem('token', data.token);
             sessionStorage.setItem('user', JSON.stringify(data.user));
             
-            alert(`Bienvenido ${data.user.name}`);
+            alert(`Bienvenid@ ${data.user.name}`);
             
             window.location.href = data.user.rol === 'instructor' 
                 ? local_url + '/instructor/misClases.html' 
