@@ -48,17 +48,12 @@ routerApi.get('/usuario/desinscribir.html', (req, res) => {
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
 
-routerApi.get('/disciplines', disciplinesController.getDisciplines);
-routerApi.post('/disciplines', disciplinesController.createDiscipline); 
-routerApi.get('/disciplines/:id', disciplinesController.getDiscipline);
-routerApi.delete('/disciplines/:id', disciplinesController.deleteDiscipline);
-
 routerApi.use(verificarToken);
 
 routerApi.get('/:id/history', usersController.getUserHistory);
 
 routerApi.use('/users', usersRouter);
-//routerApi.use('/disciplines', disciplinesRouter);
+routerApi.use('/disciplines', disciplinesRouter);
 routerApi.use('/sessions', sessionsRouter);
 routerApi.use('/enrollments', enrollmentsRouter);
 routerApi.use('/attendances', attendancesRouter);
