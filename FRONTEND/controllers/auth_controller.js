@@ -23,9 +23,9 @@ function login(event) {
         sessionStorage.setItem('user', JSON.stringify(res.user));
 
         if (res.user.rol === 'instructor') {
-            window.location.href = local_url + '/instructor/clasesSemana.html';
+            window.location.href = local_url + '/instructor/misClases.html';
         } else {
-            window.location.href = local_url + '/usuario/dashboard.html';
+            window.location.href = local_url + '/usuario/clases.html';
         }
     })
     .catch(err => {
