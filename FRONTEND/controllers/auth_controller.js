@@ -52,7 +52,7 @@ async function register(event) {
 
         const nuevoUsuario = await response.json();
         alert(`¡Cuenta creada con éxito para ${nuevoUsuario.name}!`);
-        window.location.href = local_url + '/login';
+        window.location.href = local_url + '/LogIn.html';
 
     } catch (err) {
         console.error('Error en la conexión:', err);
