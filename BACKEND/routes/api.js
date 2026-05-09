@@ -28,12 +28,15 @@ routerApi.get('/register', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../../SigIn.html'));
 });
 
+routerApi.get('/usuario/clases.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../usuario/clases.html'));
+});
+
+routerApi.get('/instructor/misClases.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../instructor/misClases.html'));
+});
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
-
-routerApi.get('/view-login', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../LogIn.html'));
-});
 
 routerApi.use(verificarToken);
 
