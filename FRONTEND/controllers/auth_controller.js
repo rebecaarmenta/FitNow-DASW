@@ -60,7 +60,7 @@ async function register(event) {
 }
  
 // LOGOUT
-function logout() {
+function logout(event) {
     if (event) event.preventDefault();
     sessionStorage.clear();
     window.location.href = local_url + '/login';
