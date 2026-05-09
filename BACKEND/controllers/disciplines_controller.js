@@ -5,7 +5,8 @@ export function createDiscipline(req, res) {
     Discipline.findOne({ name: body.name })
     .then(existe => {
         if(existe){
-            return res.status(400).send('La disciplina ya existe');
+            res.status(400).send('La disciplina ya existe');
+            return null;
         }
 
         let newDiscipline = new Discipline({
