@@ -19,13 +19,13 @@ const routerApi = express.Router();
  
 // vistas
 routerApi.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../FitNow.html'));
+    res.sendFile(path.resolve(__dirname, '../FRONTEND/FitNow.html'));
 });
 routerApi.get('/login', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../LogIn.html'));
+    res.sendFile(path.resolve(__dirname, '../FRONTEND/LogIn.html'));
 });
 routerApi.get('/register', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../SigIn.html'));
+    res.sendFile(path.resolve(__dirname, '../FRONTEND/SigIn.html'));
 });
 
 routerApi.get('/usuario/dashboard.html', (req, res) => {
