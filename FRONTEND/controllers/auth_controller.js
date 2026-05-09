@@ -55,7 +55,6 @@ async function register(event) {
         window.location.href = local_url + '/LogIn.html';
 
     } catch (err) {
-        console.error('Error en la conexión:', err);
         alert("No se pudo conectar con el servidor.");
     }
 }
@@ -70,11 +69,15 @@ function logout() {
 document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('formLogin');
     const formRegister = document.getElementById('formRegister');
+    const btnLogout = document.getElementById('btnLogout');
 
     if (formLogin) {
         formLogin.addEventListener('submit', login);
     }
     if (formRegister) {
         formRegister.addEventListener('submit', register);
+    }
+    if (btnLogout) {
+        btnLogout.addEventListener('click', logout);
     }
 });
