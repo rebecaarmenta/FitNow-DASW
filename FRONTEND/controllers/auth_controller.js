@@ -1,28 +1,32 @@
 // LOGIN
 function login(event) {
     event.preventDefault();
-    let data = new FormData(event.target);
     
-    // Usamos local_url
+    let formData = new FormData(event.target);
+    let loginData = Object.fromEntries(formData.entries());
+
     fetch(local_url + '/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(data.entries()))
+        body: JSON.stringify(loginData)
     })
     .then(response => {
         if (!response.ok) { 
-            return response.text().then(text => { alert(text || "Credenciales incorrectas"); });
+            return response.text().then(text => { 
+                alert(text || "Correo y/o contraseña incorrectos"); 
+            });
         }
         return response.json();
     })
-    .then(res => {
-        if (!res || !res.token) return;
+    .then(data => {
+        if (!data || !data.token) return;
 
-        // Guardar token y usuario
-        sessionStorage.setItem('token', res.token);
-        sessionStorage.setItem('user', JSON.stringify(res.user));
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('user', JSON.stringify(data.user));
 
-        if (res.user.rol === 'instructor') {
+        alert(`¡Bienvenido de nuevo, ${data.user.name}!`);
+
+        if (data.user.rol === 'instructor') {
             window.location.href = local_url + '/instructor/misClases.html';
         } else {
             window.location.href = local_url + '/usuario/clases.html';
@@ -30,7 +34,7 @@ function login(event) {
     })
     .catch(err => {
         console.error('Error en login:', err);
-        alert("No se pudo conectar con el servidor.");
+        alert("Error de conexión: Asegúrate de que el servidor esté encendido.");
     });
 }
  
