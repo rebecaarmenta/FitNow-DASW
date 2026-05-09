@@ -40,6 +40,10 @@ function register(event) {
     let data = new FormData(event.target);
     let body = Object.fromEntries(data.entries());
 
+    if (!body.rol) {
+        body.rol = document.getElementById('rolSeleccionado').value;
+    }
+
     if (body.rol === 'instructor') {
         body.codigo = document.getElementById('codigoInstructor').value;
     }
