@@ -35,6 +35,15 @@ routerApi.get('/usuario/dashboard.html', (req, res) => {
 routerApi.get('/instructor/clasesSemana.html', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../../FRONTEND/instructor/clasesSemana.html'));
 });
+
+routerApi.get('/usuario/clases.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../FRONTEND/usuario/clases.html'));
+});
+
+routerApi.get('/usuario/desinscribir.html', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../FRONTEND/usuario/desinscribir.html'));
+});
+
 routerApi.post('/signup', usersController.register);
 routerApi.post('/login', usersController.login);
 
