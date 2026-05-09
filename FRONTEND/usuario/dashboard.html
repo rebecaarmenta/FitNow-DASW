@@ -319,31 +319,8 @@
       <!-- CLASES PROGRAMADAS -->
       <div>
         <p class="section-title">Clases programadas esta semana</p>
-        <div class="class-list">
-          <div class="class-row">
-            <span class="class-name">Spinning 1</span>
-            <span class="class-detail class-dia">Lunes</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 1</span>
-          </div>
-          <div class="class-row">
-            <span class="class-name">Zumba 3</span>
-            <span class="class-detail class-dia">Martes</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 3</span>
-          </div>
-          <div class="class-row">
-            <span class="class-name">Spinning 3</span>
-            <span class="class-detail class-dia">Miércoles</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 1</span>
-          </div>
-          <div class="class-row">
-            <span class="class-name">Barre 1</span>
-            <span class="class-detail class-dia">Viernes</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 2</span>
-          </div>
+        <div class="class-list" id="clases-programadas">
+          <p class="text-muted" style="font-size: 12px; padding: 10px;">Cargando tus clases...</p>
         </div>
       </div>
  
@@ -359,60 +336,8 @@
           <div class="hist-rows" id="hist-rows"></div>
         </div>
       </div>
- 
     </div>
   </div>
- 
-  <div class="toast-msg" id="toast"></div>
- 
-  <script>
-    const clases = [
-      { nombre: 'Spinning', cantidad: 6, meta: 5 },
-      { nombre: 'Zumba',    cantidad: 3, meta: 4 },
-      { nombre: 'Barre',    cantidad: 3, meta: 2 },
-      { nombre: 'Pilates',  cantidad: 1, meta: 1 },
-      { nombre: 'Yoga',     cantidad: 0, meta: 0 },
-    ];
- 
-    function renderHistorial() {
-      document.getElementById('hist-rows').innerHTML = clases.map((c, i) => {
-        const bajo = c.cantidad < c.meta;
-        return `
-          <div class="hist-row">
-            <span class="hist-class">${c.nombre}</span>
-            <span class="hist-count">${c.cantidad}</span>
-            <div class="hist-goal-cell">
-              <span class="goal-num ${bajo ? 'warn' : ''}">${c.meta}</span>
-              <button class="edit-btn" onclick="editarMeta(${i})" title="Editar meta">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
-              </button>
-            </div>
-          </div>`;
-      }).join('');
-    }
- 
-    function editarMeta(i) {
-      const nuevo = prompt(`Meta mensual para ${clases[i].nombre}:`, clases[i].meta);
-      if (nuevo !== null && !isNaN(parseInt(nuevo))) {
-        clases[i].meta = parseInt(nuevo);
-        renderHistorial();
-        showToast('Meta actualizada');
-      }
-    }
- 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
-    }
- 
-    renderHistorial();
-  </script>
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> 
   <script src="../controllers/auth_controller.js"></script>
