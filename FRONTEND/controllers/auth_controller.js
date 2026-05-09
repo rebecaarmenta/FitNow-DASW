@@ -1,43 +1,34 @@
 // LOGIN
-function login(event) {
+async function login(event) {
     event.preventDefault();
     
-    let formData = new FormData(event.target);
-    let loginData = Object.fromEntries(formData.entries());
+    const formData = new FormData(event.target);
+    const body = Object.fromEntries(formData.entries());
 
-    console.log("Datos capturados:", loginData);
+    try {
+        const response = await fetch(local_url + '/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
 
-    fetch(local_url + '/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData)
-    })
-    .then(response => {
-        if (!response.ok) { 
-            return response.text().then(text => { 
-                alert(text || "Correo y/o contraseña incorrectos"); 
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (!data || !data.token) return;
+        const data = await response.json();
 
-        sessionStorage.setItem('token', data.token);
-        sessionStorage.setItem('user', JSON.stringify(data.user));
-
-        alert(`¡Bienvenido de nuevo, ${data.user.name}!`);
-
-        if (data.user.rol === 'instructor') {
-            window.location.href = local_url + '/instructor/misClases.html';
+        if (response.ok) {
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+            
+            alert(`Bienvenido ${data.user.name}`);
+            
+            window.location.href = data.user.rol === 'instructor' 
+                ? local_url + '/instructor/misClases.html' 
+                : local_url + '/usuario/clases.html';
         } else {
-            window.location.href = local_url + '/usuario/clases.html';
+            alert(data.message || "Error de credenciales");
         }
-    })
-    .catch(err => {
-        console.error('Error en login:', err);
-        alert("Error de conexión: Asegúrate de que el servidor esté encendido.");
-    });
+    } catch (error) {
+        alert("Error de conexión con el servidor");
+    }
 }
  
 // REGISTER
