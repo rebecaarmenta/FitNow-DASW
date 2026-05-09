@@ -22,7 +22,7 @@ async function login(event) {
             
             window.location.href = data.user.rol === 'instructor' 
                 ? local_url + '/instructor/misClases.html' 
-                : local_url + '/usuario/dashboard.html';
+                : local_url + '/usuario/clasesSemana.html';
         } else {
             alert(data.message || "Error de credenciales");
         }
