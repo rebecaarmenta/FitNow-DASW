@@ -5,6 +5,8 @@ function login(event) {
     let formData = new FormData(event.target);
     let loginData = Object.fromEntries(formData.entries());
 
+    console.log("Datos capturados:", loginData);
+
     fetch(local_url + '/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
