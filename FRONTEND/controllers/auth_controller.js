@@ -1,71 +1,82 @@
 // LOGIN
-function login(event) {
+async function login(event) {
     event.preventDefault();
-    let data = new FormData(event.target);
-    fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(data.entries()))
-    })
-    .then(response => {
-        if (!response.ok) { alert("Correo y/o contrasenia incorrectos"); return; }
-        return response.json();
-    })
-    .then(user => {
-        if (!user) return;
-        sessionStorage.setItem('user', JSON.stringify(user));
-        if (user.rol === 'instructor') {
-            window.location.href = local_url + '/instructor/clasesSemana.html';
+    
+    const formData = new FormData(event.target);
+    const body = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(local_url + '/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem('user', JSON.stringify(data.user));
+            
+            alert(`Bienvenid@ ${data.user.name}`);
+            
+            window.location.href = data.user.rol === 'instructor' 
+                ? local_url + '/instructor/clasesSemana.html' 
+                : local_url + '/usuario/dashboard.html';
         } else {
-            window.location.href = local_url + '/usuario/dashboard.html';
+            alert(data.message || "Error de credenciales");
         }
-    })
-    .catch(err => console.error('Error en login:', err));
+    } catch (error) {
+        alert("Error de conexión con el servidor");
+    }
 }
  
 // REGISTER
-function register(event) {
+async function register(event) {
     event.preventDefault();
-    let data = new FormData(event.target);
-    let body = Object.fromEntries(data.entries());
- 
-    if (body.rol === 'instructor') {
-        body.codigo = document.getElementById('codigoInstructor').value;
-    }
- 
-    fetch('/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-    .then(response => {
+    const formData = new FormData(event.target);
+    const body = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(local_url + '/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
         if (!response.ok) {
-            return response.text().then(msg => { alert(msg); });
+            const mensajeError = await response.text();
+            alert("Atención: " + mensajeError);
+            return;
         }
-        return response.json();
-    })
-    .then(user => {
-        if (!user) return;
-        sessionStorage.setItem('user', JSON.stringify(user));
-        if (user.rol === 'instructor') {
-            window.location.href = local_url + '/instructor/clasesSemana.html';
-        } else {
-            window.location.href = local_url + '/usuario/dashboard.html';
-        }
-    })
-    .catch(err => console.error('Error en register:', err));
+
+        const nuevoUsuario = await response.json();
+        alert(`¡Cuenta creada con éxito para ${nuevoUsuario.name}!`);
+        window.location.href = local_url + '/login';
+
+    } catch (err) {
+        alert("No se pudo conectar con el servidor.");
+    }
 }
  
 // LOGOUT
-function logout() {
+function logout(event) {
+    if (event) event.preventDefault();
     sessionStorage.clear();
     window.location.href = local_url + '/login';
 }
  
 // listeners
-if (document.getElementById('formLogin')) {
-    document.getElementById('formLogin').addEventListener('submit', login);
-}
-if (document.getElementById('formRegister')) {
-    document.getElementById('formRegister').addEventListener('submit', register);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const formLogin = document.getElementById('formLogin');
+    const formRegister = document.getElementById('formRegister');
+
+    if (formLogin) formLogin.addEventListener('submit', login);
+    if (formRegister) formRegister.addEventListener('submit', register);
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('#btnLogout')) {
+            logout(e);
+        }
+    });
+});

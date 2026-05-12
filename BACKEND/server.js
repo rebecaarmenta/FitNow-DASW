@@ -1,20 +1,26 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import routerApi from './routes/api.js';
  
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename); 
  
 const app = express();
 const puerto = process.env.PORT || 3000;
  
+app.use(cors());
 app.use(express.json());
+
+app.get('/favicon.ico', (req, res) => res.status(204).end());
  
 // archivos estaticos del frontend
-app.use(express.static('../'));
-app.use('/instructor', express.static('../instructor'));
-app.use('/usuario', express.static('../usuario'));
-app.use('/controllers', express.static('../controllers'));
+app.use(express.static(path.join(__dirname, '../FRONTEND')));
  
 app.use(routerApi);
  

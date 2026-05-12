@@ -1,4 +1,6 @@
 import User from '../models/user.js';
+import Enrollment from '../models/enrollment.js';
+import jwt from 'jsonwebtoken';
  
 const CODIGO_INSTRUCTOR = 'FITNOW2026';
  
@@ -7,8 +9,24 @@ export async function login(req, res) {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email, password });
-        if (!user) return res.sendStatus(401);
-        res.json(user);
+        if (!user) return res.status(401).send('Credenciales incorrectas');
+
+        // Generar el token
+        const token = jwt.sign(
+            { id: user._id, rol: user.rol }, 
+            process.env.JWT_SECRET, 
+            { expiresIn: '24h' }
+        );
+
+        res.set('Authorization', `Bearer ${token}`)
+           .json({ 
+               user: { 
+                   id: user._id, 
+                   name: user.name, 
+                   rol: user.rol 
+               } 
+           });
+
     } catch (err) {
         res.status(500).send(err.message);
     }
@@ -78,6 +96,20 @@ export async function deleteUser(req, res) {
         const user = await User.findByIdAndDelete(req.params.id);
         if (!user) return res.status(404).send('Usuario no encontrado');
         res.json({ message: 'Usuario eliminado', user });
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}
+
+//Recuperar el historial de clases y el progreso
+export async function getUserHistory(req, res) {
+    try {
+        const history = await Enrollment.find({ user_id: req.params.id })
+            .populate({
+                path: 'session_id',
+                populate: { path: 'discipline_id' }
+            });
+        res.json(history);
     } catch (err) {
         res.status(500).send(err.message);
     }

@@ -1,0 +1,173 @@
+### Registro de usuario (Público)
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name": "Ana Lopez",
+    "email": "ana.test@iteso.mx",
+    "password": "password123",
+    "confirm_password": "password123"
+}
+
+### Registro de Instructor (Código Correcto)
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name": "Instructor X",
+    "email": "instructor@fitnow.com",
+    "password": "password123",
+    "confirm_password": "password123",
+    "rol": "instructor",
+    "codigo": "FITNOW2026"
+}
+
+### Registro de Instructor (Código erróneo)
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "name": "Intento Fallido",
+    "email": "fake@fitnow.com",
+    "password": "password123",
+    "confirm_password": "password123",
+    "rol": "instructor",
+    "codigo": "ERROR123"
+}
+
+### Login (Público)
+# @name login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "instructor@fitnow.com",
+    "password": "password123"
+}
+
+### Guardamos el token en una variable
+@authToken = {{login.response.headers.Authorization}}
+
+### Guardamos el ID del usuario que regresó el login
+@userId = {{login.response.body.user.id}}
+
+### Crear una disciplina
+# @name createDiscipline
+POST http://localhost:3000/disciplines
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "name": "Pilates",
+    "description": "Clase de pilates para todos los niveles"
+}
+
+### Guardamos el ID de la disciplina creada
+@disciplineId = {{createDiscipline.response.body._id}}
+
+### Ver todas las disciplinas
+GET http://localhost:3000/disciplines
+Authorization: {{authToken}}
+
+### Ver una sola disciplina por ID
+GET http://localhost:3000/disciplines/{{disciplineId}}
+Authorization: {{authToken}}
+
+### Actualizar disciplina
+PATCH http://localhost:3000/disciplines/{{disciplineId}}
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "name": "Yoga Avanzado",
+    "description": "Solo para expertos"
+}
+
+### Ver historial
+GET http://localhost:3000/{{userId}}/history
+Authorization: {{authToken}}
+
+### Prueba de Seguridad: Acceso sin Token
+GET http://localhost:3000/users
+
+### --- SECCIÓN DE SESIONES (Clases) ---
+
+### Crear una nueva sesión (Solo Instructores)
+# @name createSession
+POST http://localhost:3000/sessions
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "discipline_id": "{{disciplineId}}",
+    "instructor_id": "{{userId}}",
+    "date": "2026-05-08",
+    "time": "09:00 AM",
+    "capacity": 3,
+    "place": "Salón B",
+    "status": "programada"
+}
+
+### Guardamos el ID de la sesión creada
+@sessionId = {{createSession.response.body._id}}
+
+### Ver todas las sesiones programadas
+GET http://localhost:3000/sessions
+Authorization: {{authToken}}
+
+
+### --- SECCIÓN DE INSCRIPCIONES ---
+
+### Inscribir al usuario a la sesión creada
+# @name enroll
+POST http://localhost:3000/enrollments/
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "user_id": "{{userId}}",
+    "session_id": "{{sessionId}}"
+}
+
+### Guardamos el ID de la inscripción para probar cancelación
+@enrollmentId = {{enroll.response.body._id}}
+
+### Intentar inscribirse de nuevo (Debe fallar por duplicado)
+POST http://localhost:3000/enrollments/
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "user_id": "{{userId}}",
+    "session_id": "{{sessionId}}"
+}
+
+
+### --- SECCIÓN DE ASISTENCIA ---
+
+### Registrar asistencia (Pase de lista del instructor)
+# @name attendance
+POST http://localhost:3000/attendances
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "user_id": "{{userId}}",
+    "session_id": "{{sessionId}}",
+    "attended": true
+}
+
+### Ver lista de asistencia de una sesión específica
+GET http://localhost:3000/attendances/session/{{sessionId}}
+Authorization: {{authToken}}
+
+
+### --- FINALIZACIÓN Y CANCELACIÓN ---
+
+### Cancelar la inscripción (Cambia status a cancelada)
+PATCH http://localhost:3000/enrollments/{{enrollmentId}}/cancel
+Authorization: {{authToken}}
+
+### Borrar la sesión (Solo instructor)
+DELETE http://localhost:3000/sessions/{{sessionId}}
+Authorization: {{authToken}}

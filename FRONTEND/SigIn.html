@@ -287,7 +287,7 @@
                         <h1>CREATE YOUR<br>ACCOUNT</h1>
                         <div class="linea"></div>
 
-                        <form>
+                        <form id="formRegister">
                             <div class="rol-selector">
                                 <button type="button" class="btn-rol activo" id="btnUsuario" onclick="seleccionarRol('usuario')">USUARIO</button>
                                 <button type="button" class="btn-rol" id="btnInstructor" onclick="seleccionarRol('instructor')">INSTRUCTOR</button>
@@ -296,20 +296,20 @@
                             <input type="hidden" id="rolSeleccionado" name="rol" value="usuario">
 
                             <label>Name</label>
-                            <input type="text" class="form-control">
+                            <input type="text" id="name" name="name" class="form-control">
 
                             <label>Email</label>
-                            <input type="email" class="form-control">
+                            <input type="email" id="email" name="email" class="form-control">
 
                             <label>Password</label>
-                            <input type="password" class="form-control">
+                            <input type="password" id="password" name="password" class="form-control">
 
                             <label>Confirm password</label>
-                            <input type="password" class="form-control">
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control">
 
                             <div class="campo-codigo" id="campoCodigo">
                                 <label>Código de instructor</label>
-                                <input type="password" class="form-control" id="codigoInstructor" placeholder="Código clave">
+                                <input type="password" class="form-control" id="codigoInstructor"  name="codigo" placeholder="Código clave">
                             </div>
 
                             <div class="botones">
@@ -329,13 +329,13 @@
         <script>
             function seleccionarRol(rol) {
                 document.getElementById('rolSeleccionado').value = rol;
-
                 document.getElementById('btnUsuario').classList.toggle('activo', rol === 'usuario');
                 document.getElementById('btnInstructor').classList.toggle('activo', rol === 'instructor');
-
                 document.getElementById('campoCodigo').style.display = rol === 'instructor' ? 'block' : 'none';
             }
         </script>
+        <script src="controllers/env.js"></script> 
+        <script src="controllers/auth_controller.js"></script>
     </body>
 </html>
  

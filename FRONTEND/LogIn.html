@@ -193,12 +193,12 @@
                     <div class="login-box">
                         <h1>LOG IN</h1>
                         <div class="linea"></div>
-                        <form>
+                        <form id="formLogin">
                             <label>Email</label>
-                            <input type="email" class="form-control">
+                            <input type="email" id="email" name="email" class="form-control">
 
                             <label>Password</label>
-                            <input type="password" class="form-control">
+                            <input type="password" id="password" name="password" class="form-control">
 
                             <button type="submit" class="btn btn-sign">SIGN IN</button>
                             <a href="SigIn.html" class="btn btn-create">CREATE ACCOUNT</a>
@@ -207,5 +207,7 @@
                 </div>
             </div>
         </div>
+        <script src="controllers/env.js"></script> 
+        <script src="controllers/auth_controller.js"></script>
     </body>
 </html>

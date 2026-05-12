@@ -14,6 +14,7 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="../style.css">
+        <script src="../controllers/env.js"></script>
         <style>
             /* ── RESET Y BASES ── */
             * { 
@@ -202,16 +203,16 @@
 
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto align-items-center"> <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Crear sesion</a>
+                                <a class="nav-link nav-links-a" href="../instructor/crearSesion.html">Crear sesion</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Mis clases</a>
+                                <a class="nav-link nav-links-a" href="../instructor/misClases.html">Mis clases</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Mi perfil</a>
+                                <a class="nav-link nav-links-a" href="../instructor/InstPerfil.html">Mi perfil</a>
                             </li>
                             <li class="nav-item ms-lg-3">
-                                <button class="nav-logout-btn" title="Cerrar sesión">
+                                <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                                         <polyline points="16 17 21 12 16 7"/>
@@ -300,5 +301,6 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
+        <script src="../controllers/auth_controller.js"></script>
     </body>
 </html>

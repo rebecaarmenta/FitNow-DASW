@@ -6,6 +6,7 @@
   <title>FitNow – Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+  <script src="../controllers/env.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
  
@@ -272,11 +273,11 @@
       <!-- Links que se colapsan en móvil -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mis clases</a></li>
-          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Instructores</a></li>
-          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mi perfil</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="../usuario/clases.html">Mis clases</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="../usuario/Instructores.html">Instructores</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="../usuario/Perfil.html">Mi perfil</a></li>
           <li class="nav-item ms-lg-3">
-            <button class="nav-logout-btn" title="Cerrar sesión" onclick="showToast('Sesión cerrada')">
+            <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -295,7 +296,7 @@
  
     <!-- BOTONES DE ACCIÓN -->
     <div class="actions">
-      <button class="btn-card" onclick="showToast('Abriendo inscripción...')">
+      <button class="btn-card" onclick="window.location.href='clases.html'">
         <span class="btn-label">Inscribir clase</span>
         <svg class="btn-icon" viewBox="0 0 60 60" fill="none" stroke="#4a4035" stroke-width="1.4" stroke-linecap="round">
           <rect x="10" y="14" width="40" height="36" rx="3"/>
@@ -308,7 +309,7 @@
         </svg>
       </button>
  
-      <button class="btn-card" onclick="showToast('Cancelación procesada')">
+      <button class="btn-card" onclick="window.location.href='desinscribir.html'">
         <span class="btn-label">Cancelar inscripción</span>
         <svg class="btn-icon" viewBox="0 0 60 60" fill="none" stroke="#4a4035" stroke-width="1.4" stroke-linecap="round">
           <rect x="8" y="12" width="36" height="26" rx="3"/>
@@ -326,31 +327,8 @@
       <!-- CLASES PROGRAMADAS -->
       <div>
         <p class="section-title">Clases programadas esta semana</p>
-        <div class="class-list">
-          <div class="class-row">
-            <span class="class-name">Spinning 1</span>
-            <span class="class-detail class-dia">Lunes</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 1</span>
-          </div>
-          <div class="class-row">
-            <span class="class-name">Zumba 3</span>
-            <span class="class-detail class-dia">Martes</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 3</span>
-          </div>
-          <div class="class-row">
-            <span class="class-name">Spinning 3</span>
-            <span class="class-detail class-dia">Miércoles</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 1</span>
-          </div>
-          <div class="class-row">
-            <span class="class-name">Barre 1</span>
-            <span class="class-detail class-dia">Viernes</span>
-            <span class="class-detail class-hora">7:00 – 8:00</span>
-            <span class="class-detail class-inst">Instructor 2</span>
-          </div>
+        <div class="class-list" id="clases-programadas">
+          <p class="text-muted" style="font-size: 12px; padding: 10px;">Cargando tus clases...</p>
         </div>
       </div>
  
@@ -366,61 +344,11 @@
           <div class="hist-rows" id="hist-rows"></div>
         </div>
       </div>
- 
     </div>
   </div>
  
-  <div class="toast-msg" id="toast"></div>
- 
-  <script>
-    const clases = [
-      { nombre: 'Spinning', cantidad: 6, meta: 5 },
-      { nombre: 'Zumba',    cantidad: 3, meta: 4 },
-      { nombre: 'Barre',    cantidad: 3, meta: 2 },
-      { nombre: 'Pilates',  cantidad: 1, meta: 1 },
-      { nombre: 'Yoga',     cantidad: 0, meta: 0 },
-    ];
- 
-    function renderHistorial() {
-      document.getElementById('hist-rows').innerHTML = clases.map((c, i) => {
-        const bajo = c.cantidad < c.meta;
-        return `
-          <div class="hist-row">
-            <span class="hist-class">${c.nombre}</span>
-            <span class="hist-count">${c.cantidad}</span>
-            <div class="hist-goal-cell">
-              <span class="goal-num ${bajo ? 'warn' : ''}">${c.meta}</span>
-              <button class="edit-btn" onclick="editarMeta(${i})" title="Editar meta">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
-              </button>
-            </div>
-          </div>`;
-      }).join('');
-    }
- 
-    function editarMeta(i) {
-      const nuevo = prompt(`Meta mensual para ${clases[i].nombre}:`, clases[i].meta);
-      if (nuevo !== null && !isNaN(parseInt(nuevo))) {
-        clases[i].meta = parseInt(nuevo);
-        renderHistorial();
-        showToast('Meta actualizada');
-      }
-    }
- 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
-    }
- 
-    renderHistorial();
-  </script>
- 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script> 
+  <script src="../controllers/auth_controller.js"></script>
+  <script src="../controllers/dashboard_controller.js"></script>
 </body>
 </html>
