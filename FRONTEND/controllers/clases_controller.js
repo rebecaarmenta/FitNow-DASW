@@ -1,6 +1,22 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch(`${local_url}/disciplines`);
+        // Recuperamos el token del sessionStorage
+        const token = sessionStorage.getItem('token');
+        const response = await fetch(`${local_url}/disciplines`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `${token}` 
+            }
+        });
+
+        // Manejo de errores de autorización
+        if (response.status === 401 || response.status === 403) {
+            alert("Sesión expirada o no autorizada. Por favor, inicia sesión de nuevo.");
+            window.location.href = local_url + '/login';
+            return;
+        }
+
         const disciplinas = await response.json();
         renderGrid(disciplinas);
     } catch (error) {
