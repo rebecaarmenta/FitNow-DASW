@@ -11,7 +11,7 @@ function validateLogin() {
         return;
     }
 
-    const esRutaAuth = ruta.includes('login') || ruta.includes('SigIn') || ruta === '/';
+    const esRutaAuth = ruta.includes('login') || ruta.includes('sigin') || ruta === '/';
  
     if (sessionStorage.user && esRutaAuth) {
         try {
@@ -29,3 +29,5 @@ function validateLogin() {
 }
  
 validateLogin();
+
+export default local_url;
