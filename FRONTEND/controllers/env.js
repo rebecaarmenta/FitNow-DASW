@@ -30,4 +30,3 @@ function validateLogin() {
  
 validateLogin();
 
-export default local_url;
