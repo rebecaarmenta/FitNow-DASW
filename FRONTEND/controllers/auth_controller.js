@@ -12,7 +12,7 @@ async function login(event) {
             body: JSON.stringify(body)
         });
 
-        const data = await response.json();
+        const data = response.ok ? await response.json() : await response.text();
 
         if (response.ok) {
             sessionStorage.setItem('token', data.token);
@@ -24,7 +24,7 @@ async function login(event) {
                 ? local_url + '/instructor/clasesSemana.html' 
                 : local_url + '/usuario/dashboard.html';
         } else {
-            alert(data.message || "Error de credenciales");
+            alert(data || "Error de credenciales");
         }
     } catch (error) {
         alert("Error de conexión con el servidor");
@@ -38,7 +38,7 @@ async function register(event) {
     const body = Object.fromEntries(formData.entries());
 
     try {
-        const response = await fetch(local_url + '/users', {
+        const response = await fetch(local_url + '/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
