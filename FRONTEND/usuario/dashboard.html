@@ -10,72 +10,80 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
  
     body {
-      font-family: 'DM Sans', sans-serif;
       background: #ede9e2;
       min-height: 100vh;
       color: #2a2520;
       overflow-x: hidden;
     }
  
-    /* ── NAV ── */
-    .custom-nav {
-      background-color: #2a2520 !important;
-      padding: 10px 0;
+    .navbar-custom {
+        background-color: #3f3f3f;
+        min-height: 60px;
     }
- 
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 22px;
-      letter-spacing: -0.5px;
-      color: #f0ebe3 !important;
-      text-decoration: none;
+
+    .logo {
+        height: 35px;
+        object-fit: contain;
     }
-    .nav-logo span { color: #c8b89a; }
- 
+
     .nav-links-a {
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #b0a898 !important;
-      padding: 10px 15px !important;
+        color: #dcdcdc !important;
+        font-size: 14px;
+        text-transform: uppercase;
+        padding: 12px 18px !important;
+        transition: 0.2s;
     }
-    .nav-links-a:hover { color: #f0ebe3 !important; }
- 
+
+    .nav-links-a:hover {
+        color: white !important;
+    }
+
     .nav-logout-btn {
-      background: none;
+        background: none;
+        border: none;
+        color: #dcdcdc;
+        font-size: 20px;
+        padding: 12px 18px;
+        transition: 0.2s;
+    }
+
+    .nav-logout-btn:hover {
+        color: white;
+    }
+
+  .navbar-toggler {
       border: none;
-      color: #b0a898;
-      cursor: pointer;
-      padding: 8px;
-    }
-    .nav-logout-btn:hover { color: #f0ebe3; }
- 
-    /* Toggler igual al de la compañera */
-    .navbar-toggler {
-      background: none !important;
-      border: 1px solid #b0a898 !important;
-      outline: none !important;
-      box-shadow: none !important;
-    }
-    .navbar-toggler-icon { filter: invert(0.7); }
- 
-    /* Menú colapsado en móvil */
-    @media (max-width: 991px) {
+  }
+
+  .navbar-toggler:focus {
+      box-shadow: none;
+  }
+
+  @media (max-width: 767px) {
       .navbar-collapse {
-        background-color: #2a2520;
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 10px;
+          background-color: #3f3f3f;
+          margin-top: 10px;
       }
+
+      .navbar-nav {
+          align-items: center !important;
+          text-align: center;
+          gap: 10px;
+          padding: 10px 0;
+      }
+
+      .nav-item,
+      .nav-links-a,
       .nav-logout-btn {
-        margin-top: 10px;
-        padding-left: 15px;
+          width: 100%;
       }
-      .nav-links-a {
-        display: block;
-        padding: 10px 0 !important;
+
+      .nav-links-a,
+      .nav-logout-btn {
+          text-align: center;
       }
-    }
+  }
+    
  
     /* ── CONTENEDOR PRINCIPAL ── */
     .page-body {

@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     rol: { type: String, enum: ['usuario', 'instructor'], default: 'usuario' },
     joined_at: { type: Date, default: Date.now }
 });
- 
+
+
 const User = mongoose.model('User', userSchema);
 export default User;
  
