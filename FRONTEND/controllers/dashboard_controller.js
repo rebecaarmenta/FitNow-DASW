@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Pedimos el historial al backend usando el ID del usuario logueado
-        const response = await fetch(`${local_url}/users/${user._id}/enrollments`, {
+        const response = await fetch(`${local_url}/users/${user.id}/enrollments`, {
             method: 'GET',
             headers: {
                 'Authorization': `${token}`,

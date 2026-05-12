@@ -18,14 +18,15 @@ export async function login(req, res) {
             { expiresIn: '24h' }
         );
 
-        res.set('Authorization', `Bearer ${token}`)
-           .json({ 
-               user: { 
-                   id: user._id, 
-                   name: user.name, 
-                   rol: user.rol 
-               } 
-           });
+        res.json({ 
+            token: `Bearer ${token}`,
+            user: { 
+                id: user._id, 
+                name: user.name,
+                email: user.email,
+                rol: user.rol 
+            } 
+        });
 
     } catch (err) {
         res.status(500).send(err.message);
