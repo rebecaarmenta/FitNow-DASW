@@ -5,6 +5,11 @@ async function login(event) {
     const formData = new FormData(event.target);
     const body = Object.fromEntries(formData.entries());
 
+    if (body.password.length > 11) {
+        alert("La contraseña debe contener maximo 11 caracteres");
+        return;
+    }
+
     try {
         const response = await fetch(local_url + '/login', {
             method: 'POST',
@@ -17,8 +22,6 @@ async function login(event) {
         if (response.ok) {
             sessionStorage.setItem('token', data.token);
             sessionStorage.setItem('user', JSON.stringify(data.user));
-            
-            alert(`Bienvenid@ ${data.user.name}`);
             
             window.location.href = data.user.rol === 'instructor' 
                 ? local_url + '/instructor/clasesSemana.html' 
