@@ -5,6 +5,7 @@ import {
     getSessions,
     getSession,
     getSessionsByInstructor,
+    getSessionsByDiscipline, 
     updateSession,
     deleteSession
 } from '../controllers/sessions_controller.js';
@@ -17,5 +18,7 @@ router.get('/instructor/:instructor_id', getSessionsByInstructor);
 router.get('/:id', getSession);
 router.patch('/:id', updateSession);
 router.delete('/:id', deleteSession);
+
+router.get('/discipline/:discipline_id', getSessionsByDiscipline);
 
 export default router;

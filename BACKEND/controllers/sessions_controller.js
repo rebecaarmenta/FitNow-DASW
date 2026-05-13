@@ -23,6 +23,11 @@ export function createSession(req, res) {
             return res.status(400).send('El cupo debe ser mayor a 0');
         }
 
+        const allowedTimes = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00'];
+        if(!body.time || !allowedTimes.includes(body.time)){
+            return res.status(400).send('La hora debe estar entre 07:00 y 12:00');
+        }
+
         let newSession = new Session({
             discipline_id: body.discipline_id,
             instructor_id: body.instructor_id,
@@ -118,6 +123,18 @@ export function deleteSession(req, res) {
         res.json({
             message: 'Sesion eliminada'
         });
+    })
+    .catch(err => {
+        res.status(500).send(err.message);
+    });
+}
+
+export function getSessionsByDiscipline(req, res) {
+    Session.find({ discipline_id: req.params.discipline_id })
+    .populate('discipline_id')
+    .populate('instructor_id')
+    .then(sessions => {
+        res.json(sessions);
     })
     .catch(err => {
         res.status(500).send(err.message);
