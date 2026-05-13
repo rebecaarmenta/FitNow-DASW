@@ -23,7 +23,11 @@ export async function login(req, res) {
             user: { 
                 id: user._id, 
                 name: user.name,
+                lastname: user.lastname,
                 email: user.email,
+                phone: user.phone,
+                description: user.description,
+                classes: user.classes,
                 rol: user.rol 
             } 
         });
@@ -74,14 +78,26 @@ export async function getUser(req, res) {
         res.status(500).send(err.message);
     }
 }
+
+// GET todos los usuarios (con filtro opcional por rol)
+export async function getUsers(req, res) {
+    try {
+        const { rol } = req.query;
+        const query = rol ? { rol } : {};
+        const users = await User.find(query).select('-password');
+        res.json(users);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+}
  
 // PATCH actualizar usuario
 export async function updateUser(req, res) {
     try {
-        const { name, email, password } = req.body;
+        const { name, lastname, email, password, phone, description, classes } = req.body;
         const user = await User.findByIdAndUpdate(
             req.params.id,
-            { name, email, password },
+            { name, lastname, email, password, phone, description, classes },
             { new: true }
         );
         if (!user) return res.status(404).send('Usuario no encontrado');

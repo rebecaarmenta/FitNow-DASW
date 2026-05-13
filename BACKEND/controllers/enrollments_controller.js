@@ -52,7 +52,13 @@ export function getEnrollmentsByUser(req, res){
     Enrollment.find({
         user_id: req.params.user_id
     })
-    .populate('session_id')
+    .populate({
+        path: 'session_id',
+        populate: [
+            { path: 'discipline_id' },
+            { path: 'instructor_id' }
+        ]
+    })
     .then(enrollments => {
         res.json(enrollments);
     })
@@ -89,6 +95,10 @@ export function getEnrollmentsBySession(req, res){
         status: 'activa'
     })
     .populate('user_id')
+    .populate({
+        path: 'session_id',
+        populate: { path: 'discipline_id' }
+    })
     .then(enrollments => {
         res.json(enrollments);
     })
