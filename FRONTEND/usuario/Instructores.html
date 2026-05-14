@@ -21,29 +21,7 @@
                 margin: 0;
                 font-family: Arial, Helvetica, sans-serif;
                 background-color: #e6e4e1;
-            }
-
-            .navbar-custom {
-                background-color: #333;
-                height: 60px;
-            }
-
-            .logo {
-                height: 35px;
-            }
-
-            .navbar-custom a {
-                color: #dcdcdc;
-                margin-left: 40px;
-                text-decoration: none;
-                font-size: 14px;
-            }
-
-            .logout-icon {
-                color: #dcdcdc;
-                font-size: 20px;
-                margin-left: 40px;
-                cursor: pointer;
+                overflow: hidden;
             }
 
             .filtro {
@@ -103,8 +81,67 @@
                 box-shadow: none;
             }
 
-            .navbar-nav {
-                gap: 20px;
+            .navbar-custom {
+                background-color: #3f3f3f;
+                height: 60px;
+            }
+
+            .nav-links-a {
+                color: #dcdcdc !important;
+                font-size: 14px;
+                text-transform: uppercase;
+                padding: 12px 18px !important;
+                transition: 0.2s;
+            }
+
+            .nav-links-a:hover {
+                color: white !important;
+            }
+
+            .nav-logout-btn {
+                background: none;
+                border: none;
+                color: #dcdcdc;
+                font-size: 20px;
+                padding: 12px 18px;
+                transition: 0.2s;
+            }
+
+            .nav-logout-btn:hover {
+                color: white;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            @media (max-width: 767px) {
+                .navbar-collapse {
+                    background-color: #3f3f3f;
+                    margin-top: 10px;
+                }
+
+                .navbar-nav {
+                    align-items: center !important;
+                    text-align: center;
+                    gap: 10px;
+                    padding: 10px 0;
+                }
+
+                .nav-item,
+                .nav-links-a,
+                .nav-logout-btn {
+                    width: 100%;
+                }
+
+                .nav-links-a,
+                .nav-logout-btn {
+                    text-align: center;
+                }
             }
 
         </style>
@@ -117,23 +154,33 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
-                
+          
         <!-- NAVBAR -->
         <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-            <img src="3-Photoroom.png" class="logo">
-
+            <a href="dashboard.html">    
+                <img src="3-Photoroom.png" class="logo">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="menu">
-                <div class="navbar-nav align-items-center">
-                    <a class="nav-link" href="../usuario/clases.html">Mis clases</a>
-                    <a class="nav-link" href="../usuario/Instructores.html">Instructores</a>
-                    <a class="nav-link" href="../usuario/Perfil.html">Mi perfil</a>
-
-                    <i class="fa-solid fa-right-from-bracket logout-icon"></i>
-                </div>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="../usuario/clases.html">Mis clases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="../usuario/Instructores.html">Instructores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="../usuario/Perfil.html">Mi perfil</a>
+                    </li>
+                    <li class="nav-item ms-md-3">
+                        <button class="nav-logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </li>
+                </ul>
             </div>
         </nav>
         

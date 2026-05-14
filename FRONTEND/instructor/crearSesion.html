@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
-        <title>FitNow – Crear Sesion</title>
+        <title>Crear Sesion</title>
+        
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,37 +15,60 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="../style.css">
+
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+
         <style>
             * { box-sizing: border-box; margin: 0; padding: 0; }
 
             body {
-                font-family: 'DM Sans', sans-serif;
+                font-family: Arial, Helvetica, sans-serif;
                 background: #ede9e2;
                 min-height: 100vh;
+                margin: 0;
             }
 
             .create-session-container {
                 display: flex;
                 flex-direction: column;
-                min-height: calc(100vh - 56px);
+                height: calc(100vh - 60px);
+            }
+            
+            .linea {
+                width: 80%;
+                height: 1.5px;
+                background-color: #464444;
+                margin: 0 auto 5px;
+
+            }
+
+            .session-form,
+            .session-form label,
+            .session-form input,
+            .session-form select,
+            .session-form option {
+                font-family: 'DM Sans', sans-serif;
             }
 
             /* COLUMNA FORMULARIO */
             .form-column {
                 flex: 1;
                 padding: 40px 20px;
-                background-color: #ede9e2;
+                background-color: #e7e1d8;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
             }
 
-            .form-header { margin-bottom: 30px; text-align: center; }
+            .form-header { margin-bottom: 20px; text-align: center; margin-top: 15px; }
             .page-title {
-                font-family: 'DM Serif Display', serif;
                 font-size: clamp(24px, 5vw, 32px);
                 color: #4a4035;
                 text-transform: uppercase;
+                font-weight: 200;
+                font-family: 'DM Sans', sans-serif;
             }
 
             .form-divider {
@@ -55,7 +79,7 @@
             /* INPUTS */
             .session-form { display: flex; flex-direction: column; gap: 15px; }
             .input-group { display: flex; flex-direction: column; gap: 8px; }
-            .input-group label { font-size: 14px; color: #666; }
+            .input-group label { font-size: 16px; color: #4e4c4c; margin-left: 15px; }
 
             .session-form input, .session-form select {
                 font-size: 16px; padding: 12px 18px;
@@ -81,9 +105,16 @@
             }
 
             .publish-btn {
-                background-color: #4a4a46; color: white;
-                padding: 12px 25px; border-radius: 25px;
-                border: none; font-size: 13px; font-weight: bold;
+                background-color: #666;
+                color: #ede9e2;;
+                width: 200px;
+                height: 45px;
+                border-radius: 25px;
+                border: none;
+                font-size: 15px;
+                font-family: 'DM Sans', sans-serif;
+                font-weight: 400;
+                letter-spacing: 1px;
             }
 
             /* COLUMNA IMAGEN */
@@ -97,6 +128,59 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                object-position: center;
+            }
+
+            
+            .logo {
+                height: 35px;  
+                object-fit: contain;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            .navbar-custom {
+                background-color: #3f3f3f;
+                height: 60px;
+            }
+
+            .nav-links-a {
+                color: #dcdcdc !important;
+                font-size: 14px;
+                text-transform: uppercase;
+                padding: 12px 18px !important;
+                transition: 0.2s;
+            }
+
+            .nav-links-a:hover {
+                color: white !important;
+            }
+
+            .nav-logout-btn {
+                background: none;
+                border: none;
+                color: #dcdcdc;
+                font-size: 20px;
+                padding: 12px 18px;
+                transition: 0.2s;
+            }
+
+            .nav-logout-btn:hover {
+                color: white;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
             }
 
             /* RESPONSIVE DESKTOP */
@@ -122,18 +206,22 @@
             /* Estilo a cajas de texto, fechas y menús desplegables */
             .session-form input,
             .session-form select {
-                font-family: 'DM Sans', sans-serif;
                 font-size: 16px;
                 padding: 12px 20px;
-                background-color: #dbd9d0;
+                background-color: transparent;
                 border: 1px solid #333;
                 border-radius: 30px !important;
-                color: #333;
+                color: #666;
                 outline: none;
                 width: 100%;
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 appearance: none;
+            }
+
+            .session-form input:focus,
+            .session-form select:focus {
+                background-color: #dbd9d0;
             }
 
             .session-form select {
@@ -142,6 +230,44 @@
                 background-position: right 30px center;
                 padding-right: 40px;
             }
+
+            @media (max-width: 767px) {
+                body {
+                    overflow-y: auto;
+                }
+                .navbar-collapse {
+                    background-color: #3f3f3f;
+                    margin-top: 10px;
+                }
+
+                .navbar-nav {
+                    align-items: center !important;
+                    text-align: center;
+                    gap: 10px;
+                    padding: 10px 0;
+                }
+
+                .nav-item,
+                .nav-links-a,
+                .nav-logout-btn {
+                    width: 100%;
+                }
+
+                .nav-links-a,
+                .nav-logout-btn {
+                    text-align: center;
+                }
+
+                .linea {
+                    width: 65%;
+                    height: 1px;
+                    margin: 0 auto 20px auto;
+                }
+
+                .form-actions {
+                    margin-bottom: 25px;
+                }
+            }
         </style>
 
     </head>
@@ -149,34 +275,31 @@
     <body>
         <header>
             <!-- NAVEGACIÓN -->
-            <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
-                <div class="container-fluid px-lg-5"> <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
+            <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
+                <a href="clasesSemana.html">
+                    <img src="3-Photoroom.png" class="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto align-items-center"> <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Crear sesion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Mis clases</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Mi perfil</a>
-                            </li>
-                            <li class="nav-item ms-lg-3">
-                                <button class="nav-logout-btn" title="Cerrar sesión">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                                        <polyline points="16 17 21 12 16 7"/>
-                                        <line x1="21" y1="12" x2="9" y2="12"/>
-                                    </svg>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
+                        </li>
+                        <li class="nav-item ms-md-3">
+                            <button class="nav-logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </header>
@@ -188,7 +311,7 @@
         <div class="form-column">
             <div class="form-header">
                 <h1 class="page-title">CREAR SESIÓN</h1>
-                <hr class="form-divider">
+                <div class="linea"></div>
             </div>
 
             <form class="session-form">
@@ -206,6 +329,9 @@
                         <option value="yoga">Yoga</option>
                         <option value="zumba">Zumba</option>
                         <option value="barre">Barre</option>
+                        <option value="box">Box</option>
+                        <option value="gap">GAP</option>
+                        <option value="jumpfit">Jump Fit</option>
                     </select>
                 </div>
 
@@ -229,28 +355,43 @@
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="max-capacity">Cupo máximo</label>
-                    <select id="max-capacity" name="max-capacity">
-                        <option value="" disabled selected>Elige el cupo máximo</option>
-                        <option value="10">10 personas</option>
-                        <option value="15">15 personas</option>
-                        <option value="20">20 personas</option>
-                        <option value="25">25 personas</option>
-                    </select>
+                <div class="row-inputs">
+                    <div class="input-group half-width">
+                        <label for="max-capacity">Cupo máximo</label>
+
+                        <select id="max-capacity" name="max-capacity">
+                            <option value="" disabled selected>Elige el cupo máximo</option>
+                            <option value="10">10 personas</option>
+                            <option value="15">15 personas</option>
+                            <option value="20">20 personas</option>
+                            <option value="25">25 personas</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group half-width">
+                        <label for="room">Sala</label>
+
+                        <select id="room" name="room">
+                            <option value="" disabled selected>Selecciona la sala</option>
+                            <option value="1">Sala 1</option>
+                            <option value="2">Sala 2</option>
+                            <option value="3">Sala 3</option>
+                            <option value="4">Sala 4</option>
+                            <option value="5">Sala 5</option>
+                            <option value="6">Sala 6</option>
+                        </select>
+                    </div>
+
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="back-btn" onclick="">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-                    </button>
                     <button type="submit" class="publish-btn">PUBLICAR SESIÓN</button>
                 </div>
             </form>
         </div>
 
         <div class="image-column">
-            <img src="https://chambermaster.blob.core.windows.net/images/customers/885/members/42230/photos/GALLERY_MAIN/81-phyyaanneettii.jpg" class="side-image">
+            <img src="https://i1-c.pinimg.com/1200x/ff/f7/8a/fff78ac6877c2cd8ee5df3876b0ae7a1.jpg" class="side-image">
         </div>
     </div>
         <script

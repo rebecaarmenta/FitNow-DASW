@@ -14,13 +14,19 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="../style.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
         <style>
             * { box-sizing: border-box; margin: 0; padding: 0; }
 
             body {
-                font-family: 'DM Sans', sans-serif;
-                background: #ede9e2;
-                min-height: 100vh;
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #e6e4e1;
+                overflow-x: hidden;
             }
 
             /* CONTAINER */
@@ -33,38 +39,35 @@
             /* HEADER */
             .header-container {
                 display: flex;
-                flex-direction: column;
-                gap: 20px;
-                margin-bottom: 32px;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
             }
 
             .section-title {
-                font-family: 'DM Serif Display', serif; 
-                font-size: clamp(28px, 5vw, 35px);
+                font-size: 25px;
                 color: #2a2520;
                 text-transform: uppercase;
-                width: 100%;
-                text-align: left;
+                font-weight:10;
+                font-family: 'DM Sans', sans-serif;
+                margin: 0;
             }
 
             /* BUSCADOR */
             .search-wrap {
-                width: 100%;
-                display: flex;
-                justify-content: center;
-                margin-bottom: 32px;
+                margin: 0;
             }
 
             .search-box {
                 display: flex;
                 align-items: center;
-                background: #ffffff;
-                border: 1.5px solid #d0cac0;
+                background: transparent;
+                border: 1px solid #2a2520;
                 border-radius: 30px;
-                padding: 10px 22px;
+                padding: 6px 14px;
                 gap: 10px;
                 width: 100%;
-                max-width: 360px;
+                width: 300px;
                 margin: 0 auto;
                 transition: border-color 0.2s;
             }
@@ -79,11 +82,15 @@
                 flex: 1;
             }
 
+            
             /* GRID DE CLASES*/
             .grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 18px;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 30px;
+                padding: 0 52px;
+                margin-top: -20px;
+                margin-bottom: 20px;
             }
 
             /* TARJETAS */
@@ -91,71 +98,204 @@
                 border-radius: 14px;
                 overflow: hidden;
                 position: relative;
-                aspect-ratio: 3 / 4;
+                height: 240px;
                 cursor: pointer;
-                transition: transform 0.22s ease, box-shadow 0.22s ease;
-                z-index: 1; 
+                border: none;
             }
             
             .card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(42, 37, 32, 0.2); }
-            .card img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.82); transition: transform 0.3s ease; }
+            .card img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                filter: brightness(0.65);
+            }
             .card:hover img { transform: scale(1.05); filter: brightness(0.7); }
             .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%); }
-            .card-name { position: absolute; bottom: 16px; left: 18px; font-family: 'DM Serif Display', serif; font-size: clamp(18px, 2vw, 24px); color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.45); }
+            .card-name {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                font-size: 40px;
+                font-weight: 550;
+                color: white;
+                text-transform: uppercase;
+            }
 
             /* MEDIA QUERIES */
-            @media (min-width: 768px) {
-                .body { padding: 48px 64px; }
-
-                .header-container { padding: 40px 60px; }
-
-                .search-wrap { width: auto; }
-
-                .search-box { 
-                    margin: 0 40px 0 auto;
+           @media (min-width: 768px) {
+                .header-container {
+                    padding: 40px 30px 20px;
                 }
 
-                .grid {
-                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                .search-wrap {
+                    width: auto;
+                }
+
+                .search-box {
+                    margin: 0;
                 }
             }
 
             .no-results { grid-column: 1 / -1; text-align: center; color: #9a8f82; padding: 48px 0; }
             .hidden { display: none; }
+
+            
+            .logo {
+                height: 35px;  
+                object-fit: contain;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            .navbar-custom {
+                background-color: #3f3f3f;
+                height: 60px;
+            }
+
+            .nav-links-a {
+                color: #dcdcdc !important;
+                font-size: 12.5px;
+                text-transform: uppercase;
+                padding: 12px 18px !important;
+                transition: 0.2s;
+            }
+
+            .nav-links-a:hover {
+                color: white !important;
+            }
+
+            .nav-logout-btn {
+                background: none;
+                border: none;
+                color: #dcdcdc;
+                font-size: 20px;
+                padding: 12px 18px;
+                transition: 0.2s;
+            }
+
+            .nav-logout-btn:hover {
+                color: white;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            @media (max-width: 767px) {
+                .navbar-collapse {
+                    background-color: #3f3f3f;
+                    position: relative;
+                    z-index: 9999;
+                    margin-top: 10px;
+                    border-radius: 0;
+
+                }
+
+                .navbar-nav {
+                    align-items: center !important;
+                    text-align: center;
+                    padding: 1px 0;
+                }
+
+                .nav-item,
+                .nav-links-a,
+                .nav-logout-btn {
+                    width: 100%;
+                }
+
+                .nav-links-a,
+                .nav-logout-btn {
+                    text-align: center;
+                }
+
+                .nav-links-a {
+                    font-size: 14px;
+                }
+
+                .container {
+                    padding: 16px;
+                }
+
+                .header-container {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 12px;
+                    margin-bottom: 20px;
+                }
+
+                .section-title {
+                    font-size: 20px;
+                }
+
+                .search-wrap {
+                    width: 75%;
+                }
+
+                .search-box {
+                    width: 100%;
+                    max-width: 100%;
+                    padding: 6px 12px;
+                }
+
+                .grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 16px;
+                    padding: 0 30px;
+                }
+
+                .card {
+                    height: 180px;
+                    border-radius: 14px;
+                }
+
+                .card-name {
+                    font-size: 22px;
+                    left: 8px;
+                    bottom: 10px;
+                }
+            }
         </style>
     </head>
 
     <body>
         <header>
             <!-- NAVEGACIÓN -->
-            <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
-                <div class="container-fluid px-lg-5"> <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
+            <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
+                <a href="clasesSemana.html">
+                    <img src="3-Photoroom.png" class="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto align-items-center"> <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Crear sesion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Mis clases</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="#">Mi perfil</a>
-                            </li>
-                            <li class="nav-item ms-lg-3">
-                                <button class="nav-logout-btn" title="Cerrar sesión">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                                        <polyline points="16 17 21 12 16 7"/>
-                                        <line x1="21" y1="12" x2="9" y2="12"/>
-                                    </svg>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="collapse navbar-collapse" id="menu">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
+                        </li>
+                        <li class="nav-item ms-md-3">
+                            <button class="nav-logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </header>
@@ -167,20 +307,22 @@
         <div class="container">
             <div class="header-container">
                 <h1 class="section-title">mis clases</h1>
+
+                <!-- BUSCADOR -->
+                <div class="search-wrap">
+                    <div class="search-box">
+                        <input type="text" id="search" placeholder="Buscar clase" oninput="filtrar()" />
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>
 
-            <!-- BUSCADOR -->
-            <div class="search-wrap">
-            <div class="search-box">
-                <input type="text" id="search" placeholder="Buscar clase" oninput="filtrar()" />
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-            </div>
-            </div>
+            
 
             <!-- GRID DE CLASES -->
             <div class="grid" id="grid"></div>

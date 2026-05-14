@@ -15,35 +15,65 @@
         />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
         
         <style>
-        
             body {
                 margin: 0;
-            }
-
-            .navbar-custom {
-                background-color: #333333;
-                height: 60px;
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #e6e4e1;
+                overflow: hidden;
             }
 
             .logo {
-                height: 35px;
+                height: 35px;  
                 object-fit: contain;
             }
 
-            .navbar-custom a {
-                color: #dcdcdc;
-                margin-left: 45px;
-                text-decoration: none;
-                font-size: 14px;
+            .navbar-toggler {
+                border: none;
             }
 
-            .logout-icon {
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            .navbar-custom {
+                background-color: #3f3f3f;
+                height: 60px;
+            }
+
+            .nav-links-a {
+                color: #dcdcdc !important;
+                font-size: 14px;
+                text-transform: uppercase;
+                padding: 12px 18px !important;
+                transition: 0.2s;
+            }
+
+            .nav-links-a:hover {
+                color: white !important;
+            }
+
+            .nav-logout-btn {
+                background: none;
+                border: none;
                 color: #dcdcdc;
                 font-size: 20px;
-                margin-left: 45px;
-                cursor: pointer;
+                padding: 12px 18px;
+                transition: 0.2s;
+            }
+
+            .nav-logout-btn:hover {
+                color: white;
+            }
+
+            .navbar-toggler {
+                border: none;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
             }
 
             .perfil-page {
@@ -58,9 +88,8 @@
             }
 
             .perfil-img img {
-                width: 100%;
-                max-width: 420px;
-                height: auto;
+                width: 420px;
+                height: 420px;
                 border-radius: 50%;
                 object-fit: cover;
             }
@@ -125,43 +154,95 @@
                 font-size: 14px;
             } 
 
-            .navbar-toggler {
-                border: none;
-            }
+            @media (max-width: 767px) {
+                body {
+                    overflow-y: auto;
+                }
+                .navbar-collapse {
+                    background-color: #3f3f3f;
+                    margin-top: 10px;
+                }
 
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
+                .navbar-nav {
+                    align-items: center !important;
+                    text-align: center;
+                    gap: 10px;
+                    padding: 10px 0;
+                }
 
-            .navbar-nav {
-                gap: 20px;
-            }
+                .nav-item,
+                .nav-links-a,
+                .nav-logout-btn {
+                    width: 100%;
+                }
 
-            .navbar-dark .navbar-toggler-icon {
-                filter: invert(1);
+                .nav-links-a,
+                .nav-logout-btn {
+                    text-align: center;
+                }
+
+                .perfil-img img {
+                    width: 190px;
+                    height: 190px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+
+                .perfil-img {
+                    height: 35vh;
+                    align-items: flex-end; 
+                    padding-bottom: 22px;
+                }
+
+                .perfil-form {
+                    height: 65vh;
+                    align-items: flex-start;
+                    padding-top: 25px;
+                }
+
+                .box {
+                    width: 70%;
+                    max-width: 280px;
+                }
+
+                h1 {
+                    font-size: 24px;
+                    margin-bottom: 15px;
+                }
             }
+            
         </style>
     </head>
 
     <body>
-        <!-- NAVBAR -->
+        <!-- NAVEGACIÓN -->
         <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-            <img src="3-Photoroom.png" class="logo">
-
+            <a href="clasesSemana.html">
+                <img src="3-Photoroom.png" class="logo">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="menu">
-                <div class="navbar-nav align-items-center">
-                    <a class="nav-link" href="#">MIS CLASES</a>
-                    <a class="nav-link" href="#">INSTRUCTORES</a>
-                    <a class="nav-link" href="#">MI PERFIL</a>
-
-                    <i class="fas fa-sign-out-alt logout-icon"></i>
-                </div>
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
+                    </li>
+                    <li class="nav-item ms-md-3">
+                        <button class="nav-logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </li>
+                </ul>
             </div>
-
         </nav>
 
         <footer>
@@ -199,7 +280,6 @@
                         <input class="form-control" placeholder="-----------------------">
 
                         <button class="btn btn-main">GUARDAR</button>
-                        <button class="btn btn-outline">EDITAR DATOS</button>
 
                     </div>
                 </div>
