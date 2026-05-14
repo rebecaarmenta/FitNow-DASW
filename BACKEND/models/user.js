@@ -8,6 +8,13 @@ const userSchema = new mongoose.Schema({
     phone: { type: String, trim: true },
     description: { type: String, trim: true },
     classes: [{ type: String }],
+    goals: [{
+        discipline_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Discipline'
+        },
+        goal: { type: Number, default: 4 }
+    }],
     rol: { type: String, enum: ['usuario', 'instructor'], default: 'usuario' },
     joined_at: { type: Date, default: Date.now }
 });

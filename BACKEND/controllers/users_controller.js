@@ -28,6 +28,7 @@ export async function login(req, res) {
                 phone: user.phone,
                 description: user.description,
                 classes: user.classes,
+                goals: user.goals || [],
                 rol: user.rol 
             } 
         });
@@ -71,7 +72,7 @@ export async function register(req, res) {
 // GET usuario por id
 export async function getUser(req, res) {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).select('-password');
         if (!user) return res.status(404).send('Usuario no encontrado');
         res.json(user);
     } catch (err) {
@@ -94,12 +95,23 @@ export async function getUsers(req, res) {
 // PATCH actualizar usuario
 export async function updateUser(req, res) {
     try {
-        const { name, lastname, email, password, phone, description, classes } = req.body;
+        const { name, lastname, email, password, phone, description, classes, goals } = req.body;
+
+        const updateData = {};
+        if (name !== undefined) updateData.name = name;
+        if (lastname !== undefined) updateData.lastname = lastname;
+        if (email !== undefined) updateData.email = email;
+        if (password !== undefined) updateData.password = password;
+        if (phone !== undefined) updateData.phone = phone;
+        if (description !== undefined) updateData.description = description;
+        if (classes !== undefined) updateData.classes = classes;
+        if (goals !== undefined) updateData.goals = goals;
+
         const user = await User.findByIdAndUpdate(
             req.params.id,
-            { name, lastname, email, password, phone, description, classes },
+            updateData,
             { new: true }
-        );
+        ).select('-password');
         if (!user) return res.status(404).send('Usuario no encontrado');
         res.json({ message: 'Usuario actualizado', user });
     } catch (err) {

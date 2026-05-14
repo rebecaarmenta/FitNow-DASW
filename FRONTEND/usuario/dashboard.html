@@ -258,8 +258,49 @@
  
     .hist-goal-cell { display: flex; align-items: center; justify-content: center; gap: 6px; }
     .goal-num { font-size: 13px; font-weight: 500; color: #4a4035; }
+    .goal-num.ok { color: #27ae60; }
     .goal-num.warn { color: #c0392b; }
- 
+
+    .goal-input {
+      width: 68px;
+      min-width: 48px;
+      border: 1px solid #b0a898;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 13px;
+      color: #2a2520;
+      background: #fff;
+      outline: none;
+    }
+
+    .save-goal-btn,
+    .cancel-goal-btn {
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    .save-goal-btn {
+      background: #2a2520;
+      color: #f0ebe3;
+    }
+
+    .cancel-goal-btn {
+      background: #ddd8ce;
+      color: #2a2520;
+    }
+
+    .save-goal-btn:hover,
+    .cancel-goal-btn:hover,
+    .edit-btn:hover {
+      transform: translateY(-1px);
+      opacity: 1;
+    }
+
     .edit-btn {
       width: 22px; height: 22px; background: none; border: none;
       cursor: pointer; padding: 0; opacity: 0.5; color: #4a4035; transition: opacity 0.2s;
