@@ -28,6 +28,11 @@ function renderGrid(disciplinas) {
     const grid = document.getElementById('grid');
     if (!grid) return;
 
+    if (!disciplinas || disciplinas.length === 0) {
+        grid.innerHTML = '<div class="no-results">No hay disciplinas disponibles.</div>';
+        return;
+    }
+
     grid.innerHTML = disciplinas.map(d => `
         <div class="card" onclick="verDetalle('${d._id}')">
             <img src="${d.img}" alt="${d.name}" /> 

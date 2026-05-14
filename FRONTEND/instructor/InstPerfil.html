@@ -16,6 +16,7 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <script src="../controllers/env.js"></script>
         
         <style>
             body {
@@ -237,7 +238,7 @@
                         <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
                     </li>
                     <li class="nav-item ms-md-3">
-                        <button class="nav-logout-btn">
+                        <button class="nav-logout-btn" id="btnLogout">
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </li>
@@ -286,4 +287,92 @@
             </div>
         </div>
     </body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            const token = sessionStorage.getItem('token');
+
+            if (!user || !token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            // Cargar datos del usuario
+            try {
+                const response = await fetch(`${local_url}/users/${user.id}`, {
+                    headers: { 'Authorization': `${token}` }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    document.querySelector('h1').textContent = `${userData.name} ${userData.lastname || ''}`.trim();
+                    document.querySelector('input[placeholder="test@gmail.com"]').value = userData.email || '';
+                    document.querySelector('input[placeholder="-----------------------"]').value = userData.description || '';
+                    document.querySelectorAll('input[placeholder="-----------------------"]')[1].value = (userData.classes || []).join(', ');
+                } else {
+                    showToast('Error al cargar datos del perfil');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error de conexión');
+            }
+
+            // Evento para guardar
+            document.querySelector('.btn-main').addEventListener('click', async () => {
+                const email = document.querySelector('input[placeholder="test@gmail.com"]').value.trim();
+                const description = document.querySelector('input[placeholder="-----------------------"]').value.trim();
+                const classesStr = document.querySelectorAll('input[placeholder="-----------------------"]')[1].value.trim();
+                const classes = classesStr ? classesStr.split(',').map(c => c.trim()).filter(c => c) : [];
+
+                try {
+                    const response = await fetch(`${local_url}/users/${user.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': `${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, description, classes })
+                    });
+
+                    if (response.ok) {
+                        showToast('Perfil guardado exitosamente');
+                        // Actualizar sessionStorage
+                        const updatedUser = { ...user, email, description, classes };
+                        sessionStorage.setItem('user', JSON.stringify(updatedUser));
+                    } else {
+                        const error = await response.json();
+                        showToast(error.message || 'Error al guardar');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('Error de conexión');
+                }
+            });
+        });
+
+        function showToast(msg) {
+            // Crear toast si no existe
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = `
+                    position: fixed; bottom: 24px; right: 16px;
+                    background: #2a2520; color: #f0ebe3;
+                    padding: 10px 20px; border-radius: 8px; font-size: 13px;
+                    opacity: 0; transform: translateY(8px);
+                    transition: opacity 0.25s, transform 0.25s;
+                    pointer-events: none; z-index: 999;
+                    max-width: calc(100vw - 32px);
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+    </script>
+
+    <script src="../controllers/auth_controller.js"></script>
 </html>

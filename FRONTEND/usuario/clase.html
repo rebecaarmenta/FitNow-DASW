@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es" data-bs-theme="light">
 <head>
   <meta charset="UTF-8" />
@@ -9,16 +9,14 @@
   <script src="../controllers/env.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: #ede9e2;
       min-height: 100vh;
     }
- 
-    /* ── NAV ── */
+
     .custom-nav { background: #2a2520; }
- 
     .nav-logo {
       font-family: 'DM Serif Display', serif;
       font-size: 22px;
@@ -27,7 +25,6 @@
       text-decoration: none;
     }
     .nav-logo span { color: #c8b89a; }
- 
     .nav-links-a {
       font-size: 11px;
       letter-spacing: 0.1em;
@@ -36,165 +33,113 @@
       transition: color 0.2s;
     }
     .nav-links-a:hover { color: #f0ebe3 !important; }
- 
     .navbar-toggler { border-color: #b0a898; }
     .navbar-toggler-icon { filter: invert(0.7); }
- 
     .navbar-collapse { background: #2a2520; padding: 12px 0; }
     @media (min-width: 992px) { .navbar-collapse { padding: 0; } }
- 
     .nav-logout-btn {
       background: none; border: none; cursor: pointer;
       color: #b0a898; padding: 4px; transition: color 0.2s;
       display: flex; align-items: center;
     }
     .nav-logout-btn:hover { color: #f0ebe3; }
- 
-    /* ── HERO ── */
     .hero {
       position: relative;
       height: clamp(140px, 25vw, 220px);
       overflow: hidden;
     }
     .hero img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
-      filter: brightness(0.58);
-      transition: transform 0.4s ease;
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      filter: brightness(0.58); transition: transform 0.4s ease;
     }
     .hero:hover img { transform: scale(1.02); }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 65%);
-    }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 65%); }
     .hero-title {
       position: absolute; bottom: 18px; left: 24px;
       font-family: 'DM Serif Display', serif;
       font-size: clamp(28px, 6vw, 48px);
-      color: #ffffff; letter-spacing: 0.02em;
-      text-shadow: 0 2px 14px rgba(0,0,0,0.45);
+      color: #ffffff; text-shadow: 0 2px 14px rgba(0,0,0,0.45);
     }
     .back-btn {
       position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(255,255,255,0.18); border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; transition: background 0.2s;
+      width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.18); border: none;
+      display: flex; align-items: center; justify-content: center; color: #fff; transition: background 0.2s;
     }
     .back-btn:hover { background: rgba(255,255,255,0.32); }
- 
-    /* ── BODY ── */
     .page-body {
       padding: clamp(16px, 4vw, 28px) clamp(16px, 4vw, 32px);
-      max-width: 1400px;
-      margin: 0 auto;
+      max-width: 1400px; margin: 0 auto;
     }
- 
-    /* ── LISTA ── */
-    .class-list { display: flex; flex-direction: column; gap: 12px; }
- 
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(28px, 4vw, 34px);
+      color: #2a2520; text-transform: uppercase; margin-bottom: 20px;
+    }
+    .section-subtitle {
+      color: #4a4035; font-size: 14px; margin-bottom: 26px; line-height: 1.5;
+    }
+    .class-list { display: flex; flex-direction: column; gap: 14px; }
     .class-row {
-      background: #ddd8ce;
-      border-radius: 10px;
-      padding: 16px 20px;
-      display: grid;
-      align-items: center;
-      gap: 10px;
+      background: #ddd8ce; border-radius: 14px; padding: 18px 22px;
+      display: grid; align-items: center; gap: 12px;
+      grid-template-columns: 1.6fr 0.8fr 0.8fr 0.8fr 0.8fr auto;
       transition: background 0.15s;
-      grid-template-columns: 1.4fr 1fr 1.2fr 1fr 1.2fr auto;
     }
     .class-row:hover { background: #d0cac0; }
- 
-    @media (max-width: 860px) {
-      .class-row {
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-areas:
-          "nombre  dia    hora"
-          "salon   inst   btn";
-      }
-      .col-nombre { grid-area: nombre; }
-      .col-dia    { grid-area: dia; }
-      .col-hora   { grid-area: hora; }
-      .col-salon  { grid-area: salon; }
-      .col-inst   { grid-area: inst; }
-      .inscribir-btn { grid-area: btn; justify-self: end; }
+    .col-name { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: #2a2520; text-transform: uppercase; }
+    .col-info { font-size: 13px; color: #5e5245; }
+    .col-label { display: none; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #7a7166; margin-bottom: 4px; }
+    .inscribir-btn {
+      background: #2a2520; color: #f0ebe3; border: none; border-radius: 22px; padding: 10px 16px;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; cursor: pointer;
+      transition: background 0.18s, transform 0.15s;
     }
- 
-    @media (max-width: 560px) {
+    .inscribir-btn:hover { background: #4a4035; transform: scale(1.02); }
+    .inscribir-btn:disabled, .inscribir-btn.inscrito { background: #6b8f5e; cursor: default; transform: none; }
+    @media (max-width: 880px) {
       .class-row {
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
-          "nombre  nombre"
-          "dia     hora"
-          "salon   inst"
-          "btn     btn";
-        padding: 14px 16px;
-        gap: 8px;
+          "nombre nombre"
+          "dia hora"
+          "place inst"
+          "btn btn";
       }
-      .inscribir-btn {
-        justify-self: stretch;
-        text-align: center;
-        padding: 12px 16px;
-        border-radius: 8px;
-        margin-top: 4px;
-      }
+      .col-name { grid-area: nombre; }
+      .col-day { grid-area: dia; }
+      .col-time { grid-area: hora; }
+      .col-place { grid-area: place; }
+      .col-inst { grid-area: inst; }
+      .inscribir-btn { grid-area: btn; justify-self: end; }
     }
- 
-    .col-name { font-size: 13px; font-weight: 500; color: #4a4035; letter-spacing: 0.04em; }
-    .col-info { font-size: 13px; color: #7a7166; }
- 
-    .col-label {
-      display: none;
-      font-size: 10px; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #a09888; margin-bottom: 2px;
+    @media (max-width: 560px) {
+      .class-row { padding: 16px; }
+      .inscribir-btn { width: 100%; }
     }
-    @media (max-width: 560px) { .col-label { display: block; } }
- 
-    /* ── BOTÓN ── */
-    .inscribir-btn {
-      background: #2a2520; color: #f0ebe3; border: none;
-      border-radius: 20px; padding: 10px 20px;
-      font-family: 'DM Sans', sans-serif; font-size: 11px;
-      font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer; white-space: nowrap;
-      transition: background 0.18s, transform 0.15s;
-    }
-    .inscribir-btn:hover { background: #4a4035; transform: scale(1.03); }
-    .inscribir-btn:active { transform: scale(0.97); }
-    .inscribir-btn.inscrito { background: #6b8f5e; cursor: default; transform: none; }
- 
-    /* ── TOAST ── */
     .toast-msg {
-      position: fixed; bottom: 24px; right: 16px;
-      background: #2a2520; color: #f0ebe3;
-      padding: 10px 20px; border-radius: 8px; font-size: 13px;
-      opacity: 0; transform: translateY(8px);
-      transition: opacity 0.25s, transform 0.25s;
-      pointer-events: none; z-index: 999;
-      max-width: calc(100vw - 32px);
+      position: fixed; bottom: 20px; right: 18px; background: #2a2520; color: #f0ebe3;
+      padding: 10px 18px; border-radius: 10px; opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s; pointer-events: none; z-index: 999; max-width: calc(100vw - 36px);
     }
     .toast-msg.show { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
- 
-  <!-- NAVEGACIÓN -->
+
   <nav class="navbar navbar-expand-lg custom-nav">
     <div class="container-fluid px-lg-5">
-      <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
- 
+      <a class="navbar-brand nav-logo" href="dashboard.html">fit<span>now</span></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
- 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link nav-links-a" href="../usuario/clases.html">Mis clases</a></li>
-          <li class="nav-item"><a class="nav-link nav-links-a" href="../usuario/Instructores.html">Instructores</a></li>
-          <li class="nav-item"><a class="nav-link nav-links-a" href="../usuario/Perfil.html">Mi perfil</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="clases.html">Mis clases</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="Instructores.html">Instructores</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="Perfil.html">Mi perfil</a></li>
           <li class="nav-item ms-lg-3">
-            <button class="nav-logout-btn" title="Cerrar sesión">
+            <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -207,53 +152,191 @@
       </div>
     </div>
   </nav>
- 
-  <!-- HERO -->
+
   <div class="hero">
-    <img src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg" alt="Spinning" />
+    <img id="hero-image" src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg" alt="Clase" />
     <div class="hero-overlay"></div>
-    <button class="back-btn" onclick="history.back()" title="Volver">
+    <button class="back-btn" onclick="window.location.href='dashboard.html'" title="Volver">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
     </button>
-    <span class="hero-title">SPINNING</span>
+    <span class="hero-title" id="hero-title">CLASE</span>
   </div>
- 
-  <!-- HORARIOS -->
+
   <div class="page-body">
+    <h1 class="section-title" id="discipline-title">Detalles de la clase</h1>
+    <p class="section-subtitle" id="discipline-description">Cargando información...</p>
     <div class="class-list" id="class-list"></div>
   </div>
 
+  <div class="toast-msg" id="toast"></div>
+
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-        // Obtener el ID de la URL
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
+      const userString = sessionStorage.getItem('user');
+      const token = sessionStorage.getItem('token');
+      if (!userString || !token) {
+        window.location.href = local_url + '/login';
+        return;
+      }
 
-        if (!id) return;
+      const user = JSON.parse(userString);
+      const params = new URLSearchParams(window.location.search);
+      const disciplineId = params.get('id');
 
-        try {
-            // Fetch al backend usando el ID
-            const response = await fetch(`${local_url}/disciplines/${id}`);
-            
-            if (response.ok) {
-                const disciplina = await response.json();
-                
-                // Inyectar datos reales de MongoDB
-                document.getElementById('nombre-clase').innerText = disciplina.name.toUpperCase();
-                document.getElementById('descripcion-clase').innerText = disciplina.description;
-                if(disciplina.image) document.getElementById('imagen-clase').src = disciplina.image;
-            } else {
-                document.getElementById('nombre-clase').innerText = "CLASE NO ENCONTRADA";
-            }
-        } catch (error) {
-            console.error("Error al cargar la disciplina:", error);
+      const classList = document.getElementById('class-list');
+      const titleEl = document.getElementById('discipline-title');
+      const descEl = document.getElementById('discipline-description');
+      const heroImage = document.getElementById('hero-image');
+      const heroTitle = document.getElementById('hero-title');
+
+      if (!disciplineId) {
+        titleEl.textContent = 'Disciplina no encontrada';
+        descEl.textContent = 'No se proporcionó un id de disciplina.';
+        return;
+      }
+
+      try {
+        const [disciplineResponse, sessionsResponse, enrollmentsResponse] = await Promise.all([
+          fetch(`${local_url}/disciplines/${disciplineId}`, {
+            headers: { 'Authorization': token, 'Content-Type': 'application/json' }
+          }),
+          fetch(`${local_url}/sessions/discipline/${disciplineId}`, {
+            headers: { 'Authorization': token, 'Content-Type': 'application/json' }
+          }),
+          fetch(`${local_url}/enrollments/user/${user.id}`, {
+            headers: { 'Authorization': token, 'Content-Type': 'application/json' }
+          })
+        ]);
+
+        if (!disciplineResponse.ok) {
+          titleEl.textContent = 'Disciplina no encontrada';
+          descEl.textContent = 'Intenta regresar a Mis clases para elegir otra disciplina.';
+          classList.innerHTML = '';
+          return;
         }
+
+        const disciplina = await disciplineResponse.json();
+        const sessions = sessionsResponse.ok ? await sessionsResponse.json() : [];
+        const enrollments = enrollmentsResponse.ok ? await enrollmentsResponse.json() : [];
+        const enrolledIds = new Set(enrollments
+          .filter(e => e.status === 'activa')
+          .map(e => e.session_id && e.session_id._id ? e.session_id._id : e.session_id)
+        );
+
+        titleEl.textContent = disciplina.name.toUpperCase();
+        descEl.textContent = disciplina.description || 'Aquí puedes ver las sesiones disponibles y apuntarte.';
+        heroTitle.textContent = disciplina.name.toUpperCase();
+        heroImage.src = disciplina.img || (disciplina.name.toLowerCase().includes('spinning') ? 'https://atlantidaclinicaestetica.cat/wp-content/uploads/2021/02/gap-body-pump.jpg' : 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg');
+
+        renderSessions(sessions, enrolledIds);
+      } catch (error) {
+        console.error('Error al cargar la clase:', error);
+        titleEl.textContent = 'Error de carga';
+        descEl.textContent = 'No se pudo cargar la información de la clase. Intenta nuevamente.';
+        classList.innerHTML = '';
+      }
     });
+
+    function renderSessions(sessions, enrolledIds) {
+      const classList = document.getElementById('class-list');
+      if (!classList) return;
+
+      if (!sessions || sessions.length === 0) {
+        classList.innerHTML = '<div class="class-row"><div class="col-name">No hay sesiones disponibles para esta disciplina en este momento.</div></div>';
+        return;
+      }
+
+      classList.innerHTML = sessions.map(session => {
+        const isEnrolled = enrolledIds.has(session._id);
+        const buttonText = isEnrolled ? 'Inscrito' : (session.capacity <= 0 ? 'Llena' : 'Inscribirse');
+        const disabled = isEnrolled || session.capacity <= 0 ? 'disabled' : '';
+        return `
+          <div class="class-row">
+            <div>
+              <div class="col-label">Sesión</div>
+              <div class="col-name">${session.discipline_id?.name || 'Clase'}</div>
+              <div class="col-info">${session.place || 'Sin lugar especificado'}</div>
+            </div>
+            <div>
+              <div class="col-label">Día</div>
+              <div class="col-info col-day">${formatDay(session.date)}</div>
+            </div>
+            <div>
+              <div class="col-label">Hora</div>
+              <div class="col-info col-time">${session.time}</div>
+            </div>
+            <div>
+              <div class="col-label">Instructor</div>
+              <div class="col-info col-inst">${session.instructor_id?.name || 'Instructor'}</div>
+            </div>
+            <div>
+              <div class="col-label">Cupo</div>
+              <div class="col-info">${session.capacity} lugares</div>
+            </div>
+            <button class="inscribir-btn ${isEnrolled ? 'inscrito' : ''}" ${disabled} onclick="enroll('${session._id}')">
+              ${buttonText}
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function formatDay(dateString) {
+      if (!dateString) return 'Sin fecha';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric' });
+    }
+
+    async function enroll(sessionId) {
+      const token = sessionStorage.getItem('token');
+      const userString = sessionStorage.getItem('user');
+      if (!userString || !token) {
+        window.location.href = local_url + '/login';
+        return;
+      }
+      const user = JSON.parse(userString);
+
+      try {
+        const response = await fetch(`${local_url}/enrollments`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          },
+          body: JSON.stringify({ user_id: user.id, session_id: sessionId })
+        });
+
+        const text = await response.text();
+        if (!response.ok) {
+          showToast(text || 'No se pudo inscribir a la sesión');
+          return;
+        }
+
+        showToast('Inscripción exitosa');
+        const sessionButton = document.querySelector(`button[onclick="enroll('${sessionId}')"]`);
+        if (sessionButton) {
+          sessionButton.textContent = 'Inscrito';
+          sessionButton.disabled = true;
+          sessionButton.classList.add('inscrito');
+        }
+      } catch (error) {
+        console.error('Error al inscribir:', error);
+        showToast('Error al inscribir en la sesión');
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
   </script>
- 
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <script src="../controllers/auth_controller.js"></script>
 </body>

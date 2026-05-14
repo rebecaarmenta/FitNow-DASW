@@ -203,7 +203,7 @@
   <!-- NAVEGACIÓN -->
   <nav class="navbar navbar-expand-lg custom-nav sticky-top">
     <div class="container-fluid px-lg-5">
-      <a class="navbar-brand nav-logo" href="#">fit<span>now</span></a>
+      <a class="navbar-brand nav-logo" href="dashboard.html">fit<span>now</span></a>
  
       <button class="navbar-toggler" type="button"
         data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -213,11 +213,11 @@
  
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-lg-center">
-          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mis clases</a></li>
-          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Instructores</a></li>
-          <li class="nav-item"><a class="nav-link nav-links-a" href="#">Mi perfil</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="clases.html">Mis clases</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="Instructores.html">Instructores</a></li>
+          <li class="nav-item"><a class="nav-link nav-links-a" href="Perfil.html">Mi perfil</a></li>
           <li class="nav-item ms-lg-3">
-            <button class="nav-logout-btn" title="Cerrar sesión">
+            <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -240,96 +240,120 @@
   <div class="toast-msg" id="toast"></div>
  
   <script>
-    let clases = [
-      {
-        id: 0,
-        nombre: 'Pilates 1',
-        dia: 'Lunes',
-        hora: '7:00–8:00',
-        salon: 'Salón 1',
-        instructor: 'Instructor 1',
-        img: 'https://i.pinimg.com/1200x/5c/8a/2b/5c8a2bc97a4993d9013bef88eb008272.jpg'
-      },
-      {
-        id: 1,
-        nombre: 'Zumba 1',
-        dia: 'Martes',
-        hora: '7:00–8:00',
-        salon: 'Salón 1',
-        instructor: 'Instructor 1',
-        img: 'https://i.pinimg.com/736x/d6/c3/ba/d6c3bab99ea80eebafdafedb9a1162f8.jpg'
-      },
-      {
-        id: 2,
-        nombre: 'Spinning 1',
-        dia: 'Miércoles',
-        hora: '7:00–8:00',
-        salon: 'Salón 1',
-        instructor: 'Instructor 1',
-        img: 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg'
-      },
-      {
-        id: 3,
-        nombre: 'Pilates 2',
-        dia: 'Viernes',
-        hora: '7:00–8:00',
-        salon: 'Salón 1',
-        instructor: 'Instructor 1',
-        img: 'https://i.pinimg.com/1200x/5c/8a/2b/5c8a2bc97a4993d9013bef88eb008272.jpg'
-      },
-    ];
- 
-    function render() {
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = JSON.parse(sessionStorage.getItem('user'));
+      const token = sessionStorage.getItem('token');
+
+      if (!user || !token) {
+        window.location.href = '/login';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${local_url}/enrollments/user/${user.id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const enrollments = await response.json();
+          renderClases(enrollments);
+        } else {
+          console.error("Error al obtener las clases inscritas");
+          showToast('Error al cargar las clases inscritas');
+        }
+      } catch (error) {
+        console.error("Error de conexión:", error);
+        showToast('Error de conexión');
+      }
+    });
+
+    function renderClases(enrollments) {
       const grid = document.getElementById('grid');
- 
-      if (clases.length === 0) {
+      const activas = enrollments.filter(e => e.status === 'activa');
+
+      if (activas.length === 0) {
         grid.innerHTML = '<div class="empty">No tienes clases inscritas aún.</div>';
         return;
       }
- 
-      grid.innerHTML = clases.map(c => `
-        <div class="card" id="card-${c.id}">
-          <img class="card-img" src="${c.img}" alt="${c.nombre}" loading="lazy" />
+
+      grid.innerHTML = activas.map(e => {
+        const session = e.session_id;
+        const img = session?.discipline_id?.img || 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg';
+        const nombre = session?.discipline_id?.name || 'Clase';
+        const dia = session?.date ? new Date(session.date).toLocaleDateString('es-ES', { weekday: 'long', day: '2-digit', month: '2-digit' }) : 'Sin fecha';
+        const hora = session?.time || 'Sin hora';
+        const salon = session?.place || 'Sin salón';
+        const instructor = session?.instructor_id ? `${session.instructor_id.name || ''} ${session.instructor_id.lastname || ''}`.trim() : 'Instructor';
+
+        return `
+        <div class="card" id="card-${e._id}">
+          <img class="card-img" src="${img}" alt="${nombre}" loading="lazy" />
           <div class="card-info">
             <div>
-              <p class="card-name">${c.nombre}</p>
+              <p class="card-name">${nombre}</p>
               <div class="card-details">
                 <div class="card-row">
-                  <span class="card-detail">${c.dia}</span>
-                  <span class="card-detail hora">${c.hora}</span>
+                  <span class="card-detail">${dia}</span>
+                  <span class="card-detail hora">${hora}</span>
                 </div>
-                <span class="card-detail">${c.salon}</span>
-                <span class="card-detail">${c.instructor}</span>
+                <span class="card-detail">${salon}</span>
+                <span class="card-detail">${instructor}</span>
               </div>
             </div>
-            <button class="desinscribir-btn" onclick="desinscribir(${c.id})">
+            <button class="desinscribir-btn" onclick="desinscribir('${e._id}')">
               Desinscribir
             </button>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
     }
- 
-    function desinscribir(id) {
-      const card = document.getElementById('card-' + id);
-      card.style.transition = 'opacity 0.3s, transform 0.3s';
-      card.style.opacity = '0';
-      card.style.transform = 'scale(0.95)';
-      setTimeout(() => {
-        clases = clases.filter(c => c.id !== id);
-        render();
-        showToast('Desinscripción exitosa');
-      }, 300);
+
+    async function desinscribir(enrollmentId) {
+      const token = sessionStorage.getItem('token');
+      if (!token) {
+        showToast('Sesión expirada');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${local_url}/enrollments/${enrollmentId}/cancel`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const card = document.getElementById('card-' + enrollmentId);
+          card.style.transition = 'opacity 0.3s, transform 0.3s';
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            // Recargar las clases después de cancelar
+            location.reload();
+          }, 300);
+          showToast('Desinscripción exitosa');
+        } else {
+          const error = await response.json();
+          showToast(error.message || 'Error al desinscribir');
+        }
+      } catch (error) {
+        console.error("Error al desinscribir:", error);
+        showToast('Error de conexión');
+      }
     }
- 
+
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
     }
- 
-    render();
   </script>
  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

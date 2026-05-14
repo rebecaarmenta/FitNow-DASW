@@ -32,25 +32,58 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function renderClasesProgramadas(enrollments) {
     const contenedor = document.getElementById('clases-programadas');
-    
     if (!contenedor) return;
 
-    // Filtramos solo las que están con status 'activa'
-    const activas = enrollments.filter(e => e.status === 'activa');
+    const activas = enrollments.filter(e => {
+        if (e.status !== 'activa' || !e.session_id) return false;
+        const sessionDate = e.session_id.date ? new Date(e.session_id.date) : null;
+        return sessionDate ? isDateInCurrentWeek(sessionDate) : true;
+    });
 
     if (activas.length === 0) {
         contenedor.innerHTML = '<p class="text-center py-4">No tienes clases inscritas esta semana.</p>';
         return;
     }
 
-    contenedor.innerHTML = activas.map(e => `
+    contenedor.innerHTML = activas.map(e => {
+        const session = e.session_id;
+        const dateValue = session?.date ? new Date(session.date) : null;
+        const dia = dateValue ? formatDay(dateValue) : (session?.day || 'Sin fecha');
+        const hora = session?.time || session?.hour || 'Sin hora';
+        const instructor = session?.instructor_id
+            ? `${session.instructor_id.name || ''} ${session.instructor_id.lastname || ''}`.trim()
+            : 'Instructor';
+
+        return `
         <div class="class-row">
-            <span class="class-name">${e.session_id.discipline_id?.name || 'Clase'}</span>
-            <span class="class-detail class-dia">${e.session_id.day}</span>
-            <span class="class-detail class-hora">${e.session_id.hour}</span>
-            <span class="class-detail class-inst">Instructor</span>
-        </div>
-    `).join('');
+            <span class="class-name">${session?.discipline_id?.name || 'Clase'}</span>
+            <span class="class-detail class-dia">${dia}</span>
+            <span class="class-detail class-hora">${hora}</span>
+            <span class="class-detail class-inst">${instructor}</span>
+        </div>`;
+    }).join('');
+}
+
+function formatDay(date) {
+    return date.toLocaleDateString('es-ES', {
+        weekday: 'long',
+        day: '2-digit',
+        month: '2-digit'
+    });
+}
+
+function isDateInCurrentWeek(date) {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - ((dayOfWeek + 6) % 7));
+    monday.setHours(0, 0, 0, 0);
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23, 59, 59, 999);
+
+    return date >= monday && date <= sunday;
 }
 
 // (Historial y Metas)

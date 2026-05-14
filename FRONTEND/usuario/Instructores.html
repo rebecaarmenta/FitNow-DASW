@@ -15,13 +15,14 @@
         />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <script src="../controllers/env.js"></script>
 
         <style>
             body {
                 margin: 0;
                 font-family: Arial, Helvetica, sans-serif;
                 background-color: #e6e4e1;
-                overflow: hidden;
+                overflow-y: auto;
             }
 
             .filtro {
@@ -176,7 +177,7 @@
                         <a class="nav-link nav-links-a" href="../usuario/Perfil.html">Mi perfil</a>
                     </li>
                     <li class="nav-item ms-md-3">
-                        <button class="nav-logout-btn">
+                        <button class="nav-logout-btn" id="btnLogout">
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </li>
@@ -191,80 +192,78 @@
                 </select>
             </div>
 
-            <div class="row">
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/1200x/d2/4c/99/d24c996995629ec4c10f22a12b5bc582.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/1200x/0e/9e/08/0e9e08306f6a2064a86a62d277f77825.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/736x/2e/cb/6b/2ecb6be80595fb3b6d3f3d7bdd59123b.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/1200x/f7/4d/14/f74d143ab7ef9b8897777d2719fab8f8.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/736x/2e/b5/c3/2eb5c319bddb1d08f41185877aafcaee.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/736x/93/1b/e8/931be8dffb798b3abc195ddb402ad3b5.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/736x/97/64/5d/97645d6cc0774ce722407f4258c05dca.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="card-custom">
-                        <img src="https://i.pinimg.com/736x/dc/38/ea/dc38eaf88de57efae42f02a2a2684835.jpg">
-                        <div class="nombre">NOMBRE APELLIDO</div>
-                        <div class="desc">----Descripción----</div>
-                        <div class="clases">Clases que imparte</div>
-                    </div>
-                </div>
+            <div class="row" id="instructores-container">
+                <!-- Cards se cargarán aquí -->
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const token = sessionStorage.getItem('token');
+
+                if (!token) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${local_url}/users?rol=instructor`, {
+                        headers: { 'Authorization': `${token}` }
+                    });
+
+                    if (response.ok) {
+                        const instructores = await response.json();
+                        renderInstructores(instructores);
+                    } else {
+                        showToast('Error al cargar instructores');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('Error de conexión');
+                }
+            });
+
+            function renderInstructores(instructores) {
+                const container = document.getElementById('instructores-container');
+                if (instructores.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center">No hay instructores disponibles.</div>';
+                    return;
+                }
+
+                container.innerHTML = instructores.map(instructor => `
+                    <div class="col-6 col-md-3">
+                        <div class="card-custom">
+                            <img src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="Instructor">
+                            <div class="nombre">${instructor.name} ${instructor.lastname || ''}</div>
+                            <div class="desc">${instructor.description || 'Sin descripción'}</div>
+                            <div class="clases">${(instructor.classes || []).join(', ') || 'Sin clases asignadas'}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function showToast(msg) {
+                let toast = document.getElementById('toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast';
+                    toast.style.cssText = `
+                        position: fixed; bottom: 24px; right: 16px;
+                        background: #2a2520; color: #f0ebe3;
+                        padding: 10px 20px; border-radius: 8px; font-size: 13px;
+                        opacity: 0; transform: translateY(8px);
+                        transition: opacity 0.25s, transform 0.25s;
+                        pointer-events: none; z-index: 999;
+                        max-width: calc(100vw - 32px);
+                    `;
+                    document.body.appendChild(toast);
+                }
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2200);
+            }
+        </script>
+
+        <script src="../controllers/auth_controller.js"></script>
     </body>
 </html>
