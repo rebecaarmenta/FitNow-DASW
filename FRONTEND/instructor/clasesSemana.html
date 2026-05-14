@@ -15,7 +15,82 @@
         />
         <link rel="stylesheet" href="../style.css">
         <script src="../controllers/env.js"></script>
+
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
         <style>
+
+            /* ── NAVBAR ── */
+
+            .custom-nav {
+                background: #2a2520;
+                padding: 12px 0;
+            }
+
+            .nav-logo {
+                font-family: 'DM Serif Display', serif;
+                font-size: 28px;
+                letter-spacing: -0.5px;
+                color: #f0ebe3 !important;
+                text-decoration: none;
+            }
+
+            .nav-logo span {
+                color: #c8b89a;
+            }
+
+            .nav-links-a {
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: #b0a898 !important;
+                transition: color 0.2s;
+            }
+
+            .nav-links-a:hover {
+                color: #f0ebe3 !important;
+            }
+
+            .navbar-toggler {
+                border: none !important;
+                box-shadow: none !important;
+            }
+
+            .navbar-toggler-icon {
+                filter: invert(0.8);
+            }
+
+            .navbar-collapse {
+                background: #2a2520;
+                padding: 12px 0;
+            }
+
+            @media (min-width: 992px) {
+                .navbar-collapse {
+                    background: transparent;
+                    padding: 0;
+                }
+            }
+
+            .nav-logout-btn {
+                background: none !important;
+                border: none !important;
+                color: #b0a898;
+                cursor: pointer;
+                transition: color 0.2s;
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-logout-btn:hover {
+                color: #f0ebe3;
+            }
+
+                        
+
+        
+            
+
+
             /* ── RESET Y BASES ── */
             * { 
                 box-sizing: border-box; 
@@ -144,13 +219,7 @@
             }
 
             /* ── LIMPIEZA DE BOTONES (MODAL Y NAV) ── */
-            .back-arrow, .nav-logout-btn, .modal-btn, .navbar-toggler {
-                background: none !important;
-                border: none !important;
-                outline: none !important;
-                box-shadow: none !important;
-                cursor: pointer;
-            }
+           
 
             .modal-btn {
                 padding: 10px 25px;
