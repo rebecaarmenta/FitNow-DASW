@@ -358,19 +358,47 @@
                 toast = document.createElement('div');
                 toast.id = 'toast';
                 toast.style.cssText = `
-                    position: fixed; bottom: 24px; right: 16px;
-                    background: #2a2520; color: #f0ebe3;
-                    padding: 10px 20px; border-radius: 8px; font-size: 13px;
-                    opacity: 0; transform: translateY(8px);
-                    transition: opacity 0.25s, transform 0.25s;
-                    pointer-events: none; z-index: 999;
-                    max-width: calc(100vw - 32px);
+                    position: fixed; bottom: 30px; right: 20px;
+                    background: linear-gradient(135deg, #2a2520 0%, #3f3f3f 100%);
+                    color: #f0ebe3;
+                    padding: 16px 24px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    opacity: 0;
+                    transform: translateY(20px) scale(0.9);
+                    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    pointer-events: none;
+                    z-index: 9999;
+                    max-width: 300px;
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    letter-spacing: 0.3px;
                 `;
                 document.body.appendChild(toast);
             }
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2200);
+            
+            // Agregar ícono si es éxito
+            const isSuccess = msg.toLowerCase().includes('exitoso') || msg.toLowerCase().includes('guardado');
+            const icon = isSuccess ? '✓' : '⚠';
+            const iconColor = isSuccess ? '#6ab04c' : '#e74c3c';
+            
+            toast.innerHTML = `
+                <span style="color: ${iconColor}; font-size: 18px; font-weight: bold;">${icon}</span>
+                <span>${msg}</span>
+            `;
+            
+            // Mostrar
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0) scale(1)';
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(20px) scale(0.9)';
+            }, 3000);
         }
     </script>
 
