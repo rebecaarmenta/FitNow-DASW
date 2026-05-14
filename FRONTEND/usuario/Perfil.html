@@ -5,6 +5,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
 
         <!-- Bootstrap CSS v5.3.8 -->
         <link
@@ -97,62 +98,74 @@
                 display: block;
             }
 
-            .logo {
-                height: 35px;  
-                object-fit: contain;
+            .custom-nav {
+                background: #2a2520;
+            }
+
+            .nav-logo {
+                font-family: 'DM Serif Display', serif;
+                font-size: 22px;
+                letter-spacing: -0.5px;
+                color: #f0ebe3 !important;
+                text-decoration: none;
+            }
+
+            .nav-logo span {
+                color: #c8b89a;
+            }
+
+            .nav-links-a {
+                font-size: 11px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #b0a898 !important;
+                transition: color 0.2s;
+                padding: 12px 18px !important;
+            }
+
+            .nav-links-a:hover {
+                color: #f0ebe3 !important;
             }
 
             .navbar-toggler {
-                border: none;
+                border-color: #b0a898;
             }
 
             .navbar-toggler:focus {
                 box-shadow: none;
             }
 
-            .navbar-custom {
-                background-color: #3f3f3f;
-                height: 60px;
+            .navbar-toggler-icon {
+                filter: invert(0.7);
             }
 
-            .nav-links-a {
-                color: #dcdcdc !important;
-                font-size: 14px;
-                text-transform: uppercase;
-                padding: 12px 18px !important;
-                transition: 0.2s;
+            .navbar-collapse {
+                background: #2a2520;
+                padding: 12px 0;
             }
 
-            .nav-links-a:hover {
-                color: white !important;
+            @media (min-width: 992px) {
+                .navbar-collapse {
+                    padding: 0;
+                }
             }
 
             .nav-logout-btn {
                 background: none;
                 border: none;
-                color: #dcdcdc;
-                font-size: 20px;
+                cursor: pointer;
+                color: #b0a898;
                 padding: 12px 18px;
-                transition: 0.2s;
+                transition: color 0.2s;
+                display: flex;
+                align-items: center;
             }
 
             .nav-logout-btn:hover {
-                color: white;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
+                color: #f0ebe3;
             }
 
             @media (max-width: 767px) {
-                .navbar-collapse {
-                    background-color: #3f3f3f;
-                    margin-top: 10px;
-                }
 
                 .navbar-nav {
                     align-items: center !important;
@@ -169,6 +182,7 @@
 
                 .nav-links-a,
                 .nav-logout-btn {
+                    justify-content: center;
                     text-align: center;
                 }
 
@@ -179,6 +193,8 @@
                     object-fit: cover;
                 }
             }
+
+
         </style>
     </head>
 
