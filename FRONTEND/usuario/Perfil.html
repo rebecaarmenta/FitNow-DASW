@@ -184,33 +184,69 @@
 
     <body>
         <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-            <a href="dashboard.html">
-                 <img src="3-Photoroom.png" class="logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <nav class="navbar navbar-expand-lg custom-nav sticky-top">
+            <div class="container-fluid px-lg-5">
 
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="../usuario/clases.html">Mis clases</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="../usuario/Instructores.html">Instructores</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="../usuario/Perfil.html">Mi perfil</a>
-                    </li>
-                    <li class="nav-item ms-md-3">
-                        <button class="nav-logout-btn">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </li>
-                </ul>
+                <a class="navbar-brand nav-logo" href="dashboard.html">
+                fit<span>now</span>
+                </a>
+
+                <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menu">
+
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menu">
+
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                        <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="../usuario/clases.html">
+                            Mis clases
+                        </a>
+                        </li>
+
+                        <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="../usuario/Instructores.html">
+                            Instructores
+                        </a>
+                        </li>
+
+                        <li class="nav-item">
+                        <a class="nav-link nav-links-a" href="../usuario/Perfil.html">
+                            Mi perfil
+                        </a>
+                        </li>
+
+                        <li class="nav-item ms-lg-3">
+
+                            <button class="nav-logout-btn" id="btnLogout">
+
+                                <svg width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round">
+
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16 17 21 12 16 7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+
+                                </svg>
+
+                            </button>
+
+                        </li>
+
+                    </ul>
+
+                </div>
             </div>
         </nav>
+        
 
         <footer>
             <!-- place footer here -->

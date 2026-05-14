@@ -7,12 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <!-- Bootstrap CSS v5.3.8 -->
-        <link
+       <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-            crossorigin="anonymous"
+             rel="stylesheet"
         />
+
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
         <script src="../controllers/env.js"></script>
@@ -69,62 +69,74 @@
                 margin-top: 5px;
             }
 
-            .logo {
-                height: 35px;  
-                object-fit: contain;
+            .custom-nav {
+                background: #2a2520;
+            }
+
+            .nav-logo {
+                font-family: 'DM Serif Display', serif;
+                font-size: 22px;
+                letter-spacing: -0.5px;
+                color: #f0ebe3 !important;
+                text-decoration: none;
+            }
+
+            .nav-logo span {
+                color: #c8b89a;
+            }
+
+            .nav-links-a {
+                font-size: 11px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #b0a898 !important;
+                transition: color 0.2s;
+                padding: 12px 18px !important;
+            }
+
+            .nav-links-a:hover {
+                color: #f0ebe3 !important;
             }
 
             .navbar-toggler {
-                border: none;
+                border-color: #b0a898;
             }
 
             .navbar-toggler:focus {
                 box-shadow: none;
             }
 
-            .navbar-custom {
-                background-color: #3f3f3f;
-                height: 60px;
+            .navbar-toggler-icon {
+                filter: invert(0.7);
             }
 
-            .nav-links-a {
-                color: #dcdcdc !important;
-                font-size: 14px;
-                text-transform: uppercase;
-                padding: 12px 18px !important;
-                transition: 0.2s;
+            .navbar-collapse {
+                background: #2a2520;
+                padding: 12px 0;
             }
 
-            .nav-links-a:hover {
-                color: white !important;
+            @media (min-width: 992px) {
+                .navbar-collapse {
+                padding: 0;
+                }
             }
 
             .nav-logout-btn {
                 background: none;
                 border: none;
-                color: #dcdcdc;
-                font-size: 20px;
+                cursor: pointer;
+                color: #b0a898;
                 padding: 12px 18px;
-                transition: 0.2s;
+                transition: color 0.2s;
+                display: flex;
+                align-items: center;
             }
 
             .nav-logout-btn:hover {
-                color: white;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
+                color: #f0ebe3;
             }
 
             @media (max-width: 767px) {
-                .navbar-collapse {
-                    background-color: #3f3f3f;
-                    margin-top: 10px;
-                }
 
                 .navbar-nav {
                     align-items: center !important;
@@ -141,9 +153,11 @@
 
                 .nav-links-a,
                 .nav-logout-btn {
+                    justify-content: center;
                     text-align: center;
                 }
             }
+
 
         </style>
     </head>
@@ -157,31 +171,66 @@
         ></script>
           
         <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-            <a href="dashboard.html">    
-                <img src="3-Photoroom.png" class="logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <nav class="navbar navbar-expand-lg custom-nav sticky-top">
+            <div class="container-fluid px-lg-5">
 
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <a class="navbar-brand nav-logo" href="dashboard.html">
+                fit<span>now</span>
+                </a>
+
+                <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menu">
+
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menu">
+
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
                     <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="../usuario/clases.html">Mis clases</a>
+                    <a class="nav-link nav-links-a" href="../usuario/clases.html">
+                        Mis clases
+                    </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="../usuario/Instructores.html">Instructores</a>
+                    <a class="nav-link nav-links-a" href="../usuario/Instructores.html">
+                        Instructores
+                    </a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="../usuario/Perfil.html">Mi perfil</a>
+                    <a class="nav-link nav-links-a" href="../usuario/Perfil.html">
+                        Mi perfil
+                    </a>
                     </li>
-                    <li class="nav-item ms-md-3">
-                        <button class="nav-logout-btn" id="btnLogout">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
+
+                    <li class="nav-item ms-lg-3">
+
+                    <button class="nav-logout-btn" id="btnLogout">
+
+                        <svg width="20" height="20" viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+
+                        </svg>
+
+                    </button>
+
                     </li>
+
                 </ul>
+
+                </div>
             </div>
         </nav>
         
