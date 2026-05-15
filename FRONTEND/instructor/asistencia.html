@@ -214,43 +214,205 @@
 
         <script src="../controllers/env.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('DOMContentLoaded', async () => {
+                const token = sessionStorage.getItem('token');
+                const userString = sessionStorage.getItem('user');
+
+                if (!token || !userString) {
+                    window.location.href = local_url + '/login';
+                    return;
+                }
+
+                const urlParams = new URLSearchParams(window.location.search);
+                const sessionId = urlParams.get('id');
+
+                if (!sessionId) {
+                    alert('Sesión no encontrada');
+                    window.location.href = 'misClases.html';
+                    return;
+                }
+
+                try {
+                    await loadSessionData(sessionId, token);
+                } catch (error) {
+                    console.error('Error cargando datos de asistencia:', error);
+                    alert('Error cargando datos de asistencia');
+                    window.location.href = 'misClases.html';
+                    return;
+                }
+
                 document.querySelector('.nav-logout-btn')?.addEventListener('click', () => {
                     sessionStorage.clear();
                     window.location.href = local_url + '/login';
                 });
 
-                const personas = [
-                    { nombre: 'Rebeca Armenta', foto: 'https://i.pinimg.com/1200x/2e/cb/6b/2ecb6be80595fb3b6d3f3d7bdd59123b.jpg' },
-                    { nombre: 'Brenda Garcia', foto: 'https://i.pinimg.com/736x/4a/54/a0/4a54a016d7b01e9f18f6f5d7f2511a05.jpg' },
-                    { nombre: 'Ana Lucia Perez', foto: 'https://i.pinimg.com/736x/12/58/e8/1258e816ec880d0c672e448ae4e4eea7.jpg' },
-                    { nombre: 'Juan Escutia', foto: 'https://i.pinimg.com/736x/50/1d/f1/501df15ed64623ab3b8054eb2b9bb0d0.jpg' },
-                    { nombre: 'Ximena Ramirez', foto: 'https://i.pinimg.com/736x/bf/69/c1/bf69c106b104a9b7106289d2302dca8c.jpg' }
-                ];
+                document.querySelector('.save-attendance-btn')?.addEventListener('click', saveAttendance);
 
-                function renderAttendance() {
-                    const list = document.getElementById('people-list');
-                    list.innerHTML = personas.map((p, index) => `
-                        <div class="person-row">
-                            <img src="${p.foto}" class="profile-pic" alt="Perfil">
-                            <span class="person-name">${p.nombre}</span>
-                            <div class="status-group">
-                                <button class="btn-status btn-asistio" onclick="toggleStatus(this)">Asistió</button>
-                                <button class="btn-status btn-no-asistio" onclick="toggleStatus(this)">No asistió</button>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-
-                function toggleStatus(btn) {
-                    const parent = btn.parentElement;
-                    parent.querySelectorAll('.btn-status').forEach(b => b.classList.remove('active'));
+                document.getElementById('people-list')?.addEventListener('click', function(event) {
+                    const btn = event.target.closest('.btn-status');
+                    if (!btn || !editAllowed) return;
+                    const row = btn.closest('.person-row');
+                    if (!row) return;
+                    row.querySelectorAll('.btn-status').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
+                    const userId = row.dataset.userId;
+                    const person = enrollmentUsers.find(item => item.id === userId);
+                    if (person) {
+                        person.attended = btn.dataset.value === 'true';
+                    }
+                });
+            });
+
+            let sessionData = null;
+            let enrollmentUsers = [];
+            let editAllowed = false;
+
+            function parseStartTime(timeString) {
+                if (!timeString) return null;
+                const match = timeString.match(/(\d{1,2}:\d{2})/);
+                return match ? match[1] : null;
+            }
+
+            function canEditAttendance(session) {
+                if (!session || !session.date || !session.time) return false;
+
+                const now = new Date();
+                const sessionDate = new Date(session.date);
+                if (sessionDate.toDateString() !== now.toDateString()) return false;
+
+                const startTimeText = parseStartTime(session.time);
+                if (!startTimeText) return false;
+
+                const [hour, minute] = startTimeText.split(':').map(Number);
+                const start = new Date(sessionDate);
+                start.setHours(hour, minute, 0, 0);
+                const windowStart = new Date(start);
+                windowStart.setMinutes(start.getMinutes() - 60);
+                const windowEnd = new Date(start);
+                windowEnd.setMinutes(start.getMinutes() + 60);
+
+                return now >= windowStart && now <= windowEnd;
+            }
+
+            async function loadSessionData(sessionId, token) {
+                const [sessionResp, enrollmentsResp, attendancesResp] = await Promise.all([
+                    fetch(`${local_url}/sessions/${sessionId}`, { headers: { 'Authorization': token } }),
+                    fetch(`${local_url}/enrollments/session/${sessionId}`, { headers: { 'Authorization': token } }),
+                    fetch(`${local_url}/attendances/session/${sessionId}`, { headers: { 'Authorization': token } })
+                ]);
+
+                if (!sessionResp.ok || !enrollmentsResp.ok || !attendancesResp.ok) {
+                    throw new Error('No se pudieron cargar todos los datos');
                 }
 
-                renderAttendance();
-                window.toggleStatus = toggleStatus;
-            });
+                sessionData = await sessionResp.json();
+                const enrollments = await enrollmentsResp.json();
+                const attendances = await attendancesResp.json();
+
+                const attendanceMap = {};
+                attendances.forEach(item => {
+                    if (item.user_id?._id) {
+                        attendanceMap[item.user_id._id] = item;
+                    }
+                });
+
+                enrollmentUsers = enrollments.map(enrollment => {
+                    const user = enrollment.user_id || {};
+                    const attendanceRecord = attendanceMap[user._id];
+                    return {
+                        id: user._id || '',
+                        name: `${user.name || 'Alumno'} ${user.lastname || ''}`.trim(),
+                        photo: user.photo || 'https://via.placeholder.com/100',
+                        attendanceId: attendanceRecord?._id || null,
+                        attended: attendanceRecord?.attended ?? null
+                    };
+                });
+
+                editAllowed = canEditAttendance(sessionData);
+                renderAttendancePage();
+            }
+
+            function renderAttendancePage() {
+                document.querySelector('.page-title').textContent = `ASISTENCIA - ${sessionData.discipline_id?.name || 'Clase'}`;
+                const saveButton = document.querySelector('.save-attendance-btn');
+
+                if (!editAllowed) {
+                    saveButton.disabled = true;
+                    saveButton.textContent = 'Solo disponible día/hora de clase';
+                    saveButton.style.pointerEvents = 'none';
+                    saveButton.style.opacity = '0.6';
+                }
+
+                const peopleList = document.getElementById('people-list');
+                if (!peopleList) return;
+
+                if (!enrollmentUsers.length) {
+                    peopleList.innerHTML = '<p class="text-center py-3">No hay alumnos inscritos en esta sesión.</p>';
+                    return;
+                }
+
+                peopleList.innerHTML = enrollmentUsers.map(person => `
+                    <div class="person-row" data-user-id="${person.id}" data-attendance-id="${person.attendanceId || ''}">
+                        <img src="${person.photo}" class="profile-pic" alt="Perfil">
+                        <span class="person-name">${person.name}</span>
+                        <div class="status-group">
+                            <button type="button" class="btn-status btn-asistio ${person.attended === true ? 'active' : ''}" data-value="true" ${editAllowed ? '' : 'disabled'}>Asistió</button>
+                            <button type="button" class="btn-status btn-no-asistio ${person.attended === false ? 'active' : ''}" data-value="false" ${editAllowed ? '' : 'disabled'}>No asistió</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                if (!editAllowed) {
+                    const warning = document.createElement('p');
+                    warning.className = 'text-center py-2';
+                    warning.textContent = 'Solo se puede modificar la asistencia el mismo día y dentro de la hora de la sesión.';
+                    peopleList.prepend(warning);
+                }
+            }
+
+            async function saveAttendance() {
+                if (!editAllowed) return;
+
+                const token = sessionStorage.getItem('token');
+                const requests = enrollmentUsers.map(person => {
+                    if (person.attended === null) return null;
+
+                    if (person.attendanceId) {
+                        return fetch(`${local_url}/attendances/${person.attendanceId}`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Authorization': token,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ attended: person.attended })
+                        });
+                    }
+
+                    return fetch(`${local_url}/attendances`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': token,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ user_id: person.id, session_id: sessionData._id, attended: person.attended })
+                    });
+                }).filter(Boolean);
+
+                if (!requests.length) {
+                    alert('Selecciona al menos una asistencia para guardar.');
+                    return;
+                }
+
+                const results = await Promise.all(requests);
+                const allOk = results.every(res => res && res.ok);
+
+                if (allOk) {
+                    alert('Asistencias guardadas correctamente.');
+                    window.location.reload();
+                } else {
+                    alert('Error al guardar las asistencias. Intenta de nuevo.');
+                }
+            }
         </script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

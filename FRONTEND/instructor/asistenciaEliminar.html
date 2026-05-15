@@ -1,10 +1,4 @@
-
-
-
-//=============================================
-
-
-asistenciaEliminar: <!doctype html>
+<!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
         <title>FitNow – Asistencia/eliminar</title>
@@ -325,17 +319,13 @@ asistenciaEliminar: <!doctype html>
         <script src="../controllers/env.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
-                const userString = sessionStorage.getItem('user');
                 const token = sessionStorage.getItem('token');
 
-                if (!userString || !token) {
+                if (!token) {
                     window.location.href = local_url + '/login';
                     return;
                 }
 
-                const user = JSON.parse(userString);
-
-                // Get session ID from URL
                 const urlParams = new URLSearchParams(window.location.search);
                 const sessionId = urlParams.get('id');
 
@@ -347,14 +337,18 @@ asistenciaEliminar: <!doctype html>
 
                 await loadSession(sessionId, token);
 
-                // Logout functionality
-                document.querySelector('.nav-logout-btn').addEventListener('click', () => {
+                document.querySelector('.nav-logout-btn')?.addEventListener('click', () => {
                     sessionStorage.clear();
                     window.location.href = local_url + '/login';
+                });
+
+                document.querySelector('.crear-sesion-btn')?.addEventListener('click', () => {
+                    window.location.href = 'crearSesion.html';
                 });
             });
 
             let currentSession = null;
+            let sessionToDelete = null;
 
             async function loadSession(sessionId, token) {
                 try {
@@ -387,15 +381,12 @@ asistenciaEliminar: <!doctype html>
                 const date = new Date(currentSession.date);
                 const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
                 const day = dayNames[date.getDay()];
-                const time = currentSession.time;
-                const capacity = currentSession.capacity;
-                const place = currentSession.place;
+                const time = currentSession.time || 'Hora no definida';
+                const capacity = currentSession.capacity || 'N/A';
 
-                // Update hero
                 document.querySelector('.hero img').src = img;
                 document.querySelector('.hero-title').textContent = disciplineName.toUpperCase();
 
-                // Update class list
                 const classList = document.getElementById('class-list');
                 classList.innerHTML = `
                     <div class="class-row">
@@ -411,29 +402,20 @@ asistenciaEliminar: <!doctype html>
                 `;
             }
 
-            // ── LÓGICA DEL MODAL ──
             const modalOverlay = document.getElementById('modalOverlay');
             const closeModalBtn = document.getElementById('closeModal');
             const cancelBtn = document.getElementById('cancelEliminar');
             const confirmBtn = document.getElementById('confirmEliminar');
 
-            let filaAEliminar = null;
-
             document.getElementById('class-list').addEventListener('click', function(e) {
-            // Buscamos el botón más cercano al click (por si le picas al borde del botón)
-            const btnEliminar = e.target.closest('.eliminar-btn');
-            
-            if (btnEliminar) {
-                e.preventDefault(); // Evita conflictos en emuladores
-                filaAEliminar = btnEliminar.closest('.class-row');
-                abrirModal();
-            }
-        });
-            let sessionToDelete = null;
-
-            document.getElementById('class-list').addEventListener('click', function(e) {
+                const asistenciaBtn = e.target.closest('.asistencia-btn');
                 const btnEliminar = e.target.closest('.eliminar-btn');
-                
+
+                if (asistenciaBtn && currentSession) {
+                    window.location.href = `asistencia.html?id=${currentSession._id}`;
+                    return;
+                }
+
                 if (btnEliminar) {
                     e.preventDefault();
                     sessionToDelete = btnEliminar.dataset.sessionId;
@@ -447,7 +429,6 @@ asistenciaEliminar: <!doctype html>
 
             function cerrarModal() {
                 modalOverlay.classList.remove('show');
-                filaAEliminar = null;
                 sessionToDelete = null;
             }
 
@@ -455,71 +436,33 @@ asistenciaEliminar: <!doctype html>
             cancelBtn.addEventListener('click', cerrarModal);
 
             modalOverlay.addEventListener('click', function(e) {
-            if (e.target === modalOverlay) {
-                cerrarModal();
-            }
-            });
-
-            confirmBtn.addEventListener('click', function() {
-            if (filaAEliminar) {
-                filaAEliminar.remove();
-                
-                cerrarModal();
-            }
-            });
-
-            // ── DATOS DE HORARIOS ──
-            const horarios = [
-            { id: 0, nombre: 'Spinning 1', dia: 'Lunes',     hora: '7:00 – 8:00'},
-            { id: 1, nombre: 'Spinning 2', dia: 'Miércoles', hora: '9:00 – 10:00'},
-            { id: 2, nombre: 'Spinning 3', dia: 'Viernes',   hora: '7:00 – 8:00'},
-            { id: 3, nombre: 'Spinning 2', dia: 'Miércoles', hora: '11:00 – 12:00'},
-            { id: 4, nombre: 'Spinning 3', dia: 'Viernes',   hora: '7:00 – 8:00'},
-            ];
-
-            // ── RENDERIZAR LISTA ──
-            function render() {
-                document.getElementById('class-list').innerHTML = horarios.map(h => `
-                    <div class="class-row">
-                    <span class="col-name" style="font-weight: bold; font-size: 16px;">${h.nombre.toUpperCase()}</span>
-                    <span class="col-info">${h.dia}</span>
-                    <span class="col-info">${h.hora}</span>
-                    <span class="col-info">20 personas</span> <div class="btn-group">
-                        <button class="asistencia-btn">ASISTENCIA</button>
-                        <button class="eliminar-btn">ELIMINAR</button>
-                    </div>
-                    </div>
-                `).join('');
-            }
-
-            render();
                 if (e.target === modalOverlay) {
                     cerrarModal();
                 }
+            });
 
             confirmBtn.addEventListener('click', async function() {
-                if (sessionToDelete) {
-                    const token = sessionStorage.getItem('token');
-                    try {
-                        const response = await fetch(`${local_url}/sessions/${sessionToDelete}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'Authorization': token
-                            }
-                        });
-
-                        if (response.ok) {
-                            alert('Sesión eliminada exitosamente');
-                            window.location.href = 'misClases.html';
-                        } else {
-                            alert('Error al eliminar la sesión');
+                if (!sessionToDelete) return;
+                const token = sessionStorage.getItem('token');
+                try {
+                    const response = await fetch(`${local_url}/sessions/${sessionToDelete}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': token
                         }
-                    } catch (error) {
-                        console.error('Error eliminando sesión:', error);
+                    });
+
+                    if (response.ok) {
+                        alert('Sesión eliminada exitosamente');
+                        window.location.href = 'misClases.html';
+                    } else {
                         alert('Error al eliminar la sesión');
                     }
-                    cerrarModal();
+                } catch (error) {
+                    console.error('Error eliminando sesión:', error);
+                    alert('Error al eliminar la sesión');
                 }
+                cerrarModal();
             });
         </script>
         <script
