@@ -486,11 +486,9 @@
 
                         <label>Clases que imparte</label>
                         <div id="selected-classes" class="selected-classes"></div>
-                        <div class="button-row">
-                            <button id="selectClassesBtn" type="button" class="btn btn-outline" disabled>
-                                <i class="fa-solid fa-plus"></i> Seleccionar clases
-                            </button>
-                        </div>
+                        <button id="selectClassesBtn" type="button" class="btn btn-outline" disabled>
+                            <i class="fa-solid fa-plus"></i> Seleccionar clases
+                        </button>
 
                         <button id="saveBtn" class="btn btn-main" disabled>GUARDAR</button>
                         <button id="editBtn" class="btn btn-outline">EDITAR DATOS</button>
@@ -560,12 +558,11 @@
                     return;
                 }
                 selectedClassesDisplay.innerHTML = items.map(clase => `
-                    <span data-class="${clase}" class="${editMode ? 'editable' : ''}">${clase}${editMode ? ' <i class="fa-solid fa-xmark"></i>' : ''}</span>
+                    <span data-class="${clase}">${clase} <i class="fa-solid fa-xmark"></i></span>
                 `).join('');
             }
 
             selectedClassesDisplay.addEventListener('click', (event) => {
-                if (!editMode) return;
                 const pill = event.target.closest('span[data-class]');
                 if (!pill) return;
                 const value = pill.dataset.class;
