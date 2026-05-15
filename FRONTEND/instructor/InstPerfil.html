@@ -2,123 +2,91 @@
 <html lang="en" data-bs-theme="light">
     <head>
         <title>MI PERFIL</title>
-        <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- Bootstrap CSS v5.3.8 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-            crossorigin="anonymous"
-        />
-
+ 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
         <script src="../controllers/env.js"></script>
-        
+ 
         <style>
+            /* ── NAVBAR (igual que misClases / asistenciaEliminar) ── */
+            .custom-nav { background: #2a2520; padding: 12px 0; }
+            .nav-logo { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; color: #f0ebe3 !important; text-decoration: none; }
+            .nav-logo span { color: #c8b89a; }
+            .nav-links-a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #b0a898 !important; transition: color 0.2s; }
+            .nav-links-a:hover, .nav-links-a.active { color: #f0ebe3 !important; }
+            .navbar-toggler { border: none !important; box-shadow: none !important; }
+            .navbar-toggler-icon { filter: invert(0.8); }
+            .navbar-collapse { background: #2a2520; padding: 12px 0; }
+            @media (min-width: 992px) { .navbar-collapse { background: transparent; padding: 0; } }
+            .nav-logout-btn { background: none !important; border: none !important; color: #b0a898; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; }
+            .nav-logout-btn:hover { color: #f0ebe3; }
+ 
+            /* ── BASE ── */
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
             body {
-                margin: 0;
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: 'DM Sans', sans-serif;
                 background-color: #e6e4e1;
-                overflow: hidden;
+                /* ✅ scroll habilitado siempre */
+                overflow-y: auto;
+                overflow-x: hidden;
             }
-
-            .logo {
-                height: 35px;  
-                object-fit: contain;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
-            .navbar-custom {
-                background-color: #3f3f3f;
-                height: 60px;
-            }
-
-            .nav-links-a {
-                color: #dcdcdc !important;
-                font-size: 14px;
-                text-transform: uppercase;
-                padding: 12px 18px !important;
-                transition: 0.2s;
-            }
-
-            .nav-links-a:hover {
-                color: white !important;
-            }
-
-            .nav-logout-btn {
-                background: none;
-                border: none;
-                color: #dcdcdc;
-                font-size: 20px;
-                padding: 12px 18px;
-                transition: 0.2s;
-            }
-
-            .nav-logout-btn:hover {
-                color: white;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
+ 
+            /* ── LAYOUT ── */
             .perfil-page {
-                height: calc(100vh - 60px);
+                /* altura mínima para que llene la pantalla sin bloquear el scroll */
+                min-height: calc(100vh - 60px);
             }
-
+ 
+            /* ── COLUMNA IMAGEN ── */
             .perfil-img {
                 background-color: #858078;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                /* En desktop ocupa al menos toda la altura disponible */
+                min-height: calc(100vh - 60px);
             }
-
+ 
             .perfil-img img {
-                width: 420px;
-                height: 420px;
+                width: 380px;
+                height: 380px;
                 border-radius: 50%;
                 object-fit: cover;
             }
-
+ 
+            /* ── COLUMNA FORMULARIO ── */
             .perfil-form {
                 background-color: #deddda;
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
-                padding-top: 35px;
+                padding: 40px 24px 48px;
             }
-
+ 
             .box {
                 width: 75%;
                 max-width: 430px;
             }
-
+ 
             h1 {
+                font-family: 'DM Serif Display', serif;
                 font-size: 30px;
                 font-weight: 400;
-                margin-bottom: 12px;
+                margin-bottom: 16px;
+                color: #2a2520;
             }
-
+ 
             label {
                 font-size: 15px;
                 margin-left: 10px;
+                color: #4a4035;
             }
-
+ 
             .form-control {
                 height: 36px;
                 border-radius: 25px;
@@ -126,60 +94,41 @@
                 background-color: transparent;
                 margin-bottom: 10px;
                 box-shadow: none;
+                font-family: 'DM Sans', sans-serif;
             }
-
+ 
+            textarea.form-control { height: auto; }
+ 
             .form-control:focus {
                 background-color: transparent;
                 box-shadow: none;
                 border-color: #333;
             }
-
-            .form-control:focus {
-                background-color: transparent;
-                box-shadow: none;
-                border-color: #333;
-            }
-
-            .classes-group {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                margin-bottom: 15px;
-            }
-
+ 
+            /* ── AVATAR ── */
             .avatar-wrapper {
                 position: relative;
                 display: inline-block;
                 margin: 0 auto 20px;
             }
-
+ 
             .photo-label {
                 position: absolute;
-                right: 8px;
-                bottom: 8px;
-                width: 44px;
-                height: 44px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                right: 8px; bottom: 8px;
+                width: 44px; height: 44px;
+                display: flex; justify-content: center; align-items: center;
                 border-radius: 50%;
                 background: #4a4a4a;
                 color: white;
                 cursor: pointer;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-                transition: transform 0.15s ease, background-color 0.15s ease;
-                font-size: 18px;
-            }
-
-            .photo-label:hover {
-                transform: scale(1.05);
-                background: #333333;
-            }
-
-            .photo-label i {
+                box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+                transition: transform 0.15s, background 0.15s;
                 font-size: 16px;
             }
-
+ 
+            .photo-label:hover { transform: scale(1.05); background: #333; }
+ 
+            /* ── PILLS CLASES ── */
             .selected-classes {
                 display: flex;
                 flex-wrap: wrap;
@@ -192,7 +141,7 @@
                 background: #f0efe9;
                 border: 1px solid #4a4a4a;
             }
-
+ 
             .selected-classes span {
                 display: inline-flex;
                 align-items: center;
@@ -204,27 +153,53 @@
                 font-size: 13px;
                 border: none;
             }
-
-            .selected-classes span.editable i {
-                cursor: pointer;
-                font-size: 12px;
+ 
+            .selected-classes span i { cursor: pointer; font-size: 12px; }
+ 
+            /* ── BOTONES ── */
+            .btn-main, .btn-outline {
+                width: 180px;
+                height: 42px;
+                border-radius: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 14px;
+                font-family: 'DM Sans', sans-serif;
+                letter-spacing: 0.05em;
             }
-
-            .button-row {
-                width: 100%;
-                text-align: right;
-                margin-bottom: 15px;
+ 
+            .btn-main {
+                background-color: #2a2520;
+                color: white;
+                border: none;
+                margin-bottom: 12px;
             }
-
-            .btn-outline:disabled {
-                opacity: 0.55;
+ 
+            .btn-main:hover, .btn-main:focus, .btn-main:active {
+                background-color: #3d3830 !important;
+                color: white !important;
+            }
+ 
+            .btn-main:disabled {
+                background-color: #2a2520;
+                color: white;
+                opacity: 0.5;
                 cursor: not-allowed;
             }
-
-            .btn-outline i {
-                margin-right: 0;
+ 
+            .btn-outline {
+                background: transparent;
+                color: #2a2520;
+                border: 1.5px solid #2a2520;
             }
-
+ 
+            .btn-outline:hover { background: rgba(42,37,32,0.06); }
+            .btn-outline:disabled { opacity: 0.5; cursor: not-allowed; }
+            .btn-outline i { margin-right: 8px; }
+ 
             #selectClassesBtn {
                 height: 34px;
                 width: 180px;
@@ -232,7 +207,8 @@
                 font-size: 13px;
                 padding: 6px 12px;
             }
-
+ 
+            /* ── MODAL CLASES ── */
             .modal-overlay {
                 position: fixed;
                 inset: 0;
@@ -241,9 +217,9 @@
                 justify-content: center;
                 align-items: center;
                 padding: 20px;
-                z-index: 999;
+                z-index: 1050;
             }
-
+ 
             .modal-card {
                 width: min(100%, 450px);
                 background: #f5f2ed;
@@ -251,7 +227,7 @@
                 box-shadow: 0 18px 36px rgba(0,0,0,0.16);
                 overflow: hidden;
             }
-
+ 
             .modal-header {
                 display: flex;
                 justify-content: space-between;
@@ -259,34 +235,24 @@
                 padding: 18px 22px;
                 border-bottom: 1px solid #d3cec7;
             }
-
-            .modal-header h2 {
-                margin: 0;
-                font-size: 18px;
-                color: #3f3f3f;
-            }
-
+ 
+            .modal-header h2 { margin: 0; font-size: 18px; color: #3f3f3f; }
+ 
             .close-modal {
-                border: none;
-                background: transparent;
-                color: #4a4a4a;
-                font-size: 24px;
-                line-height: 1;
-                cursor: pointer;
+                border: none; background: transparent;
+                color: #4a4a4a; font-size: 24px;
+                line-height: 1; cursor: pointer;
             }
-
+ 
             .modal-content {
                 padding: 18px 22px;
                 display: grid;
                 grid-template-columns: repeat(2, minmax(110px, 1fr));
                 gap: 12px;
             }
-
-            .modal-footer {
-                padding: 18px 22px 24px;
-                text-align: center;
-            }
-
+ 
+            .modal-footer { padding: 18px 22px 24px; text-align: center; border: none; }
+ 
             .class-checkbox-label {
                 display: inline-flex;
                 align-items: center;
@@ -299,201 +265,125 @@
                 cursor: pointer;
                 user-select: none;
             }
-
-            .class-checkbox-label input {
-                width: 16px;
-                height: 16px;
-            }
-
-            .btn-main,
-            .btn-outline {
-                width: 180px;
-                height: 42px;
-                border-radius: 25px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-left: auto;
-                margin-right: auto;
-                font-size: 14px;
-            }
-
-            .btn-main {
-                background-color: #4a4a4a;
-                color: white;
-                border: none;
-                margin-top:20x;
-                margin-bottom: 12px;
-            }
-
-            .btn-outline {
-                background: transparent;
-                color: #4a4a4a;
-                border: 1.5px solid #4a4a4a;
-            }
-
-            .btn-main:hover,
-            .btn-main:focus,
-            .btn-main:active {
-                background-color: #333333;
-                color: white;
-            }
-
-            .btn-main:disabled {
-                background-color: #4a4a4a;
-                color: white;
-                opacity: 1;
-                cursor: not-allowed;
-            }
-
-            
-
-            .btn-outline i {
-                margin-right: 8px;
-            }
-            
-
+ 
+            .class-checkbox-label input { width: 16px; height: 16px; }
+ 
+            /* ── RESPONSIVE MÓVIL ── */
             @media (max-width: 767px) {
-                body {
-                    overflow-y: auto;
+                .perfil-img {
+                    min-height: auto;
+                    padding: 32px 0 24px;
+                    align-items: center;
                 }
+ 
+                .perfil-img img {
+                    width: 190px;
+                    height: 190px;
+                }
+ 
+                .perfil-form {
+                    padding: 30px 20px 48px;
+                }
+ 
+                .box {
+                    width: 85%;
+                    max-width: 320px;
+                }
+ 
+                h1 { font-size: 24px; }
+ 
                 .navbar-collapse {
-                    background-color: #3f3f3f;
-                    margin-top: 10px;
+                    background: #2a2520;
+                    padding: 12px 0;
                 }
-
+ 
                 .navbar-nav {
                     align-items: center !important;
                     text-align: center;
                     gap: 10px;
                     padding: 10px 0;
                 }
-
-                .nav-item,
-                .nav-links-a,
-                .nav-logout-btn {
-                    width: 100%;
-                }
-
-                .nav-links-a,
-                .nav-logout-btn {
-                    text-align: center;
-                }
-
-                .perfil-img img {
-                    width: 190px;
-                    height: 190px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                }
-
-
-                .perfil-img {
-                    height: 35vh;
-                    align-items: flex-end; 
-                    padding-bottom: 22px;
-                }
-
-                
-
-                .box {
-                    width: 70%;
-                    max-width: 280px;
-                }
-
-                h1 {
-                    font-size: 24px;
-                    margin-bottom: 15px;
-                }
             }
-            
         </style>
     </head>
-
+ 
     <body>
-        <!-- NAVEGACIÓN -->
-        <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-            <a href="clasesSemana.html">
-                <img src="3-Photoroom.png" class="logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
-                    </li>
-                    <li class="nav-item ms-md-3">
-                        <button class="nav-logout-btn" id="btnLogout">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"
-        ></script>
-
-        <!-- Form -->
+        <!-- ✅ NAVBAR FIJO (sticky-top) igual al estilo café del resto de páginas -->
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark custom-nav sticky-top">
+                <div class="container-fluid px-lg-5">
+                    <a class="navbar-brand nav-logo" href="clasesSemana.html">fit<span>now</span></a>
+ 
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+ 
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            <li class="nav-item"><a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a></li>
+                            <li class="nav-item"><a class="nav-link nav-links-a" href="misClases.html">Mis clases</a></li>
+                            <li class="nav-item"><a class="nav-link nav-links-a active" href="InstPerfil.html">Mi perfil</a></li>
+                            <li class="nav-item ms-lg-3">
+                                <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+ 
+        <!-- CONTENIDO -->
         <div class="container-fluid perfil-page">
-            <div class="row h-100">
-
-                <!-- Img Perfil-->
-                <div class="col-12 col-md-6 perfil-img" class="img-fluid w-75 w-md-100">
+            <div class="row">
+ 
+                <!-- Columna imagen -->
+                <div class="col-12 col-md-6 perfil-img">
                     <div class="avatar-wrapper">
-                        <img id="profile-avatar" class="profile-avatar" src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="perfil">
+                        <img id="profile-avatar" src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="perfil">
                         <label id="photoLabel" for="photoInput" class="photo-label" title="Editar imagen">
                             <i class="fa-solid fa-pencil"></i>
                         </label>
                     </div>
                     <input id="photoInput" type="file" accept="image/*" class="form-control d-none">
                 </div>
-
-                <!-- Form Perfil -->
+ 
+                <!-- Columna formulario -->
                 <div class="col-12 col-md-6 perfil-form">
                     <div class="box">
-
                         <h1 id="profile-name">NOMBRE APELLIDO</h1>
-
+ 
                         <label>Correo</label>
                         <input id="email" class="form-control" type="email" disabled>
-
+ 
                         <label>Nombre</label>
                         <input id="name" class="form-control" type="text" disabled>
-
+ 
                         <label>Descripción</label>
                         <textarea id="description" class="form-control" rows="4" disabled></textarea>
-
+ 
                         <label>Clases que imparte</label>
                         <div id="selected-classes" class="selected-classes"></div>
                         <button id="selectClassesBtn" type="button" class="btn btn-outline" disabled>
                             <i class="fa-solid fa-plus"></i> Seleccionar clases
                         </button>
-
+ 
                         <button id="saveBtn" class="btn btn-main" disabled>GUARDAR</button>
                         <button id="editBtn" class="btn btn-outline">EDITAR DATOS</button>
-
                     </div>
                 </div>
+ 
             </div>
         </div>
-
+ 
+        <!-- Modal clases -->
         <div id="classesModal" class="modal-overlay d-none">
             <div class="modal-card">
                 <div class="modal-header">
@@ -506,182 +396,164 @@
                 </div>
             </div>
         </div>
-
+ 
+        <footer></footer>
+ 
         <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const user = JSON.parse(sessionStorage.getItem('user'));
-            const token = sessionStorage.getItem('token');
-            const profileName = document.getElementById('profile-name');
-            const profileAvatar = document.getElementById('profile-avatar');
-            const photoInput = document.getElementById('photoInput');
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
-            const descriptionInput = document.getElementById('description');
-            const selectedClassesDisplay = document.getElementById('selected-classes');
-            const selectClassesBtn = document.getElementById('selectClassesBtn');
-            const classesModal = document.getElementById('classesModal');
-            const classesModalContent = document.getElementById('classesModalContent');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const modalSaveBtn = document.getElementById('modalSaveBtn');
-            const saveBtn = document.getElementById('saveBtn');
-            const editBtn = document.getElementById('editBtn');
-            let selectedPhoto = null;
-            let editMode = false;
+            const user                  = JSON.parse(sessionStorage.getItem('user'));
+            const token                 = sessionStorage.getItem('token');
+            const profileName           = document.getElementById('profile-name');
+            const profileAvatar         = document.getElementById('profile-avatar');
+            const photoInput            = document.getElementById('photoInput');
+            const nameInput             = document.getElementById('name');
+            const emailInput            = document.getElementById('email');
+            const descriptionInput      = document.getElementById('description');
+            const selectedClassesDisplay= document.getElementById('selected-classes');
+            const selectClassesBtn      = document.getElementById('selectClassesBtn');
+            const classesModal          = document.getElementById('classesModal');
+            const classesModalContent   = document.getElementById('classesModalContent');
+            const closeModalBtn         = document.getElementById('closeModalBtn');
+            const modalSaveBtn          = document.getElementById('modalSaveBtn');
+            const saveBtn               = document.getElementById('saveBtn');
+            const editBtn               = document.getElementById('editBtn');
+ 
+            let selectedPhoto  = null;
+            let editMode       = false;
             let selectedClasses = [];
-            const availableClasses = ['Pilates', 'Spinning', 'Zumba', 'Barre', 'Yoga', 'Box', 'Gap', 'Jump Fit'];
-
+            const availableClasses = ['Pilates','Spinning','Zumba','Barre','Yoga','Box','Gap','Jump Fit'];
+ 
             if (!user || !token) {
-                window.location.href = '/login';
+                window.location.href = local_url + '/login';
                 return;
             }
-
+ 
+            // Logout
+            document.getElementById('btnLogout')?.addEventListener('click', () => {
+                sessionStorage.clear();
+                window.location.href = local_url + '/login';
+            });
+ 
             function renderClassOptions(selected = [], enabled = false) {
                 classesModalContent.innerHTML = availableClasses.map(clase => {
-                    const checked = selected.includes(clase) ? 'checked' : '';
+                    const checked  = selected.includes(clase) ? 'checked' : '';
                     const disabled = enabled ? '' : 'disabled';
                     return `
                         <label class="class-checkbox-label">
                             <input type="checkbox" class="class-checkbox" value="${clase}" ${checked} ${disabled} />
                             ${clase}
-                        </label>
-                    `;
+                        </label>`;
                 }).join('');
             }
-
+ 
             function displaySelectedClasses(items = []) {
-                if (!items.length) {
-                    selectedClassesDisplay.innerHTML = '';
-                    return;
-                }
+                if (!items.length) { selectedClassesDisplay.innerHTML = ''; return; }
                 selectedClassesDisplay.innerHTML = items.map(clase => `
                     <span data-class="${clase}">${clase} <i class="fa-solid fa-xmark"></i></span>
                 `).join('');
             }
-
-            selectedClassesDisplay.addEventListener('click', (event) => {
+ 
+            selectedClassesDisplay.addEventListener('click', e => {
                 if (!editMode) return;
-
-                const pill = event.target.closest('span[data-class]');
+                const pill = e.target.closest('span[data-class]');
                 if (!pill) return;
-
-                const value = pill.dataset.class;
-                selectedClasses = selectedClasses.filter(clase => clase !== value);
+                selectedClasses = selectedClasses.filter(c => c !== pill.dataset.class);
                 displaySelectedClasses(selectedClasses);
             });
-
-            function openClassesModal() {
-                renderClassOptions(selectedClasses, editMode);
-                classesModal.classList.remove('d-none');
-            }
-
-            function closeClassesModal() {
-                classesModal.classList.add('d-none');
-            }
-
+ 
+            function openClassesModal()  { renderClassOptions(selectedClasses, editMode); classesModal.classList.remove('d-none'); }
+            function closeClassesModal() { classesModal.classList.add('d-none'); }
+ 
             function setFields(data) {
-                const fullName = `${data.name || ''} ${data.lastname || ''}`.trim();
+                const fullName      = `${data.name || ''} ${data.lastname || ''}`.trim();
                 const fullNameUpper = fullName ? fullName.toUpperCase() : 'NOMBRE APELLIDO';
                 profileName.textContent = fullNameUpper;
-                nameInput.value = fullNameUpper;
-                emailInput.value = data.email || '';
-                descriptionInput.value = data.description || '';
-                profileAvatar.src = data.photo || 'https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg';
-                selectedClasses = Array.isArray(data.classes) ? data.classes : [];
+                nameInput.value         = fullNameUpper;
+                emailInput.value        = data.email || '';
+                descriptionInput.value  = data.description || '';
+                profileAvatar.src       = data.photo || 'https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg';
+                selectedClasses         = Array.isArray(data.classes) ? data.classes : [];
                 displaySelectedClasses(selectedClasses);
                 renderClassOptions(selectedClasses, editMode);
             }
-
+ 
             function setEditable(enabled) {
-                editMode = enabled;
-                nameInput.disabled = !enabled;
-                descriptionInput.disabled = !enabled;
-                saveBtn.disabled = !enabled;
-                selectClassesBtn.disabled = !enabled;
+                editMode                   = enabled;
+                nameInput.disabled         = !enabled;
+                descriptionInput.disabled  = !enabled;
+                saveBtn.disabled           = !enabled;
+                selectClassesBtn.disabled  = !enabled;
                 if (!enabled) closeClassesModal();
                 renderClassOptions(selectedClasses, enabled);
             }
-
-            function updateSaveState() {
-                saveBtn.disabled = !editMode;
-            }
-
+ 
             setFields(user);
-
+ 
             try {
                 const response = await fetch(`${local_url}/users/${user.id}`, {
                     headers: { 'Authorization': `${token}` }
                 });
-
                 if (response.ok) {
-                    const userData = await response.json();
-                    const merged = { ...user, ...userData };
+                    const userData    = await response.json();
+                    const merged      = { ...user, ...userData };
                     sessionStorage.setItem('user', JSON.stringify(merged));
                     setFields(merged);
                 }
             } catch (error) {
                 console.warn('No se pudo cargar el perfil completo', error);
             }
-
+ 
             editBtn.addEventListener('click', () => {
                 setEditable(true);
                 photoInput.removeAttribute('disabled');
             });
-
+ 
             selectClassesBtn.addEventListener('click', openClassesModal);
             closeModalBtn.addEventListener('click', closeClassesModal);
+ 
             modalSaveBtn.addEventListener('click', () => {
-                selectedClasses = Array.from(document.querySelectorAll('.class-checkbox:checked')).map(input => input.value);
+                selectedClasses = Array.from(document.querySelectorAll('.class-checkbox:checked')).map(i => i.value);
                 displaySelectedClasses(selectedClasses);
                 closeClassesModal();
             });
-
+ 
             photoInput.addEventListener('change', () => {
                 const file = photoInput.files?.[0];
                 if (!file) return;
                 const reader = new FileReader();
-                reader.onload = () => {
-                    selectedPhoto = reader.result;
-                    profileAvatar.src = selectedPhoto;
-                };
+                reader.onload = () => { selectedPhoto = reader.result; profileAvatar.src = selectedPhoto; };
                 reader.readAsDataURL(file);
             });
-
+ 
             saveBtn.addEventListener('click', async () => {
-                const nameValue = nameInput.value.trim();
+                const nameValue        = nameInput.value.trim();
                 const descriptionValue = descriptionInput.value.trim();
-
-                if (!nameValue) {
-                    alert('Ingresa tu nombre.');
-                    return;
-                }
-
+ 
+                if (!nameValue) { alert('Ingresa tu nombre.'); return; }
+ 
                 const [firstName, ...lastNameParts] = nameValue.split(' ');
-                const lastnameValue = lastNameParts.join(' ');
                 const body = {
-                    name: firstName,
-                    lastname: lastnameValue,
+                    name:        firstName,
+                    lastname:    lastNameParts.join(' '),
                     description: descriptionValue,
-                    classes: selectedClasses
+                    classes:     selectedClasses
                 };
                 if (selectedPhoto) body.photo = selectedPhoto;
-
+ 
                 try {
                     const response = await fetch(`${local_url}/users/${user.id}`, {
                         method: 'PATCH',
-                        headers: {
-                            'Authorization': `${token}`,
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Authorization': `${token}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify(body)
                     });
-
+ 
                     if (!response.ok) {
                         const errorText = await response.text();
                         alert(errorText || 'Error al guardar los datos');
                         return;
                     }
-
-                    const result = await response.json();
+ 
+                    const result      = await response.json();
                     const updatedUser = { ...user, ...result.user };
                     sessionStorage.setItem('user', JSON.stringify(updatedUser));
                     setFields(updatedUser);
@@ -693,11 +565,15 @@
                     alert('Error de conexión. Intenta de nuevo.');
                 }
             });
-
+ 
             setEditable(false);
         });
-    </script>
-
-    <script src="../controllers/auth_controller.js"></script>
+        </script>
+ 
+        <script src="../controllers/auth_controller.js"></script>
+ 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"></script>
     </body>
 </html>
