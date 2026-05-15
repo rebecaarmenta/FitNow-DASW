@@ -133,27 +133,225 @@
                 border-color: #333;
             }
 
-            .btn-main {
-                background-color: #4a4a4a;
-                color: #dcdcdc;
+            .form-control:focus {
+                background-color: transparent;
+                box-shadow: none;
+                border-color: #333;
+            }
+
+            .classes-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+
+            .avatar-wrapper {
+                position: relative;
+                display: inline-block;
+                margin: 0 auto 20px;
+            }
+
+            .photo-label {
+                position: absolute;
+                right: 8px;
+                bottom: 8px;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                background: #4a4a4a;
+                color: white;
+                cursor: pointer;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+                transition: transform 0.15s ease, background-color 0.15s ease;
+                font-size: 18px;
+            }
+
+            .photo-label:hover {
+                transform: scale(1.05);
+                background: #333333;
+            }
+
+            .photo-label i {
+                font-size: 16px;
+            }
+
+            .selected-classes {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 15px;
+                min-height: 38px;
+                align-items: center;
+                padding: 10px 14px;
                 border-radius: 25px;
-                width: 160px;
-                height: 35px;
-                margin: 25px auto 10px;
-                display: block;
-                font-size: 14px;
+                background: #f0efe9;
+                border: 1px solid #4a4a4a;
+            }
+
+            .selected-classes span {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 7px 12px;
+                border-radius: 25px;
+                background: #3d3d3d;
+                color: white;
+                font-size: 13px;
+                border: none;
+            }
+
+            .selected-classes span.editable i {
+                cursor: pointer;
+                font-size: 12px;
+            }
+
+            .button-row {
+                width: 100%;
+                text-align: right;
+                margin-bottom: 15px;
             }
 
             .btn-outline {
-                border: 1.5px solid #4a4a4a;
+                background: transparent;
                 color: #4a4a4a;
+                border: 1.5px solid #4a4a4a;
                 border-radius: 25px;
-                width: 160px;
-                height: 35px;
+                width: auto;
+                min-width: 180px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                padding: 10px 18px;
+                margin: 0;
+                white-space: nowrap;
+            }
+
+            .btn-outline:disabled {
+                opacity: 0.55;
+                cursor: not-allowed;
+            }
+
+            .btn-outline i {
+                margin-right: 0;
+            }
+
+            .modal-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.45);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                z-index: 999;
+            }
+
+            .modal-card {
+                width: min(100%, 450px);
+                background: #f5f2ed;
+                border-radius: 18px;
+                box-shadow: 0 18px 36px rgba(0,0,0,0.16);
+                overflow: hidden;
+            }
+
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 18px 22px;
+                border-bottom: 1px solid #d3cec7;
+            }
+
+            .modal-header h2 {
+                margin: 0;
+                font-size: 18px;
+                color: #3f3f3f;
+            }
+
+            .close-modal {
+                border: none;
+                background: transparent;
+                color: #4a4a4a;
+                font-size: 24px;
+                line-height: 1;
+                cursor: pointer;
+            }
+
+            .modal-content {
+                padding: 18px 22px;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(110px, 1fr));
+                gap: 12px;
+            }
+
+            .modal-footer {
+                padding: 18px 22px 24px;
+                text-align: center;
+            }
+
+            .class-checkbox-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                border: 1px solid #4a4a4a;
+                border-radius: 25px;
+                padding: 8px 12px;
+                font-size: 13px;
+                background: #f0efe9;
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .class-checkbox-label input {
+                width: 16px;
+                height: 16px;
+            }
+
+            .btn-main {
+                background-color: #4a4a4a;
+                color: white;
+                border-radius: 25px;
+                width: 180px;
+                margin: 40px auto 10px;
+                display: block;
+                border: none;
+                box-shadow: none;
+                transition: background-color 0.2s ease, transform 0.15s ease;
+            }
+
+            .btn-main:hover,
+            .btn-main:focus,
+            .btn-main:active {
+                background-color: #333333;
+                color: white;
+            }
+
+            .btn-main:disabled {
+                background-color: #4a4a4a;
+                color: white;
+                opacity: 1;
+                cursor: not-allowed;
+            }
+
+            .btn-outline {
+                background: transparent;
+                color: #4a4a4a;
+                border: 1.5px solid #4a4a4a;
+                border-radius: 25px;
+                width: 180px;
                 margin: auto;
                 display: block;
-                font-size: 14px;
-            } 
+            }
+
+            .btn-outline i {
+                margin-right: 8px;
+            }
+            
 
             @media (max-width: 767px) {
                 body {
@@ -262,43 +460,157 @@
 
                 <!-- Img Perfil-->
                 <div class="col-12 col-md-6 perfil-img" class="img-fluid w-75 w-md-100">
-                    <img src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="perfil">
+                    <div class="avatar-wrapper">
+                        <img id="profile-avatar" class="profile-avatar" src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="perfil">
+                        <label id="photoLabel" for="photoInput" class="photo-label" title="Editar imagen">
+                            <i class="fa-solid fa-pencil"></i>
+                        </label>
+                    </div>
+                    <input id="photoInput" type="file" accept="image/*" class="form-control d-none">
                 </div>
 
                 <!-- Form Perfil -->
                 <div class="col-12 col-md-6 perfil-form">
                     <div class="box">
 
-                        <h1>NOMBRE APELLIDO</h1>
+                        <h1 id="profile-name">NOMBRE APELLIDO</h1>
 
                         <label>Correo</label>
-                        <input class="form-control" placeholder="test@gmail.com">
+                        <input id="email" class="form-control" type="email" disabled>
 
-                        <label>Descripcion</label>
-                        <input class="form-control" placeholder="-----------------------">
+                        <label>Nombre</label>
+                        <input id="name" class="form-control" type="text" disabled>
+
+                        <label>Descripción</label>
+                        <textarea id="description" class="form-control" rows="4" disabled></textarea>
 
                         <label>Clases que imparte</label>
-                        <input class="form-control" placeholder="-----------------------">
+                        <div id="selected-classes" class="selected-classes"></div>
+                        <div class="button-row">
+                            <button id="selectClassesBtn" type="button" class="btn btn-outline" disabled>
+                                <i class="fa-solid fa-plus"></i> Seleccionar clases
+                            </button>
+                        </div>
 
-                        <button class="btn btn-main">GUARDAR</button>
+                        <button id="saveBtn" class="btn btn-main" disabled>GUARDAR</button>
+                        <button id="editBtn" class="btn btn-outline">EDITAR DATOS</button>
 
                     </div>
                 </div>
             </div>
         </div>
-    </body>
 
-    <script>
+        <div id="classesModal" class="modal-overlay d-none">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <h2>Selecciona tus clases</h2>
+                    <button id="closeModalBtn" class="close-modal" type="button">×</button>
+                </div>
+                <div id="classesModalContent" class="modal-content"></div>
+                <div class="modal-footer">
+                    <button id="modalSaveBtn" type="button" class="btn btn-main">Guardar selección</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const user = JSON.parse(sessionStorage.getItem('user'));
             const token = sessionStorage.getItem('token');
+            const profileName = document.getElementById('profile-name');
+            const profileAvatar = document.getElementById('profile-avatar');
+            const photoInput = document.getElementById('photoInput');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const descriptionInput = document.getElementById('description');
+            const selectedClassesDisplay = document.getElementById('selected-classes');
+            const selectClassesBtn = document.getElementById('selectClassesBtn');
+            const classesModal = document.getElementById('classesModal');
+            const classesModalContent = document.getElementById('classesModalContent');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modalSaveBtn = document.getElementById('modalSaveBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const editBtn = document.getElementById('editBtn');
+            let selectedPhoto = null;
+            let editMode = false;
+            let selectedClasses = [];
+            const availableClasses = ['Pilates', 'Spinning', 'Zumba', 'Barre', 'Yoga', 'Box', 'Gap', 'Jump Fit'];
 
             if (!user || !token) {
                 window.location.href = '/login';
                 return;
             }
 
-            // Cargar datos del usuario
+            function renderClassOptions(selected = [], enabled = false) {
+                classesModalContent.innerHTML = availableClasses.map(clase => {
+                    const checked = selected.includes(clase) ? 'checked' : '';
+                    const disabled = enabled ? '' : 'disabled';
+                    return `
+                        <label class="class-checkbox-label">
+                            <input type="checkbox" class="class-checkbox" value="${clase}" ${checked} ${disabled} />
+                            ${clase}
+                        </label>
+                    `;
+                }).join('');
+            }
+
+            function displaySelectedClasses(items = []) {
+                if (!items.length) {
+                    selectedClassesDisplay.innerHTML = '<span class="text-muted">No has seleccionado clases</span>';
+                    return;
+                }
+                selectedClassesDisplay.innerHTML = items.map(clase => `
+                    <span data-class="${clase}" class="${editMode ? 'editable' : ''}">${clase}${editMode ? ' <i class="fa-solid fa-xmark"></i>' : ''}</span>
+                `).join('');
+            }
+
+            selectedClassesDisplay.addEventListener('click', (event) => {
+                if (!editMode) return;
+                const pill = event.target.closest('span[data-class]');
+                if (!pill) return;
+                const value = pill.dataset.class;
+                selectedClasses = selectedClasses.filter(clase => clase !== value);
+                displaySelectedClasses(selectedClasses);
+            });
+
+            function openClassesModal() {
+                renderClassOptions(selectedClasses, editMode);
+                classesModal.classList.remove('d-none');
+            }
+
+            function closeClassesModal() {
+                classesModal.classList.add('d-none');
+            }
+
+            function setFields(data) {
+                const fullName = `${data.name || ''} ${data.lastname || ''}`.trim();
+                const fullNameUpper = fullName ? fullName.toUpperCase() : 'NOMBRE APELLIDO';
+                profileName.textContent = fullNameUpper;
+                nameInput.value = fullNameUpper;
+                emailInput.value = data.email || '';
+                descriptionInput.value = data.description || '';
+                profileAvatar.src = data.photo || 'https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg';
+                selectedClasses = data.classes || [];
+                displaySelectedClasses(selectedClasses);
+                renderClassOptions(selectedClasses, editMode);
+            }
+
+            function setEditable(enabled) {
+                editMode = enabled;
+                nameInput.disabled = !enabled;
+                descriptionInput.disabled = !enabled;
+                saveBtn.disabled = !enabled;
+                selectClassesBtn.disabled = !enabled;
+                if (!enabled) closeClassesModal();
+                renderClassOptions(selectedClasses, enabled);
+            }
+
+            function updateSaveState() {
+                saveBtn.disabled = !editMode;
+            }
+
+            setFields(user);
+
             try {
                 const response = await fetch(`${local_url}/users/${user.id}`, {
                     headers: { 'Authorization': `${token}` }
@@ -306,24 +618,56 @@
 
                 if (response.ok) {
                     const userData = await response.json();
-                    document.querySelector('h1').textContent = `${userData.name} ${userData.lastname || ''}`.trim();
-                    document.querySelector('input[placeholder="test@gmail.com"]').value = userData.email || '';
-                    document.querySelector('input[placeholder="-----------------------"]').value = userData.description || '';
-                    document.querySelectorAll('input[placeholder="-----------------------"]')[1].value = (userData.classes || []).join(', ');
-                } else {
-                    showToast('Error al cargar datos del perfil');
+                    const merged = { ...user, ...userData };
+                    sessionStorage.setItem('user', JSON.stringify(merged));
+                    setFields(merged);
                 }
             } catch (error) {
-                console.error('Error:', error);
-                showToast('Error de conexión');
+                console.warn('No se pudo cargar el perfil completo', error);
             }
 
-            // Evento para guardar
-            document.querySelector('.btn-main').addEventListener('click', async () => {
-                const email = document.querySelector('input[placeholder="test@gmail.com"]').value.trim();
-                const description = document.querySelector('input[placeholder="-----------------------"]').value.trim();
-                const classesStr = document.querySelectorAll('input[placeholder="-----------------------"]')[1].value.trim();
-                const classes = classesStr ? classesStr.split(',').map(c => c.trim()).filter(c => c) : [];
+            editBtn.addEventListener('click', () => {
+                setEditable(true);
+                photoInput.removeAttribute('disabled');
+            });
+
+            selectClassesBtn.addEventListener('click', openClassesModal);
+            closeModalBtn.addEventListener('click', closeClassesModal);
+            modalSaveBtn.addEventListener('click', () => {
+                selectedClasses = Array.from(document.querySelectorAll('.class-checkbox:checked')).map(input => input.value);
+                displaySelectedClasses(selectedClasses);
+                closeClassesModal();
+            });
+
+            photoInput.addEventListener('change', () => {
+                const file = photoInput.files?.[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    selectedPhoto = reader.result;
+                    profileAvatar.src = selectedPhoto;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            saveBtn.addEventListener('click', async () => {
+                const nameValue = nameInput.value.trim();
+                const descriptionValue = descriptionInput.value.trim();
+
+                if (!nameValue) {
+                    alert('Ingresa tu nombre.');
+                    return;
+                }
+
+                const [firstName, ...lastNameParts] = nameValue.split(' ');
+                const lastnameValue = lastNameParts.join(' ');
+                const body = {
+                    name: firstName,
+                    lastname: lastnameValue,
+                    description: descriptionValue,
+                    classes: selectedClasses
+                };
+                if (selectedPhoto) body.photo = selectedPhoto;
 
                 try {
                     const response = await fetch(`${local_url}/users/${user.id}`, {
@@ -332,75 +676,32 @@
                             'Authorization': `${token}`,
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ email, description, classes })
+                        body: JSON.stringify(body)
                     });
 
-                    if (response.ok) {
-                        showToast('Perfil guardado exitosamente');
-                        // Actualizar sessionStorage
-                        const updatedUser = { ...user, email, description, classes };
-                        sessionStorage.setItem('user', JSON.stringify(updatedUser));
-                    } else {
-                        const error = await response.json();
-                        showToast(error.message || 'Error al guardar');
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        alert(errorText || 'Error al guardar los datos');
+                        return;
                     }
+
+                    const result = await response.json();
+                    const updatedUser = { ...user, ...result.user };
+                    sessionStorage.setItem('user', JSON.stringify(updatedUser));
+                    setFields(updatedUser);
+                    setEditable(false);
+                    selectedPhoto = null;
+                    alert('Datos guardados exitosamente');
                 } catch (error) {
-                    console.error('Error:', error);
-                    showToast('Error de conexión');
+                    console.error(error);
+                    alert('Error de conexión. Intenta de nuevo.');
                 }
             });
-        });
 
-        function showToast(msg) {
-            // Crear toast si no existe
-            let toast = document.getElementById('toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'toast';
-                toast.style.cssText = `
-                    position: fixed; bottom: 30px; right: 20px;
-                    background: linear-gradient(135deg, #2a2520 0%, #3f3f3f 100%);
-                    color: #f0ebe3;
-                    padding: 16px 24px;
-                    border-radius: 12px;
-                    font-size: 14px;
-                    font-weight: 600;
-                    opacity: 0;
-                    transform: translateY(20px) scale(0.9);
-                    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-                    pointer-events: none;
-                    z-index: 9999;
-                    max-width: 300px;
-                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                    letter-spacing: 0.3px;
-                `;
-                document.body.appendChild(toast);
-            }
-            
-            // Agregar ícono si es éxito
-            const isSuccess = msg.toLowerCase().includes('exitoso') || msg.toLowerCase().includes('guardado');
-            const icon = isSuccess ? '✓' : '⚠';
-            const iconColor = isSuccess ? '#6ab04c' : '#e74c3c';
-            
-            toast.innerHTML = `
-                <span style="color: ${iconColor}; font-size: 18px; font-weight: bold;">${icon}</span>
-                <span>${msg}</span>
-            `;
-            
-            // Mostrar
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateY(0) scale(1)';
-            
-            // Ocultar después de 3 segundos
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(20px) scale(0.9)';
-            }, 3000);
-        }
+            setEditable(false);
+        });
     </script>
 
     <script src="../controllers/auth_controller.js"></script>
+    </body>
 </html>

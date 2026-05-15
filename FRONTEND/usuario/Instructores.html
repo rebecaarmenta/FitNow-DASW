@@ -15,7 +15,6 @@
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <script src="../controllers/env.js"></script>
 
         <style>
             body {
@@ -236,8 +235,8 @@
         
         <div class="container">
             <div class="filtro">
-                <select class="select-custom">
-                    <option>Selecciona una clase</option>
+                <select id="class-filter" class="select-custom">
+                    <option value="all">Todas las clases</option>
                 </select>
             </div>
 
@@ -246,7 +245,11 @@
             </div>
         </div>
 
+        <script src="../controllers/env.js"></script>
         <script>
+            const availableClasses = ['Pilates', 'Spinning', 'Zumba', 'Barre', 'Yoga', 'Box', 'Gap', 'Jump Fit'];
+            let allInstructors = [];
+
             document.addEventListener('DOMContentLoaded', async () => {
                 const token = sessionStorage.getItem('token');
 
@@ -255,15 +258,17 @@
                     return;
                 }
 
+                populateClassFilter();
+
                 try {
                     const response = await fetch(`${local_url}/users?rol=instructor`, {
                         headers: { 'Authorization': `${token}` }
                     });
 
                     if (response.ok) {
-                        const instructores = await response.json();
-                        console.log('Instructores cargados:', instructores);
-                        renderInstructores(instructores);
+                        allInstructors = await response.json();
+                        console.log('Instructores cargados:', allInstructors);
+                        renderInstructores(allInstructors);
                     } else {
                         showToast('Error al cargar instructores');
                     }
@@ -271,7 +276,24 @@
                     console.error('Error:', error);
                     showToast('Error de conexión');
                 }
+
+                document.getElementById('class-filter')?.addEventListener('change', (event) => {
+                    const selected = event.target.value;
+                    const filtered = selected === 'all'
+                        ? allInstructors
+                        : allInstructors.filter(instructor => instructor.classes?.includes(selected));
+                    renderInstructores(filtered);
+                });
             });
+
+            function populateClassFilter() {
+                const filter = document.getElementById('class-filter');
+                if (!filter) return;
+                filter.innerHTML = `
+                    <option value="all">Todas las clases</option>
+                    ${availableClasses.map(clase => `<option value="${clase}">${clase}</option>`).join('')}
+                `;
+            }
 
             function renderInstructores(instructores) {
                 const container = document.getElementById('instructores-container');
@@ -285,11 +307,12 @@
                     const clasesText = (instructor.classes && instructor.classes.length > 0) 
                         ? instructor.classes.join(', ') 
                         : 'Sin clases asignadas';
+                    const imageSrc = instructor.photo || 'https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg';
                     
                     return `
                     <div class="col-6 col-md-3">
                         <div class="card-custom">
-                            <img src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="Instructor">
+                            <img src="${imageSrc}" alt="Instructor">
                             <div class="nombre">${instructor.name} ${instructor.lastname || ''}</div>
                             <div class="desc">${desc}</div>
                             <div class="clases">${clasesText}</div>
