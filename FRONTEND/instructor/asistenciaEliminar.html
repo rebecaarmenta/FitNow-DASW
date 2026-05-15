@@ -2,11 +2,9 @@
 <html lang="en" data-bs-theme="light">
     <head>
         <title>FitNow – Asistencia/eliminar</title>
-        <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- Bootstrap CSS v5.3.8 -->
+ 
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -14,39 +12,111 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="../style.css">
+ 
+        <!-- ✅ Fuente para el logo -->
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+ 
+        <script src="../controllers/env.js"></script>
+ 
         <style>
+            /* ── NAVBAR (igual que clasesSemana) ── */
+            .custom-nav {
+                background: #2a2520;
+                padding: 12px 0;
+            }
+ 
+            .nav-logo {
+                font-family: 'DM Serif Display', serif;
+                font-size: 28px;
+                letter-spacing: -0.5px;
+                color: #f0ebe3 !important;
+                text-decoration: none;
+            }
+ 
+            .nav-logo span {
+                color: #c8b89a;
+            }
+ 
+            .nav-links-a {
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: #b0a898 !important;
+                transition: color 0.2s;
+            }
+ 
+            .nav-links-a:hover {
+                color: #f0ebe3 !important;
+            }
+ 
+            .navbar-toggler {
+                border: none !important;
+                box-shadow: none !important;
+            }
+ 
+            .navbar-toggler-icon {
+                filter: invert(0.8);
+            }
+ 
+            .navbar-collapse {
+                background: #2a2520;
+                padding: 12px 0;
+            }
+ 
+            @media (min-width: 992px) {
+                .navbar-collapse {
+                    background: transparent;
+                    padding: 0;
+                }
+            }
+ 
+            .nav-logout-btn {
+                background: none !important;
+                border: none !important;
+                color: #b0a898;
+                cursor: pointer;
+                transition: color 0.2s;
+                display: flex;
+                align-items: center;
+            }
+ 
+            .nav-logout-btn:hover {
+                color: #f0ebe3;
+            }
+ 
+            /* ── BASE ── */
             * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
             body {
                 font-family: 'DM Sans', sans-serif;
                 background: #ede9e2;
                 min-height: 100vh;
             }
-
+ 
             /* ── HERO BANNER ── */
             .hero {
                 position: relative;
                 height: 220px;
                 overflow: hidden;
             }
-
+ 
             .hero img {
                 width: 100%; height: 100%;
                 object-fit: cover;
                 filter: brightness(0.6);
                 transition: transform 0.4s ease;
             }
-
+ 
             .hero-title {
-                position: absolute; 
-                bottom: 24px; 
+                position: absolute;
+                bottom: 24px;
                 left: 20px;
                 font-family: 'DM Serif Display', serif;
                 font-size: clamp(28px, 8vw, 48px);
                 color: #ffffff;
                 text-shadow: 0 2px 10px rgba(0,0,0,0.3);
             }
-
+ 
             .back-btn {
                 position: absolute; left: 20px; top: 20px;
                 width: 40px; height: 40px; border-radius: 50%;
@@ -54,20 +124,26 @@
                 border: none; cursor: pointer;
                 display: flex; align-items: center; justify-content: center;
                 color: #fff;
+                transition: background 0.2s;
             }
-
+ 
+            .back-btn:hover {
+                background: rgba(255,255,255,0.35);
+            }
+ 
             /* ── CUERPO Y BUSCADOR ── */
             .body {
+                padding: 30px 20px;
                 position: relative;
-                z-index: 1; /* Esto lo separa del header */
+                z-index: 1;
             }
-
+ 
             .search-container {
                 display: flex;
                 justify-content: center;
                 margin-bottom: 30px;
             }
-
+ 
             .search-box {
                 display: flex;
                 align-items: center;
@@ -78,16 +154,20 @@
                 width: 100%;
                 max-width: 400px;
             }
-
+ 
             .search-box input {
                 border: none; outline: none;
                 background: transparent;
                 flex: 1; font-size: 16px;
             }
-
+ 
             /* ── LISTA DE CLASES ── */
-            .class-list { display: flex; flex-direction: column; gap: 15px; }
-
+            .class-list {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+ 
             .class-row {
                 background: #c9c3bb;
                 border-radius: 20px;
@@ -99,10 +179,10 @@
                 text-align: center;
                 transition: background 0.2s;
             }
-
+ 
             .col-name { font-weight: bold; font-size: 16px; color: #4a4035; }
             .col-info { font-size: 14px; color: #7a7166; }
-
+ 
             /* BOTONES DE FILA */
             .btn-group {
                 display: flex;
@@ -111,7 +191,7 @@
                 justify-content: center;
                 margin-top: 5px;
             }
-
+ 
             .asistencia-btn, .eliminar-btn {
                 padding: 10px 20px;
                 border-radius: 20px;
@@ -120,11 +200,15 @@
                 cursor: pointer;
                 flex: 1;
                 max-width: 140px;
+                transition: opacity 0.2s;
             }
-
+ 
             .asistencia-btn { background: #444; color: #fff; border: none; }
+            .asistencia-btn:hover { opacity: 0.85; }
+ 
             .eliminar-btn { background: transparent; color: #888; border: 1px solid #888; }
-
+            .eliminar-btn:hover { background: rgba(0,0,0,0.06); }
+ 
             /* BOTÓN CREAR SESIÓN */
             .crear-sesion-btn {
                 background: #4a4a46;
@@ -139,44 +223,87 @@
                 margin: 30px auto;
                 width: fit-content;
                 cursor: pointer;
+                font-size: 13px;
+                font-weight: 500;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                transition: opacity 0.2s;
             }
-
+ 
+            .crear-sesion-btn:hover { opacity: 0.85; }
+ 
             /* ── MODAL ELIMINAR ── */
-            .modal-overlay {
-                position: fixed; inset: 0;
+            /* ✅ Se quitó position: fixed — se usa un wrapper de altura fija en su lugar */
+            .modal-wrapper {
+                position: fixed;
+                inset: 0;
                 background: rgba(0,0,0,0.6);
-                display: flex; justify-content: center; align-items: center;
-                z-index: 2000; opacity: 0; pointer-events: none;
-                transition: 0.3s;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 2000;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
             }
-            .modal-overlay.show { opacity: 1; pointer-events: auto; }
-
-            .modal-content {
+ 
+            .modal-wrapper.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+ 
+            .modal-box {
                 background: #c9c3bb;
-                width: 90%; max-width: 400px;
-                padding: 25px; border-radius: 20px;
+                width: 90%;
+                max-width: 400px;
+                padding: 25px;
+                border-radius: 20px;
                 text-align: center;
             }
-
-            /* ── MEDIA QUERIES PARA PANTALLAS GRANDES ── */
-            @media (min-width: 992px) {
-                .body { padding: 40px 80px; }
-
-                .class-row {
-                    flex-direction: row;
-                    display: grid;
-                    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
-                    text-align: left;
-                    padding: 15px 40px;
-                    border-radius: 40px;
-                }
-
-                .btn-group { width: auto; justify-content: flex-end; }
-
-                .crear-sesion-btn { margin-right: 0; }
+ 
+            .modal-box .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+                border: none;
+                padding: 0;
             }
-
-            /* Limpieza de botones del modal */
+ 
+            .modal-box .modal-header h2 {
+                font-size: 18px;
+                font-weight: 600;
+                color: #2a2520;
+            }
+ 
+            .close-modal {
+                cursor: pointer;
+                font-size: 1.5rem;
+                line-height: 1;
+                color: #666;
+                background: none;
+                border: none;
+            }
+ 
+            .modal-divider {
+                border-color: #b0a898;
+                margin: 10px 0;
+            }
+ 
+            .modal-box .modal-body {
+                padding: 12px 0;
+                color: #4a4035;
+            }
+ 
+            .modal-box .modal-footer {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
+                border: none;
+                padding: 0;
+                margin-top: 16px;
+            }
+ 
             .modal-btn {
                 border: none;
                 outline: none;
@@ -185,57 +312,49 @@
                 font-weight: bold;
                 cursor: pointer;
                 transition: all 0.2s;
+                font-size: 13px;
+                text-transform: uppercase;
             }
-
-            .btn-si {
-                background-color: #4a4a46;
-                color: white;
-            }
-
-            .btn-no {
-                background-color: transparent;
-                color: #4a4a46;
-                border: 1px solid #4a4a46;
-            }
-
+ 
+            .btn-si { background-color: #4a4a46; color: white; }
             .btn-si:hover { background-color: #333; }
+ 
+            .btn-no { background-color: transparent; color: #4a4a46; border: 1px solid #4a4a46; }
             .btn-no:hover { background-color: rgba(0,0,0,0.05); }
-
-            .close-modal {
-                float: right;
-                cursor: pointer;
-                font-size: 1.5rem;
-                line-height: 1;
-                color: #666;
-            }
-
-            .class-list { 
-                display: flex; 
-                flex-direction: column; 
-                gap: 15px; 
-                position: relative; /* Crea un nuevo contexto de apilamiento */
-                z-index: 5;        /* Asegura que esté por encima del fondo */
-            }
-
-            .eliminar-btn { 
-                pointer-events: auto !important; /* Fuerza a que reciba clicks */
+ 
+            /* ── MEDIA QUERIES PARA PANTALLAS GRANDES ── */
+            @media (min-width: 992px) {
+                .body { padding: 40px 80px; }
+ 
+                .class-row {
+                    flex-direction: row;
+                    display: grid;
+                    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
+                    text-align: left;
+                    padding: 15px 40px;
+                    border-radius: 40px;
+                }
+ 
+                .btn-group { width: auto; justify-content: flex-end; }
+                .crear-sesion-btn { margin-right: 0; }
             }
         </style>
-
     </head>
-
+ 
     <body>
         <header>
-            <!-- NAVEGACIÓN -->
             <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
-                <div class="container-fluid px-lg-5"> <a class="navbar-brand nav-logo" href="clasesSemana.html">fit<span>now</span></a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="container-fluid px-lg-5">
+                    <a class="navbar-brand nav-logo" href="clasesSemana.html">fit<span>now</span></a>
+ 
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
+ 
                     <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto align-items-center"> <li class="nav-item">
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            <li class="nav-item">
                                 <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
                             </li>
                             <li class="nav-item">
@@ -245,8 +364,10 @@
                                 <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
                             </li>
                             <li class="nav-item ms-lg-3">
-                                <button class="nav-logout-btn" title="Cerrar sesión">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <!-- ✅ id="btnLogout" para que el script lo encuentre -->
+                                <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
                                         <polyline points="16 17 21 12 16 7"/>
                                         <line x1="21" y1="12" x2="9" y2="12"/>
@@ -258,112 +379,122 @@
                 </div>
             </nav>
         </header>
-        <main></main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- HERO BANNER -->
-        <div class="hero">
-            <img
-            src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg"
-            alt="Spinning"
-            />
-            <div class="hero-overlay"></div>
-            <button class="back-btn" onclick="history.back()" title="Volver">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"/>
-            </svg>
-            </button>
-            <span class="hero-title">SPINNING</span>
-        </div>
-
-        <!-- HORARIOS -->
+ 
+        <main>
+            <!-- HERO BANNER -->
+            <div class="hero">
+                <img
+                    src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg"
+                    alt="Clase"
+                />
+                <button class="back-btn" onclick="history.back()" title="Volver">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <span class="hero-title">CARGANDO...</span>
+            </div>
+ 
+            <!-- CUERPO -->
             <div class="body">
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" placeholder="Buscar clase">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" placeholder="Buscar clase" id="searchInput">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
                     </div>
                 </div>
-
-                <div class="class-list" id="class-list">
-                    </div>
-
-                <button class="crear-sesion-btn">
+ 
+                <div class="class-list" id="class-list"></div>
+ 
+                <button class="crear-sesion-btn" id="btnCrearSesion">
                     CREAR SESIÓN <span>+</span>
                 </button>
             </div>
-
-            <div class="modal-overlay" id="modalOverlay">
-                <div class="modal-content">
-                    
-                    <div class="modal-header">
+        </main>
+ 
+        <footer></footer>
+ 
+        <!-- ✅ Modal con clase .modal-wrapper para no chocar con Bootstrap -->
+        <div class="modal-wrapper" id="modalOverlay">
+            <div class="modal-box">
+                <div class="modal-header">
                     <h2>ELIMINAR CLASE</h2>
-                    <span class="close-modal" id="closeModal">&times;</span>
-                    </div>
-                    
-                    <hr class="modal-divider">
-                    
-                    <div class="modal-body">
-                    <p>Esta seguro que desea eliminar la clase?</p>
-                    </div>
-                    
-                    <div class="modal-footer">
-                    <button class="modal-btn btn-si" id="confirmEliminar">SI</button>
+                    <button class="close-modal" id="closeModal" aria-label="Cerrar">&times;</button>
+                </div>
+                <hr class="modal-divider">
+                <div class="modal-body">
+                    <p>¿Seguro que deseas eliminar esta clase?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="modal-btn btn-si" id="confirmEliminar">SÍ</button>
                     <button class="modal-btn btn-no" id="cancelEliminar">NO</button>
-                    </div>
                 </div>
             </div>
-
-        <script src="../controllers/env.js"></script>
+        </div>
+ 
         <script>
             document.addEventListener('DOMContentLoaded', async () => {
                 const token = sessionStorage.getItem('token');
-
+ 
                 if (!token) {
                     window.location.href = local_url + '/login';
                     return;
                 }
-
+ 
                 const urlParams = new URLSearchParams(window.location.search);
                 const sessionId = urlParams.get('id');
-
+ 
                 if (!sessionId) {
                     alert('Sesión no encontrada');
                     window.location.href = 'misClases.html';
                     return;
                 }
-
+ 
                 await loadSession(sessionId, token);
-
-                document.querySelector('.nav-logout-btn')?.addEventListener('click', () => {
+ 
+                document.getElementById('btnLogout')?.addEventListener('click', () => {
                     sessionStorage.clear();
                     window.location.href = local_url + '/login';
                 });
-
-                document.querySelector('.crear-sesion-btn')?.addEventListener('click', () => {
+ 
+                document.getElementById('btnCrearSesion')?.addEventListener('click', () => {
                     window.location.href = 'crearSesion.html';
                 });
+ 
+                // ✅ Buscador funcional — filtra las filas visibles
+                document.getElementById('searchInput')?.addEventListener('input', function() {
+                    const query = this.value.toLowerCase();
+                    document.querySelectorAll('.class-row').forEach(row => {
+                        const text = row.querySelector('.col-name')?.textContent.toLowerCase() || '';
+                        row.style.display = text.includes(query) ? '' : 'none';
+                    });
+                });
             });
-
+ 
             let currentSession = null;
             let sessionToDelete = null;
-
+ 
+            const modalOverlay  = document.getElementById('modalOverlay');
+            const closeModalBtn = document.getElementById('closeModal');
+            const cancelBtn     = document.getElementById('cancelEliminar');
+            const confirmBtn    = document.getElementById('confirmEliminar');
+ 
             async function loadSession(sessionId, token) {
                 try {
                     const response = await fetch(`${local_url}/sessions/${sessionId}`, {
-                        headers: {
-                            'Authorization': token
-                        }
+                        headers: { 'Authorization': token }
                     });
-
+ 
                     if (!response.ok) {
                         alert('Sesión no encontrada');
                         window.location.href = 'misClases.html';
                         return;
                     }
-
+ 
                     currentSession = await response.json();
                     renderSession();
                 } catch (error) {
@@ -372,25 +503,26 @@
                     window.location.href = 'misClases.html';
                 }
             }
-
+ 
             function renderSession() {
                 if (!currentSession) return;
-
+ 
                 const disciplineName = currentSession.discipline_id?.name || 'Clase';
-                const img = currentSession.discipline_id?.img || 'https://via.placeholder.com/300x200?text=Clase';
+                const img  = currentSession.discipline_id?.img || 'https://via.placeholder.com/300x200?text=Clase';
                 const date = new Date(currentSession.date);
                 const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-                const day = dayNames[date.getDay()];
+                const day  = dayNames[date.getDay()];
                 const time = currentSession.time || 'Hora no definida';
                 const capacity = currentSession.capacity || 'N/A';
-
+ 
                 document.querySelector('.hero img').src = img;
+                document.querySelector('.hero img').alt = disciplineName;
                 document.querySelector('.hero-title').textContent = disciplineName.toUpperCase();
-
+ 
                 const classList = document.getElementById('class-list');
                 classList.innerHTML = `
                     <div class="class-row">
-                        <span class="col-name" style="font-weight: bold; font-size: 16px;">${disciplineName.toUpperCase()}</span>
+                        <span class="col-name">${disciplineName.toUpperCase()}</span>
                         <span class="col-info">${day}</span>
                         <span class="col-info">${time}</span>
                         <span class="col-info">${capacity} personas</span>
@@ -401,57 +533,44 @@
                     </div>
                 `;
             }
-
-            const modalOverlay = document.getElementById('modalOverlay');
-            const closeModalBtn = document.getElementById('closeModal');
-            const cancelBtn = document.getElementById('cancelEliminar');
-            const confirmBtn = document.getElementById('confirmEliminar');
-
+ 
+            // ✅ Delegación de eventos en el contenedor (funciona aunque el HTML se genere después)
             document.getElementById('class-list').addEventListener('click', function(e) {
                 const asistenciaBtn = e.target.closest('.asistencia-btn');
-                const btnEliminar = e.target.closest('.eliminar-btn');
-
+                const btnEliminar   = e.target.closest('.eliminar-btn');
+ 
                 if (asistenciaBtn && currentSession) {
                     window.location.href = `asistencia.html?id=${currentSession._id}`;
                     return;
                 }
-
+ 
                 if (btnEliminar) {
                     e.preventDefault();
                     sessionToDelete = btnEliminar.dataset.sessionId;
                     abrirModal();
                 }
             });
-
-            function abrirModal() {
-                modalOverlay.classList.add('show');
-            }
-
-            function cerrarModal() {
-                modalOverlay.classList.remove('show');
-                sessionToDelete = null;
-            }
-
+ 
+            function abrirModal()  { modalOverlay.classList.add('show'); }
+            function cerrarModal() { modalOverlay.classList.remove('show'); sessionToDelete = null; }
+ 
             closeModalBtn.addEventListener('click', cerrarModal);
             cancelBtn.addEventListener('click', cerrarModal);
-
+ 
+            // ✅ Cierra el modal al hacer clic fuera del contenido
             modalOverlay.addEventListener('click', function(e) {
-                if (e.target === modalOverlay) {
-                    cerrarModal();
-                }
+                if (e.target === modalOverlay) cerrarModal();
             });
-
+ 
             confirmBtn.addEventListener('click', async function() {
                 if (!sessionToDelete) return;
                 const token = sessionStorage.getItem('token');
                 try {
                     const response = await fetch(`${local_url}/sessions/${sessionToDelete}`, {
                         method: 'DELETE',
-                        headers: {
-                            'Authorization': token
-                        }
+                        headers: { 'Authorization': token }
                     });
-
+ 
                     if (response.ok) {
                         alert('Sesión eliminada exitosamente');
                         window.location.href = 'misClases.html';
@@ -465,6 +584,7 @@
                 cerrarModal();
             });
         </script>
+ 
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"

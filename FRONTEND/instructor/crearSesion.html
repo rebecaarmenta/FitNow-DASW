@@ -1,13 +1,10 @@
 <!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
-        <title>Crear Sesion</title>
-        
-        <!-- Required meta tags -->
+        <title>FitNow – Crear Sesión</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- Bootstrap CSS v5.3.8 -->
+ 
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -15,385 +12,534 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="../style.css">
-
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@100;200;300;400;500&display=swap" rel="stylesheet">
-
+ 
+        <!-- ✅ Fuentes consistentes con el resto del proyecto -->
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+ 
+        <script src="../controllers/env.js"></script>
         <style>
+            /* ── NAVBAR (igual que todo el proyecto) ── */
+            .custom-nav {
+                background: #2a2520;
+                padding: 12px 0;
+            }
+ 
+            .nav-logo {
+                font-family: 'DM Serif Display', serif;
+                font-size: 28px;
+                letter-spacing: -0.5px;
+                color: #f0ebe3 !important;
+                text-decoration: none;
+            }
+ 
+            .nav-logo span {
+                color: #c8b89a;
+            }
+ 
+            .nav-links-a {
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: #b0a898 !important;
+                transition: color 0.2s;
+            }
+ 
+            .nav-links-a:hover {
+                color: #f0ebe3 !important;
+            }
+ 
+            .navbar-toggler {
+                border: none !important;
+                box-shadow: none !important;
+            }
+ 
+            .navbar-toggler-icon {
+                filter: invert(0.8);
+            }
+ 
+            .navbar-collapse {
+                background: #2a2520;
+                padding: 12px 0;
+            }
+ 
+            @media (min-width: 992px) {
+                .navbar-collapse {
+                    background: transparent;
+                    padding: 0;
+                }
+            }
+ 
+            .nav-logout-btn {
+                background: none !important;
+                border: none !important;
+                color: #b0a898;
+                cursor: pointer;
+                transition: color 0.2s;
+                display: flex;
+                align-items: center;
+            }
+ 
+            .nav-logout-btn:hover {
+                color: #f0ebe3;
+            }
+ 
+            /* ── BASE ── */
             * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
             body {
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: 'DM Sans', sans-serif;
                 background: #ede9e2;
                 min-height: 100vh;
-                margin: 0;
             }
-
+ 
+            /* ── LAYOUT PRINCIPAL ── */
             .create-session-container {
                 display: flex;
                 flex-direction: column;
-                height: calc(100vh - 60px);
+                min-height: calc(100vh - 57px); /* ✅ min-height para no cortar en móvil */
             }
-            
-            .linea {
-                width: 80%;
-                height: 1.5px;
-                background-color: #464444;
-                margin: 0 auto 5px;
-
-            }
-
-            .session-form,
-            .session-form label,
-            .session-form input,
-            .session-form select,
-            .session-form option {
-                font-family: 'DM Sans', sans-serif;
-            }
-
-            /* COLUMNA FORMULARIO */
-            .form-column {
-                flex: 1;
-                padding: 40px 20px;
-                background-color: #e7e1d8;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            .form-header { margin-bottom: 20px; text-align: center; margin-top: 15px; }
-            .page-title {
-                font-size: clamp(24px, 5vw, 32px);
-                color: #4a4035;
-                text-transform: uppercase;
-                font-weight: 200;
-                font-family: 'DM Sans', sans-serif;
-            }
-
-            .form-divider {
-                border: 0; border-top: 1px solid #999;
-                margin: 15px auto 0; width: 60%;
-            }
-
-            /* INPUTS */
-            .session-form { display: flex; flex-direction: column; gap: 15px; }
-            .input-group { display: flex; flex-direction: column; gap: 8px; }
-            .input-group label { font-size: 16px; color: #4e4c4c; margin-left: 15px; }
-
-            .session-form input, .session-form select {
-                font-size: 16px; padding: 12px 18px;
-                background-color: #dbd9d0;
-                border: 1px solid #333;
-                border-radius: 30px;
-                width: 100%;
-            }
-
-            .row-inputs { display: flex; flex-direction: column; gap: 15px; }
-
-            /* ACCIONES */
-            .form-actions {
-                display: flex; justify-content: center;
-                align-items: center; gap: 15px; margin-top: 25px;
-            }
-
-            .back-btn {
-                background-color: #666; color: white;
-                width: 45px; height: 45px; border-radius: 50%;
-                border: none; cursor: pointer;
-                display: flex; align-items: center; justify-content: center;
-            }
-
-            .publish-btn {
-                background-color: #666;
-                color: #ede9e2;;
-                width: 200px;
-                height: 45px;
-                border-radius: 25px;
-                border: none;
-                font-size: 15px;
-                font-family: 'DM Sans', sans-serif;
-                font-weight: 400;
-                letter-spacing: 1px;
-            }
-
-            /* COLUMNA IMAGEN */
+ 
+            /* ── COLUMNA IMAGEN ── */
             .image-column {
-                flex: 1;
-                height: 200px;
-                order: -1;
+                height: 220px;
+                overflow: hidden;
+                order: -1; /* encima en móvil */
             }
-
+ 
             .side-image {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
                 object-position: center;
             }
-
-            
-            .logo {
-                height: 35px;  
-                object-fit: contain;
+ 
+            /* ── COLUMNA FORMULARIO ── */
+            .form-column {
+                flex: 1;
+                padding: 40px 24px;
+                background-color: #e7e1d8;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
-
-            .navbar-toggler {
-                border: none;
+ 
+            /* ── CABECERA ── */
+            .form-header {
+                margin-bottom: 28px;
+                text-align: center;
             }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
-            .navbar-custom {
-                background-color: #3f3f3f;
-                height: 60px;
-            }
-
-            .nav-links-a {
-                color: #dcdcdc !important;
-                font-size: 14px;
+ 
+            .page-title {
+                font-family: 'DM Serif Display', serif; /* ✅ consistente con el resto del proyecto */
+                font-size: clamp(26px, 5vw, 34px);
+                color: #2a2520;
                 text-transform: uppercase;
-                padding: 12px 18px !important;
-                transition: 0.2s;
+                font-weight: 400;
+                letter-spacing: 0.5px;
             }
-
-            .nav-links-a:hover {
-                color: white !important;
+ 
+            .linea {
+                width: 60%;
+                height: 1px;
+                background-color: #999;
+                margin: 14px auto 0;
             }
-
-            .nav-logout-btn {
-                background: none;
-                border: none;
-                color: #dcdcdc;
-                font-size: 20px;
-                padding: 12px 18px;
-                transition: 0.2s;
+ 
+            /* ── FORMULARIO ── */
+            .session-form {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
             }
-
-            .nav-logout-btn:hover {
-                color: white;
+ 
+            .input-group {
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
             }
-
-            .navbar-toggler {
-                border: none;
+ 
+            .input-group label {
+                font-size: 13px;
+                font-weight: 500;
+                color: #4e4c4c;
+                margin-left: 16px;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
             }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
-            /* RESPONSIVE DESKTOP */
-            @media (min-width: 992px) {
-                .create-session-container { 
-                    flex-direction: row; 
-                }
-                
-                .image-column { 
-                    height: auto;
-                    order: 0;
-                }
-
-                .form-column { 
-                    padding: 60px 100px; 
-                }
-
-                .row-inputs { 
-                    flex-direction: row; 
-                }
-            }
-
-            /* Estilo a cajas de texto, fechas y menús desplegables */
+ 
+            /* ✅ Estilos unificados para inputs y selects */
             .session-form input,
             .session-form select {
-                font-size: 16px;
+                font-family: 'DM Sans', sans-serif;
+                font-size: 15px;
                 padding: 12px 20px;
                 background-color: transparent;
-                border: 1px solid #333;
-                border-radius: 30px !important;
-                color: #666;
+                border: 1px solid #aaa;
+                border-radius: 30px;
+                color: #4a4035;
                 outline: none;
                 width: 100%;
+                transition: border-color 0.2s, background-color 0.2s;
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 appearance: none;
             }
-
+ 
             .session-form input:focus,
             .session-form select:focus {
+                border-color: #4a4035;
                 background-color: #dbd9d0;
             }
-
+ 
+            /* Flecha custom para selects */
             .session-form select {
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C2.185 5.355 2.398 5 2.815 5h9.447c.417 0 .63.355.364.659l-4.796 5.48a1 1 0 0 1-1.583 0z'/%3E%3C/svg%3E");
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C2.185 5.355 2.398 5 2.815 5h9.447c.417 0 .63.355.364.659l-4.796 5.48a1 1 0 0 1-1.583 0z'/%3E%3C/svg%3E");
                 background-repeat: no-repeat;
-                background-position: right 30px center;
-                padding-right: 40px;
+                background-position: right 20px center;
+                padding-right: 42px;
+                cursor: pointer;
             }
-
-            @media (max-width: 767px) {
-                body {
-                    overflow-y: auto;
+ 
+            /* ✅ Estilo del placeholder/option deshabilitada */
+            .session-form select option[disabled] {
+                color: #999;
+            }
+ 
+            /* Color del placeholder de inputs de fecha */
+            .session-form input[type="date"]:not(:valid) {
+                color: #999;
+            }
+ 
+            /* ── FILA DE DOS COLUMNAS ── */
+            .row-inputs {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+ 
+            .half-width { flex: 1; }
+ 
+            /* ── BOTÓN PUBLICAR ── */
+            .form-actions {
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+            }
+ 
+            .publish-btn {
+                background-color: #2a2520;
+                color: #f0ebe3;
+                padding: 13px 50px;
+                border-radius: 30px;
+                border: none;
+                font-family: 'DM Sans', sans-serif;
+                font-size: 13px;
+                font-weight: 500;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                cursor: pointer;
+                transition: opacity 0.2s;
+            }
+ 
+            .publish-btn:hover { opacity: 0.85; }
+            .publish-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+ 
+            /* ── MENSAJE DE FEEDBACK ── */
+            .form-message {
+                text-align: center;
+                font-size: 13px;
+                margin-top: 10px;
+                min-height: 20px;
+                color: #598b42;
+            }
+ 
+            .form-message.error { color: #9c5656; }
+ 
+            /* ── DESKTOP ── */
+            @media (min-width: 992px) {
+                .create-session-container {
+                    flex-direction: row;
                 }
-                .navbar-collapse {
-                    background-color: #3f3f3f;
-                    margin-top: 10px;
+ 
+                .image-column {
+                    flex: 1;
+                    height: auto;
+                    order: 1; /* imagen a la derecha */
                 }
-
-                .navbar-nav {
-                    align-items: center !important;
-                    text-align: center;
-                    gap: 10px;
-                    padding: 10px 0;
+ 
+                .form-column {
+                    flex: 1;
+                    padding: 60px 80px;
+                    order: 0;
                 }
-
-                .nav-item,
-                .nav-links-a,
-                .nav-logout-btn {
-                    width: 100%;
+ 
+                .row-inputs {
+                    flex-direction: row;
                 }
-
-                .nav-links-a,
-                .nav-logout-btn {
-                    text-align: center;
-                }
-
-                .linea {
-                    width: 65%;
-                    height: 1px;
-                    margin: 0 auto 20px auto;
-                }
-
-                .form-actions {
-                    margin-bottom: 25px;
-                }
+            }
+ 
+            @media (min-width: 1200px) {
+                .form-column { padding: 60px 100px; }
             }
         </style>
-
     </head>
-
+ 
     <body>
         <header>
-            <!-- NAVEGACIÓN -->
-            <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-                <a href="clasesSemana.html">
-                    <img src="3-Photoroom.png" class="logo">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
-                        </li>
-                        <li class="nav-item ms-md-3">
-                            <button class="nav-logout-btn">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
+            <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
+                <div class="container-fluid px-lg-5">
+                    <!-- ✅ Logo de texto igual que en todos los demás -->
+                    <a class="navbar-brand nav-logo" href="clasesSemana.html">fit<span>now</span></a>
+ 
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+ 
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
+                            </li>
+                            <li class="nav-item ms-lg-3">
+                                <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </header>
-        <main></main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <div class="create-session-container">
-        <div class="form-column">
-            <div class="form-header">
-                <h1 class="page-title">CREAR SESIÓN</h1>
-                <div class="linea"></div>
-            </div>
-
-            <form class="session-form">
-                <div class="input-group">
-                    <label for="session-name">Nombre de la sesión</label>
-                    <input type="text" id="session-name" name="session-name" placeholder="Ej: Spinning">
-                </div>
-
-                <div class="input-group">
-                    <label for="discipline">Disciplina</label>
-                    <select id="discipline" name="discipline">
-                        <option value="" disabled selected>Elige una disciplina</option>
-                        <option value="spinning">Spinning</option>
-                        <option value="pilates">Pilates</option>
-                        <option value="yoga">Yoga</option>
-                        <option value="zumba">Zumba</option>
-                        <option value="barre">Barre</option>
-                        <option value="box">Box</option>
-                        <option value="gap">GAP</option>
-                        <option value="jumpfit">Jump Fit</option>
-                    </select>
-                </div>
-
-                <div class="row-inputs">
-                    <div class="input-group half-width">
-                        <label for="date">Fecha</label>
-                        <div class="date-input-wrapper">
-                            <input type="date" id="date" name="date">
-                            
+ 
+        <main>
+            <div class="create-session-container">
+ 
+                <!-- FORMULARIO -->
+                <div class="form-column">
+                    <div class="form-header">
+                        <h1 class="page-title">Crear Sesión</h1>
+                        <div class="linea"></div>
+                    </div>
+ 
+                    <!-- ✅ id en el form para capturarlo fácil desde el script -->
+                    <form class="session-form" id="sessionForm" novalidate>
+ 
+                        <div class="input-group">
+                            <label for="discipline">Disciplina</label>
+                            <!-- ✅ Se llena dinámicamente con los IDs reales de MongoDB -->
+                            <select id="discipline" name="discipline" required>
+                                <option value="" disabled selected>Cargando disciplinas...</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="input-group half-width">
-                        <label for="time">Hora</label>
-                        <select id="time" name="time">
-                            <option value="" disabled selected>Selecciona la hora</option>
-                            <option value="07:00">07:00</option>
-                            <option value="08:00">08:00</option>
-                            <option value="09:00">09:00</option>
-                            <option value="10:00">10:00</option>
-                        </select>
-                    </div>
+ 
+                        <div class="row-inputs">
+                            <div class="input-group half-width">
+                                <label for="date">Fecha</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                            <div class="input-group half-width">
+                                <label for="time">Hora</label>
+                                <select id="time" name="time" required>
+                                    <option value="" disabled selected>Selecciona la hora</option>
+                                    <option value="07:00">07:00</option>
+                                    <option value="08:00">08:00</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                </select>
+                            </div>
+                        </div>
+ 
+                        <div class="row-inputs">
+                            <div class="input-group half-width">
+                                <label for="max-capacity">Cupo máximo</label>
+                                <select id="max-capacity" name="max-capacity" required>
+                                    <option value="" disabled selected>Elige el cupo</option>
+                                    <option value="10">10 personas</option>
+                                    <option value="15">15 personas</option>
+                                    <option value="20">20 personas</option>
+                                    <option value="25">25 personas</option>
+                                </select>
+                            </div>
+                            <div class="input-group half-width">
+                                <label for="place">Sala / Lugar</label>
+                                <select id="place" name="place" required>
+                                    <option value="" disabled selected>Selecciona la sala</option>
+                                    <option value="Sala 1">Sala 1</option>
+                                    <option value="Sala 2">Sala 2</option>
+                                    <option value="Sala 3">Sala 3</option>
+                                    <option value="Sala 4">Sala 4</option>
+                                    <option value="Sala 5">Sala 5</option>
+                                    <option value="Sala 6">Sala 6</option>
+                                </select>
+                            </div>
+                        </div>
+ 
+                        <div class="form-actions">
+                            <button type="submit" class="publish-btn" id="publishBtn">PUBLICAR SESIÓN</button>
+                        </div>
+ 
+                        <!-- ✅ Área de feedback sin alerts molestos -->
+                        <p class="form-message" id="formMessage"></p>
+ 
+                    </form>
                 </div>
-
-                <div class="row-inputs">
-                    <div class="input-group half-width">
-                        <label for="max-capacity">Cupo máximo</label>
-
-                        <select id="max-capacity" name="max-capacity">
-                            <option value="" disabled selected>Elige el cupo máximo</option>
-                            <option value="10">10 personas</option>
-                            <option value="15">15 personas</option>
-                            <option value="20">20 personas</option>
-                            <option value="25">25 personas</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group half-width">
-                        <label for="room">Sala</label>
-
-                        <select id="room" name="room">
-                            <option value="" disabled selected>Selecciona la sala</option>
-                            <option value="1">Sala 1</option>
-                            <option value="2">Sala 2</option>
-                            <option value="3">Sala 3</option>
-                            <option value="4">Sala 4</option>
-                            <option value="5">Sala 5</option>
-                            <option value="6">Sala 6</option>
-                        </select>
-                    </div>
-
+ 
+                <!-- IMAGEN -->
+                <div class="image-column">
+                    <img
+                        src="https://i1-c.pinimg.com/1200x/ff/f7/8a/fff78ac6877c2cd8ee5df3876b0ae7a1.jpg"
+                        alt="Clase de fitness"
+                        class="side-image"
+                    >
                 </div>
-
-                <div class="form-actions">
-                    <button type="submit" class="publish-btn">PUBLICAR SESIÓN</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="image-column">
-            <img src="https://i1-c.pinimg.com/1200x/ff/f7/8a/fff78ac6877c2cd8ee5df3876b0ae7a1.jpg" class="side-image">
-        </div>
-    </div>
+ 
+            </div>
+        </main>
+ 
+        <footer></footer>
+ 
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const token = sessionStorage.getItem('token');
+ 
+                if (!token) {
+                    window.location.href = local_url + '/login';
+                    return;
+                }
+ 
+                // ✅ Fecha mínima = hoy
+                const dateInput = document.getElementById('date');
+                dateInput.min = new Date().toISOString().split('T')[0];
+ 
+                // ✅ Cargar disciplinas reales desde la API (ObjectIds reales)
+                await loadDisciplines(token);
+ 
+                document.getElementById('btnLogout')?.addEventListener('click', () => {
+                    sessionStorage.clear();
+                    window.location.href = local_url + '/login';
+                });
+ 
+                document.getElementById('sessionForm')?.addEventListener('submit', handleSubmit);
+            });
+ 
+            async function loadDisciplines(token) {
+                const select = document.getElementById('discipline');
+                try {
+                    const response = await fetch(`${local_url}/disciplines`, {
+                        headers: { 'Authorization': token }
+                    });
+ 
+                    if (!response.ok) throw new Error('No se pudieron cargar las disciplinas');
+ 
+                    const disciplines = await response.json();
+ 
+                    select.innerHTML = '<option value="" disabled selected>Elige una disciplina</option>';
+                    disciplines.forEach(d => {
+                        const opt = document.createElement('option');
+                        opt.value = d._id;           // ✅ ObjectId real para el backend
+                        opt.textContent = d.name;
+                        select.appendChild(opt);
+                    });
+                } catch (err) {
+                    console.error('Error cargando disciplinas:', err);
+                    select.innerHTML = '<option value="" disabled selected>Error al cargar disciplinas</option>';
+                }
+            }
+ 
+            async function handleSubmit(e) {
+                e.preventDefault();
+ 
+                const msgEl = document.getElementById('formMessage');
+                const btn   = document.getElementById('publishBtn');
+ 
+                const discipline_id  = document.getElementById('discipline').value;
+                const date           = document.getElementById('date').value;
+                const time           = document.getElementById('time').value;
+                const capacity       = document.getElementById('max-capacity').value;
+                const place          = document.getElementById('place').value;
+ 
+                if (!discipline_id || !date || !time || !capacity || !place) {
+                    msgEl.textContent = 'Por favor completa todos los campos.';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
+ 
+                // ✅ instructor_id viene del usuario en sesión
+                const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+                const instructor_id = user._id || user.id;
+ 
+                if (!instructor_id) {
+                    msgEl.textContent = 'No se encontró tu usuario. Inicia sesión de nuevo.';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
+ 
+                btn.disabled = true;
+                btn.textContent = 'Publicando...';
+                msgEl.textContent = '';
+                msgEl.className = 'form-message';
+ 
+                const token = sessionStorage.getItem('token');
+ 
+                const body = {
+                    instructor_id,          // ✅ requerido por el backend
+                    discipline_id,          // ✅ ObjectId real
+                    date,
+                    time,
+                    capacity: Number(capacity),
+                    place                   // ✅ campo correcto (no "room")
+                };
+ 
+                console.log('📤 Enviando sesión:', JSON.stringify(body, null, 2));
+ 
+                try {
+                    const response = await fetch(`${local_url}/sessions`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': token,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(body)
+                    });
+ 
+                    const data = await response.json().catch(() => ({}));
+                    console.log('📥 Respuesta:', response.status, data);
+ 
+                    if (response.ok) {
+                        msgEl.textContent = '¡Sesión publicada correctamente!';
+                        msgEl.className = 'form-message';
+                        document.getElementById('sessionForm').reset();
+                        setTimeout(() => window.location.href = 'misClases.html', 1200);
+                    } else {
+                        const errMsg = data.message || data.error || response.statusText;
+                        msgEl.textContent = `Error ${response.status}: ${errMsg}`;
+                        msgEl.className = 'form-message error';
+                    }
+                } catch (error) {
+                    console.error('❌ Error de red:', error);
+                    msgEl.textContent = `Sin conexión con el servidor. ¿Está corriendo en el puerto correcto?`;
+                    msgEl.className = 'form-message error';
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'PUBLICAR SESIÓN';
+                }
+            }
+        </script>
+ 
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
