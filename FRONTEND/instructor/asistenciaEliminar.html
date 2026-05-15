@@ -1,4 +1,10 @@
-<!doctype html>
+
+
+
+//=============================================
+
+
+asistenciaEliminar: <!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
         <title>FitNow – Asistencia/eliminar</title>
@@ -316,7 +322,95 @@
                 </div>
             </div>
 
+        <script src="../controllers/env.js"></script>
         <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const userString = sessionStorage.getItem('user');
+                const token = sessionStorage.getItem('token');
+
+                if (!userString || !token) {
+                    window.location.href = local_url + '/login';
+                    return;
+                }
+
+                const user = JSON.parse(userString);
+
+                // Get session ID from URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const sessionId = urlParams.get('id');
+
+                if (!sessionId) {
+                    alert('Sesión no encontrada');
+                    window.location.href = 'misClases.html';
+                    return;
+                }
+
+                await loadSession(sessionId, token);
+
+                // Logout functionality
+                document.querySelector('.nav-logout-btn').addEventListener('click', () => {
+                    sessionStorage.clear();
+                    window.location.href = local_url + '/login';
+                });
+            });
+
+            let currentSession = null;
+
+            async function loadSession(sessionId, token) {
+                try {
+                    const response = await fetch(`${local_url}/sessions/${sessionId}`, {
+                        headers: {
+                            'Authorization': token
+                        }
+                    });
+
+                    if (!response.ok) {
+                        alert('Sesión no encontrada');
+                        window.location.href = 'misClases.html';
+                        return;
+                    }
+
+                    currentSession = await response.json();
+                    renderSession();
+                } catch (error) {
+                    console.error('Error cargando sesión:', error);
+                    alert('Error al cargar la sesión');
+                    window.location.href = 'misClases.html';
+                }
+            }
+
+            function renderSession() {
+                if (!currentSession) return;
+
+                const disciplineName = currentSession.discipline_id?.name || 'Clase';
+                const img = currentSession.discipline_id?.img || 'https://via.placeholder.com/300x200?text=Clase';
+                const date = new Date(currentSession.date);
+                const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                const day = dayNames[date.getDay()];
+                const time = currentSession.time;
+                const capacity = currentSession.capacity;
+                const place = currentSession.place;
+
+                // Update hero
+                document.querySelector('.hero img').src = img;
+                document.querySelector('.hero-title').textContent = disciplineName.toUpperCase();
+
+                // Update class list
+                const classList = document.getElementById('class-list');
+                classList.innerHTML = `
+                    <div class="class-row">
+                        <span class="col-name" style="font-weight: bold; font-size: 16px;">${disciplineName.toUpperCase()}</span>
+                        <span class="col-info">${day}</span>
+                        <span class="col-info">${time}</span>
+                        <span class="col-info">${capacity} personas</span>
+                        <div class="btn-group">
+                            <button class="asistencia-btn">ASISTENCIA</button>
+                            <button class="eliminar-btn" data-session-id="${currentSession._id}">ELIMINAR</button>
+                        </div>
+                    </div>
+                `;
+            }
+
             // ── LÓGICA DEL MODAL ──
             const modalOverlay = document.getElementById('modalOverlay');
             const closeModalBtn = document.getElementById('closeModal');
@@ -335,6 +429,17 @@
                 abrirModal();
             }
         });
+            let sessionToDelete = null;
+
+            document.getElementById('class-list').addEventListener('click', function(e) {
+                const btnEliminar = e.target.closest('.eliminar-btn');
+                
+                if (btnEliminar) {
+                    e.preventDefault();
+                    sessionToDelete = btnEliminar.dataset.sessionId;
+                    abrirModal();
+                }
+            });
 
             function abrirModal() {
                 modalOverlay.classList.add('show');
@@ -343,6 +448,7 @@
             function cerrarModal() {
                 modalOverlay.classList.remove('show');
                 filaAEliminar = null;
+                sessionToDelete = null;
             }
 
             closeModalBtn.addEventListener('click', cerrarModal);
@@ -387,6 +493,34 @@
             }
 
             render();
+                if (e.target === modalOverlay) {
+                    cerrarModal();
+                }
+
+            confirmBtn.addEventListener('click', async function() {
+                if (sessionToDelete) {
+                    const token = sessionStorage.getItem('token');
+                    try {
+                        const response = await fetch(`${local_url}/sessions/${sessionToDelete}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': token
+                            }
+                        });
+
+                        if (response.ok) {
+                            alert('Sesión eliminada exitosamente');
+                            window.location.href = 'misClases.html';
+                        } else {
+                            alert('Error al eliminar la sesión');
+                        }
+                    } catch (error) {
+                        console.error('Error eliminando sesión:', error);
+                        alert('Error al eliminar la sesión');
+                    }
+                    cerrarModal();
+                }
+            });
         </script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

@@ -1,4 +1,9 @@
-<!doctype html>
+
+
+//================================================================
+
+
+clasesSemana: <!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
         <title>FitNow – Clases semana</title>
@@ -349,6 +354,33 @@
                 renderGrid();
             });
 
+
+                // Logout functionality
+                document.getElementById('btnLogout').addEventListener('click', () => {
+                    sessionStorage.clear();
+                    window.location.href = local_url + '/login';
+                });
+
+            function filterCurrentWeekSessions(sessions) {
+                const now = new Date();
+                const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+                
+                // Get Monday of current week
+                const monday = new Date(now);
+                monday.setDate(now.getDate() - currentDay + 1);
+                monday.setHours(0, 0, 0, 0);
+                
+                // Get Saturday of current week
+                const saturday = new Date(monday);
+                saturday.setDate(monday.getDate() + 5);
+                saturday.setHours(23, 59, 59, 999);
+                
+                return sessions.filter(session => {
+                    const sessionDate = new Date(session.date);
+                    return sessionDate >= monday && sessionDate <= saturday;
+                });
+            }
+
             async function loadInstructorSchedule(instructorId, token) {
                 try {
                     const response = await fetch(`${local_url}/sessions/instructor/${instructorId}`, {
@@ -364,8 +396,10 @@
                     }
 
                     const sessions = await response.json();
-                    renderSchedule(sessions);
-                    renderSummary(sessions);
+                    const currentWeekSessions = filterCurrentWeekSessions(sessions);
+
+                    renderSchedule(currentWeekSessions);
+                    renderSummary(currentWeekSessions);
                 } catch (error) {
                     console.error('Error cargando horario:', error);
                 }

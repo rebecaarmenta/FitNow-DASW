@@ -1,4 +1,4 @@
-<!doctype html>
+misClases: <!doctype html>
 <html lang="en" data-bs-theme="light">
     <head>
         <title>FitNow – Mis clases</title>
@@ -341,43 +341,97 @@
             { nombre: 'Gap', img: 'https://i.pinimg.com/1200x/f5/d4/5b/f5d45b623d1d9143bcccc2a9c7f98ef5.jpg' },
             { nombre: 'Jump Fit', img: 'https://i.pinimg.com/1200x/4a/5c/03/4a5c03c74aad6ebb56450ff632b7f2c4.jpg' }
             ];
+        </script>
+        <script src="../controllers/env.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const userString = sessionStorage.getItem('user');
+                const token = sessionStorage.getItem('token');
 
-            // ── RENDERIZAR GRID ──
-            function renderGrid() {
-            const grid = document.getElementById('grid');
+                if (!userString || !token) {
+                    window.location.href = local_url + '/login';
+                    return;
+                }
 
-            const tarjetas = clases.map((c, i) => `
-                <div class="card" id="card-${i}">
-                <img src="${c.img}" alt="${c.nombre}" loading="lazy" />
-                <div class="card-overlay"></div>
-                <span class="card-name">${c.nombre.toUpperCase()}</span>
-                </div>
-            `).join('');
+                const user = JSON.parse(userString);
+                await loadInstructorSessions(user.id, token);
+                renderGrid();
 
-            const sinResultados = `<div class="no-results hidden" id="no-results">
-                No se encontraron clases
-            </div>`;
-
-            grid.innerHTML = tarjetas + sinResultados;
-            }
-
-            // ── FILTRAR POR BÚSQUEDA ──
-            function filtrar() {
-            const query = document.getElementById('search').value.toLowerCase().trim();
-            let visibles = 0;
-
-            clases.forEach((c, i) => {
-                const card = document.getElementById(`card-${i}`);
-                const coincide = c.nombre.toLowerCase().includes(query);
-                card.classList.toggle('hidden', !coincide);
-                if (coincide) visibles++;
+                document.querySelector('.nav-logout-btn')?.addEventListener('click', () => {
+                    sessionStorage.clear();
+                    window.location.href = local_url + '/login';
+                });
             });
 
-            document.getElementById('no-results').classList.toggle('hidden', visibles > 0);
+            let sessions = [];
+
+            async function loadInstructorSessions(instructorId, token) {
+                try {
+                    const response = await fetch(`${local_url}/sessions/instructor/${instructorId}`, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                        }
+                    });
+
+                    if (!response.ok) {
+                        console.error('No se pudieron cargar las sesiones del instructor');
+                        return;
+                    }
+
+                    sessions = await response.json();
+                } catch (error) {
+                    console.error('Error cargando sesiones:', error);
+                }
             }
 
-            // ── INICIAR ──
-            renderGrid();
+            function renderGrid() {
+                const grid = document.getElementById('grid');
+                if (!grid) return;
+
+                if (!sessions || sessions.length === 0) {
+                    grid.innerHTML = '<div class="no-results">No tienes clases programadas</div>';
+                    return;
+                }
+
+                const tarjetas = sessions.map((session, i) => {
+                    const disciplineName = session.discipline_id?.name || 'Clase';
+                    const img = session.discipline_id?.img || 'https://via.placeholder.com/300x200?text=Clase';
+                    return `
+                        <div class="card" id="card-${i}" onclick="verSesion('${session._id}')">
+                            <img src="${img}" alt="${disciplineName}" loading="lazy" />
+                            <div class="card-overlay"></div>
+                            <span class="card-name">${disciplineName.toUpperCase()}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                grid.innerHTML = tarjetas + '<div class="no-results hidden" id="no-results">No se encontraron clases</div>';
+            }
+
+            function verSesion(sessionId) {
+                window.location.href = `asistenciaEliminar.html?id=${sessionId}`;
+            }
+
+            function filtrar() {
+                const query = document.getElementById('search').value.toLowerCase().trim();
+                let visibles = 0;
+
+                sessions.forEach((session, i) => {
+                    const card = document.getElementById(`card-${i}`);
+                    const disciplineName = session.discipline_id?.name || '';
+                    const coincide = disciplineName.toLowerCase().includes(query);
+                    if (card) {
+                        card.classList.toggle('hidden', !coincide);
+                        if (coincide) visibles++;
+                    }
+                });
+
+                const noResults = document.getElementById('no-results');
+                if (noResults) {
+                    noResults.classList.toggle('hidden', visibles > 0);
+                }
+            }
         </script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
