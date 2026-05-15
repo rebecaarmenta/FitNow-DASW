@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     phone: { type: String, trim: true },
     description: { type: String, trim: true },
+    photo: { type: String, trim: true, default: '' },
     classes: [{ type: String }],
+    objective: { type: String, trim: true },
     goals: [{
         discipline_id: {
             type: mongoose.Schema.Types.ObjectId,

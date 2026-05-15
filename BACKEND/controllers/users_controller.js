@@ -27,6 +27,8 @@ export async function login(req, res) {
                 email: user.email,
                 phone: user.phone,
                 description: user.description,
+                photo: user.photo || '',
+                objective: user.objective || '',
                 classes: user.classes,
                 goals: user.goals || [],
                 rol: user.rol 
@@ -95,7 +97,7 @@ export async function getUsers(req, res) {
 // PATCH actualizar usuario
 export async function updateUser(req, res) {
     try {
-        const { name, lastname, email, password, phone, description, classes, goals } = req.body;
+        const { name, lastname, email, password, phone, description, photo, objective, classes, goals } = req.body;
 
         const updateData = {};
         if (name !== undefined) updateData.name = name;
@@ -104,6 +106,8 @@ export async function updateUser(req, res) {
         if (password !== undefined) updateData.password = password;
         if (phone !== undefined) updateData.phone = phone;
         if (description !== undefined) updateData.description = description;
+        if (photo !== undefined) updateData.photo = photo;
+        if (objective !== undefined) updateData.objective = objective;
         if (classes !== undefined) updateData.classes = classes;
         if (goals !== undefined) updateData.goals = goals;
 
