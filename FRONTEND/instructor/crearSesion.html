@@ -368,7 +368,8 @@
                         <div class="row-inputs">
                             <div class="input-group half-width">
                                 <label for="date">Fecha</label>
-                                <input type="date" id="date" name="date" required>
+                                    <input type="date" id="date" name="date" required>
+                                    <small id="weekInfo" style="display:block;margin-left:16px;font-size:12px;color:#666;margin-top:6px"></small>
                             </div>
                             <div class="input-group half-width">
                                 <label for="time">Hora</label>
@@ -442,7 +443,45 @@
                 }
  
                 const dateInput = document.getElementById('date');
-                dateInput.min = new Date().toISOString().split('T')[0];
+
+                function formatDateISO(d){
+                    return d.toISOString().split('T')[0];
+                }
+
+                const today = new Date();
+                const day = today.getDay(); // 0 = Sun, 1 = Mon, ... 6 = Sat
+
+                // Compute Monday of current week (ISO week start)
+                const diffToMonday = (day + 6) % 7;
+                const mondayThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - diffToMonday);
+
+                // If today is Saturday, switch allowed week to next week
+                let allowedStart;
+                if (day === 6) {
+                    allowedStart = new Date(mondayThisWeek);
+                    allowedStart.setDate(allowedStart.getDate() + 7);
+                } else {
+                    allowedStart = mondayThisWeek;
+                }
+                const allowedEnd = new Date(allowedStart);
+                allowedEnd.setDate(allowedStart.getDate() + 6);
+
+                // Set date input bounds so the calendar only allows the allowed week
+                dateInput.min = formatDateISO(allowedStart);
+                dateInput.max = formatDateISO(allowedEnd);
+
+                // Expose allowed range globally for validation in submit handler
+                window.allowedStartISO = formatDateISO(allowedStart);
+                window.allowedEndISO = formatDateISO(allowedEnd);
+
+                // Show a small helper indicating the week range
+                const weekInfo = document.getElementById('weekInfo');
+                if (weekInfo) {
+                    const opts = { day: '2-digit', month: '2-digit' };
+                    const startText = allowedStart.toLocaleDateString(undefined, opts);
+                    const endText = allowedEnd.toLocaleDateString(undefined, opts);
+                    weekInfo.textContent = `Semana disponible: ${startText} — ${endText}`;
+                }
  
                 await loadDisciplines(token);
  
@@ -502,6 +541,19 @@
                     msgEl.textContent = 'No se ofertan clases los domingos.';
                     msgEl.className = 'form-message error';
                     return;
+                }
+
+                // Validar que la fecha seleccionada esté dentro de la semana permitida
+                const allowedStartISO = window.allowedStartISO;
+                const allowedEndISO = window.allowedEndISO;
+                if (allowedStartISO && allowedEndISO) {
+                    const allowedStartDate = new Date(allowedStartISO);
+                    const allowedEndDate = new Date(allowedEndISO);
+                    if (selectedDate < allowedStartDate || selectedDate > allowedEndDate) {
+                        msgEl.textContent = 'No puedes crear sesiones fuera de la semana disponible. Espera al sábado para crear para la siguiente semana.';
+                        msgEl.className = 'form-message error';
+                        return;
+                    }
                 }
  
                 const user = JSON.parse(sessionStorage.getItem('user') || '{}');
