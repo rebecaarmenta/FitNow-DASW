@@ -49,9 +49,13 @@ export async function createSession(req, res) {
             return res.status(404).send('Disciplina no encontrada');
         }
 
+        // Crear rango de fecha para búsqueda robusta
+        const startOfDay = new Date(dateValue.getFullYear(), dateValue.getMonth(), dateValue.getDate(), 0, 0, 0);
+        const endOfDay = new Date(dateValue.getFullYear(), dateValue.getMonth(), dateValue.getDate(), 23, 59, 59);
+
         const instructorConflict = await Session.findOne({
             instructor_id: instructorId,
-            date: dateValue,
+            date: { $gte: startOfDay, $lte: endOfDay },
             time: timeValue,
             status: 'programada'
         });
@@ -61,12 +65,12 @@ export async function createSession(req, res) {
 
         const placeConflict = await Session.findOne({
             place: placeValue,
-            date: dateValue,
+            date: { $gte: startOfDay, $lte: endOfDay },
             time: timeValue,
             status: 'programada'
         });
         if (placeConflict) {
-            return res.status(400).json({ message: 'Sala ocupada: ya hay una sesión en esa sala para la fecha y hora seleccionadas' });
+            return res.status(400).json({ message: 'Sala ocupada: ya hay una sesión programada en esta sala para la fecha y hora seleccionadas' });
         }
 
         const newSession = new Session({
