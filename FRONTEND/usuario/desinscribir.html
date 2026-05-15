@@ -276,6 +276,13 @@
       }
     });
 
+    function parseLocalDate(dateString) {
+      if (!dateString) return null;
+      const [year, month, day] = dateString.slice(0, 10).split('-').map(Number);
+      if ([year, month, day].some(value => isNaN(value))) return null;
+      return new Date(year, month - 1, day);
+    }
+
     function renderClases(enrollments) {
       const grid = document.getElementById('grid');
       const activas = enrollments.filter(e => e.status === 'activa');
@@ -293,7 +300,7 @@
         const img = nombre.toLowerCase().includes('spinning')
             ? spinningImg
             : (session?.discipline_id?.img || defaultImg);
-        const dia = session?.date ? new Date(session.date).toLocaleDateString('es-ES', { weekday: 'long', day: '2-digit', month: '2-digit' }) : 'Sin fecha';
+        const dia = session?.date ? parseLocalDate(session.date).toLocaleDateString('es-ES', { weekday: 'long', day: '2-digit', month: '2-digit' }) : 'Sin fecha';
         const hora = session?.time || 'Sin hora';
         const salon = session?.place || 'Sin salón';
         const instructor = session?.instructor_id ? `${session.instructor_id.name || ''} ${session.instructor_id.lastname || ''}`.trim() : 'Instructor';

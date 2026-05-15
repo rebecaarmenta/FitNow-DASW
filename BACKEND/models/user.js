@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Discipline'
         },
-        goal: { type: Number, default: 4 }
+        goal: { type: Number, default: 0 }
     }],
     rol: { type: String, enum: ['usuario', 'instructor'], default: 'usuario' },
     joined_at: { type: Date, default: Date.now }

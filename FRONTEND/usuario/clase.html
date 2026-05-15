@@ -76,7 +76,7 @@
       color: #2a2520; text-transform: uppercase; margin-bottom: 20px;
     }
     .section-subtitle {
-      color: #4a4035; font-size: 14px; margin-bottom: 26px; line-height: 1.5;
+      color: #4a4035; font-size: 14px; margin-bottom: 26px; line-height: 1.5; margin-top: 20px;
     }
     .class-list { display: flex; flex-direction: column; gap: 14px; }
     .class-row {
@@ -166,7 +166,6 @@
   </div>
 
   <div class="page-body">
-    <h1 class="section-title" id="discipline-title">Detalles de la clase</h1>
     <p class="section-subtitle" id="discipline-description">Cargando información...</p>
     <div class="class-list" id="class-list"></div>
   </div>
@@ -187,13 +186,11 @@
       const disciplineId = params.get('id');
 
       const classList = document.getElementById('class-list');
-      const titleEl = document.getElementById('discipline-title');
       const descEl = document.getElementById('discipline-description');
       const heroImage = document.getElementById('hero-image');
       const heroTitle = document.getElementById('hero-title');
 
       if (!disciplineId) {
-        titleEl.textContent = 'Disciplina no encontrada';
         descEl.textContent = 'No se proporcionó un id de disciplina.';
         return;
       }
@@ -212,7 +209,6 @@
         ]);
 
         if (!disciplineResponse.ok) {
-          titleEl.textContent = 'Disciplina no encontrada';
           descEl.textContent = 'Intenta regresar a Mis clases para elegir otra disciplina.';
           classList.innerHTML = '';
           return;
@@ -223,14 +219,16 @@
         const enrollments = enrollmentsResponse.ok ? await enrollmentsResponse.json() : [];
         const enrolledIds = new Set(enrollments
           .filter(e => e.status === 'activa')
-          .map(e => e.session_id && e.session_id._id ? e.session_id._id : e.session_id)
+          .map(e => {
+            const sessionId = e.session_id && e.session_id._id ? e.session_id._id : e.session_id;
+            return String(sessionId);
+          })
         );
 
         const heroDefault = 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg';
         const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
         const isSpinning = disciplina.name.toLowerCase().includes('spinning');
 
-        titleEl.textContent = disciplina.name.toUpperCase();
         descEl.textContent = disciplina.description || 'Aquí puedes ver las sesiones disponibles y apuntarte.';
         heroTitle.textContent = disciplina.name.toUpperCase();
         heroImage.onerror = () => { heroImage.onerror = null; heroImage.src = isSpinning ? spinningImg : heroDefault; };
@@ -239,7 +237,6 @@
         renderSessions(sessions, enrolledIds);
       } catch (error) {
         console.error('Error al cargar la clase:', error);
-        titleEl.textContent = 'Error de carga';
         descEl.textContent = 'No se pudo cargar la información de la clase. Intenta nuevamente.';
         classList.innerHTML = '';
       }
@@ -255,7 +252,7 @@
       }
 
       classList.innerHTML = sessions.map(session => {
-        const isEnrolled = enrolledIds.has(session._id);
+        const isEnrolled = enrolledIds.has(String(session._id));
         const buttonText = isEnrolled ? 'Inscrito' : (session.capacity <= 0 ? 'Llena' : 'Inscribirse');
         const disabled = isEnrolled || session.capacity <= 0 ? 'disabled' : '';
         return `
@@ -289,10 +286,16 @@
       }).join('');
     }
 
+    function parseLocalDate(dateString) {
+      if (!dateString) return null;
+      const [year, month, day] = dateString.slice(0, 10).split('-').map(Number);
+      if ([year, month, day].some(value => isNaN(value))) return null;
+      return new Date(year, month - 1, day);
+    }
+
     function formatDay(dateString) {
-      if (!dateString) return 'Sin fecha';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric' });
+      const date = parseLocalDate(dateString);
+      return date ? date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric' }) : 'Sin fecha';
     }
 
     async function enroll(sessionId) {
@@ -321,11 +324,28 @@
         }
 
         showToast('Inscripción exitosa');
-        const sessionButton = document.querySelector(`button[onclick="enroll('${sessionId}')"]`);
-        if (sessionButton) {
-          sessionButton.textContent = 'Inscrito';
-          sessionButton.disabled = true;
-          sessionButton.classList.add('inscrito');
+        // Actualizar inscripciones sin recargar la página
+        const enrollmentsResponse = await fetch(`${local_url}/enrollments/user/${user.id}`, {
+          headers: { 'Authorization': token, 'Content-Type': 'application/json' }
+        });
+
+        if (enrollmentsResponse.ok) {
+          const enrollments = await enrollmentsResponse.json();
+          const enrolledIds = new Set(enrollments
+            .filter(e => e.status === 'activa')
+            .map(e => {
+              const sId = e.session_id && e.session_id._id ? e.session_id._id : e.session_id;
+              return String(sId);
+            })
+          );
+
+          // Actualizar el botón de esta sesión
+          const sessionButton = document.querySelector(`button[onclick="enroll('${sessionId}')"]`);
+          if (sessionButton) {
+            sessionButton.textContent = 'Inscrito';
+            sessionButton.disabled = true;
+            sessionButton.classList.add('inscrito');
+          }
         }
       } catch (error) {
         console.error('Error al inscribir:', error);

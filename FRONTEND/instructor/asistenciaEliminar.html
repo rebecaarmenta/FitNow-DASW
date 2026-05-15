@@ -436,7 +436,14 @@
                     renderRows(this.value.toLowerCase().trim());
                 });
             });
- 
+
+            function parseLocalDate(dateString) {
+                if (!dateString) return null;
+                const [year, month, day] = dateString.slice(0, 10).split('-').map(Number);
+                if ([year, month, day].some(value => isNaN(value))) return null;
+                return new Date(year, month - 1, day);
+            }
+
             // ── CARGA: busca el instructor y filtra por disciplina ─
             async function loadSessionsByDiscipline(disciplineId, token) {
                 try {
@@ -498,7 +505,8 @@
                     ? allSessions.filter(s => {
                         const d    = s.discipline_id;
                         const name = (d?.name || '').toLowerCase();
-                        const day  = DAY_NAMES[new Date(s.date).getDay()].toLowerCase();
+                        const dayDate = parseLocalDate(s.date);
+                        const day  = dayDate ? DAY_NAMES[dayDate.getDay()].toLowerCase() : '';
                         const time = (s.time || '').toLowerCase();
                         return name.includes(filter) || day.includes(filter) || time.includes(filter);
                     })
@@ -512,8 +520,8 @@
                 list.innerHTML = filtered.map(session => {
                     const d        = session.discipline_id;
                     const name     = d?.name  || 'Clase';
-                    const date     = new Date(session.date);
-                    const day      = DAY_NAMES[date.getDay()];
+                    const dateObj  = parseLocalDate(session.date);
+                    const day      = dateObj ? DAY_NAMES[dateObj.getDay()] : 'Sin fecha';
                     const time     = session.time     || 'Sin hora';
                     const capacity = session.capacity || 'N/A';
  

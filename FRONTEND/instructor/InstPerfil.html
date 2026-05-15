@@ -16,7 +16,14 @@
             .custom-nav { background: #2a2520; padding: 12px 0; }
             .nav-logo { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; color: #f0ebe3 !important; text-decoration: none; }
             .nav-logo span { color: #c8b89a; }
-            .nav-links-a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #b0a898 !important; transition: color 0.2s; }
+            .nav-links-a {
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: #b0a898 !important;
+                transition: color 0.2s;
+                padding: 8px 18px !important;
+            }
             .nav-links-a:hover, .nav-links-a.active { color: #f0ebe3 !important; }
             .navbar-toggler { border: none !important; box-shadow: none !important; }
             .navbar-toggler-icon { filter: invert(0.8); }
@@ -31,7 +38,6 @@
             body {
                 font-family: 'DM Sans', sans-serif;
                 background-color: #e6e4e1;
-                /* ✅ scroll habilitado siempre */
                 overflow-y: auto;
                 overflow-x: hidden;
             }
@@ -65,19 +71,18 @@
                 display: flex;
                 justify-content: center;
                 align-items: flex-start;
-                padding: 40px 24px 48px;
+                padding-top: 35px;
             }
- 
+
             .box {
                 width: 75%;
                 max-width: 430px;
             }
  
             h1 {
-                font-family: 'DM Serif Display', serif;
                 font-size: 30px;
                 font-weight: 400;
-                margin-bottom: 16px;
+                margin-bottom: 8px;
                 color: #2a2520;
             }
  
@@ -88,13 +93,12 @@
             }
  
             .form-control {
-                height: 36px;
+                height: 34px;
                 border-radius: 25px;
                 border: 1.5px solid #333;
                 background-color: transparent;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
                 box-shadow: none;
-                font-family: 'DM Sans', sans-serif;
             }
  
             textarea.form-control { height: auto; }
@@ -325,7 +329,7 @@
                             <li class="nav-item"><a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a></li>
                             <li class="nav-item"><a class="nav-link nav-links-a" href="misClases.html">Mis clases</a></li>
                             <li class="nav-item"><a class="nav-link nav-links-a active" href="InstPerfil.html">Mi perfil</a></li>
-                            <li class="nav-item ms-lg-3">
+                            <li class="nav-item ms-lg-1">
                                 <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -348,7 +352,7 @@
                 <!-- Columna imagen -->
                 <div class="col-12 col-md-6 perfil-img">
                     <div class="avatar-wrapper">
-                        <img id="profile-avatar" src="https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg" alt="perfil">
+                        <img id="profile-avatar" src="https://flejedecosas.com/wp-content/uploads/perfil-de-usuario-google-chrome-vacio.jpg" alt="perfil">
                         <label id="photoLabel" for="photoInput" class="photo-label" title="Editar imagen">
                             <i class="fa-solid fa-pencil"></i>
                         </label>
@@ -402,7 +406,8 @@
  
         <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const user                  = JSON.parse(sessionStorage.getItem('user'));
+            const storedUser            = JSON.parse(sessionStorage.getItem('user') || '{}');
+            let user                    = storedUser;
             const token                 = sessionStorage.getItem('token');
             const profileName           = document.getElementById('profile-name');
             const profileAvatar         = document.getElementById('profile-avatar');
@@ -472,7 +477,7 @@
                 nameInput.value         = fullNameUpper;
                 emailInput.value        = data.email || '';
                 descriptionInput.value  = data.description || '';
-                profileAvatar.src       = data.photo || 'https://i.pinimg.com/736x/e0/d6/6b/e0d66bd5fca0046ea38d4ffeb0ef7525.jpg';
+                profileAvatar.src       = data.photo || 'https://flejedecosas.com/wp-content/uploads/perfil-de-usuario-google-chrome-vacio.jpg';
                 selectedClasses         = Array.isArray(data.classes) ? data.classes : [];
                 displaySelectedClasses(selectedClasses);
                 renderClassOptions(selectedClasses, editMode);
@@ -491,12 +496,14 @@
             setFields(user);
  
             try {
-                const response = await fetch(`${local_url}/users/${user.id}`, {
+                const userId = user.id || user._id;
+                const response = await fetch(`${local_url}/users/${userId}`, {
                     headers: { 'Authorization': `${token}` }
                 });
                 if (response.ok) {
                     const userData    = await response.json();
                     const merged      = { ...user, ...userData };
+                    user = merged;
                     sessionStorage.setItem('user', JSON.stringify(merged));
                     setFields(merged);
                 }
@@ -533,16 +540,18 @@
                 if (!nameValue) { alert('Ingresa tu nombre.'); return; }
  
                 const [firstName, ...lastNameParts] = nameValue.split(' ');
+                const currentPhoto = selectedPhoto ?? user.photo ?? '';
                 const body = {
                     name:        firstName,
                     lastname:    lastNameParts.join(' '),
                     description: descriptionValue,
-                    classes:     selectedClasses
+                    classes:     selectedClasses,
+                    photo:       currentPhoto
                 };
-                if (selectedPhoto) body.photo = selectedPhoto;
  
                 try {
-                    const response = await fetch(`${local_url}/users/${user.id}`, {
+                    const userId = user.id || user._id;
+                    const response = await fetch(`${local_url}/users/${userId}`, {
                         method: 'PATCH',
                         headers: { 'Authorization': `${token}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify(body)
@@ -555,7 +564,11 @@
                     }
  
                     const result      = await response.json();
-                    const updatedUser = { ...user, ...result.user };
+                    const updatedUser = {
+                        ...user,
+                        ...result.user,
+                        photo: result.user.photo || selectedPhoto || user.photo || ''
+                    };
                     sessionStorage.setItem('user', JSON.stringify(updatedUser));
                     setFields(updatedUser);
                     setEditable(false);

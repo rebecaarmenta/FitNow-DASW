@@ -13,7 +13,6 @@
         />
         <link rel="stylesheet" href="../style.css">
  
-        <!-- ✅ Fuentes consistentes con el resto del proyecto -->
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
  
         <script src="../controllers/env.js"></script>
@@ -87,7 +86,6 @@
             * { box-sizing: border-box; margin: 0; padding: 0; }
  
             body {
-                font-family: 'DM Sans', sans-serif;
                 background: #ede9e2;
                 min-height: 100vh;
             }
@@ -96,7 +94,7 @@
             .create-session-container {
                 display: flex;
                 flex-direction: column;
-                min-height: calc(100vh - 57px); /* ✅ min-height para no cortar en móvil */
+                min-height: calc(100vh - 57px); 
             }
  
             /* ── COLUMNA IMAGEN ── */
@@ -130,7 +128,6 @@
             }
  
             .page-title {
-                font-family: 'DM Serif Display', serif; /* ✅ consistente con el resto del proyecto */
                 font-size: clamp(26px, 5vw, 34px);
                 color: #2a2520;
                 text-transform: uppercase;
@@ -167,7 +164,6 @@
                 letter-spacing: 0.08em;
             }
  
-            /* ✅ Estilos unificados para inputs y selects */
             .session-form input,
             .session-form select {
                 font-family: 'DM Sans', sans-serif;
@@ -200,7 +196,6 @@
                 cursor: pointer;
             }
  
-            /* ✅ Estilo del placeholder/option deshabilitada */
             .session-form select option[disabled] {
                 color: #999;
             }
@@ -288,7 +283,6 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
                 <div class="container-fluid px-lg-5">
-                    <!-- ✅ Logo de texto igual que en todos los demás -->
                     <a class="navbar-brand nav-logo" href="clasesSemana.html">fit<span>now</span></a>
  
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -333,12 +327,10 @@
                         <div class="linea"></div>
                     </div>
  
-                    <!-- ✅ id en el form para capturarlo fácil desde el script -->
                     <form class="session-form" id="sessionForm" novalidate>
  
                         <div class="input-group">
                             <label for="discipline">Disciplina</label>
-                            <!-- ✅ Se llena dinámicamente con los IDs reales de MongoDB -->
                             <select id="discipline" name="discipline" required>
                                 <option value="" disabled selected>Cargando disciplinas...</option>
                             </select>
@@ -392,7 +384,6 @@
                             <button type="submit" class="publish-btn" id="publishBtn">PUBLICAR SESIÓN</button>
                         </div>
  
-                        <!-- ✅ Área de feedback sin alerts molestos -->
                         <p class="form-message" id="formMessage"></p>
  
                     </form>
@@ -421,11 +412,9 @@
                     return;
                 }
  
-                // ✅ Fecha mínima = hoy
                 const dateInput = document.getElementById('date');
                 dateInput.min = new Date().toISOString().split('T')[0];
  
-                // ✅ Cargar disciplinas reales desde la API (ObjectIds reales)
                 await loadDisciplines(token);
  
                 document.getElementById('btnLogout')?.addEventListener('click', () => {
@@ -450,7 +439,7 @@
                     select.innerHTML = '<option value="" disabled selected>Elige una disciplina</option>';
                     disciplines.forEach(d => {
                         const opt = document.createElement('option');
-                        opt.value = d._id;           // ✅ ObjectId real para el backend
+                        opt.value = d._id;           
                         opt.textContent = d.name;
                         select.appendChild(opt);
                     });
@@ -477,8 +466,15 @@
                     msgEl.className = 'form-message error';
                     return;
                 }
+
+                const [year, month, day] = date.split('-').map(Number);
+                const selectedDate = new Date(year, month - 1, day);
+                if (selectedDate.getDay() === 0) {
+                    msgEl.textContent = 'No se ofertan clases los domingos.';
+                    msgEl.className = 'form-message error';
+                    return;
+                }
  
-                // ✅ instructor_id viene del usuario en sesión
                 const user = JSON.parse(sessionStorage.getItem('user') || '{}');
                 const instructor_id = user._id || user.id;
  
@@ -496,12 +492,12 @@
                 const token = sessionStorage.getItem('token');
  
                 const body = {
-                    instructor_id,          // ✅ requerido por el backend
-                    discipline_id,          // ✅ ObjectId real
+                    instructor_id,          
+                    discipline_id,        
                     date,
                     time,
                     capacity: Number(capacity),
-                    place                   // ✅ campo correcto (no "room")
+                    place                  
                 };
  
                 console.log('📤 Enviando sesión:', JSON.stringify(body, null, 2));
@@ -516,7 +512,13 @@
                         body: JSON.stringify(body)
                     });
  
-                    const data = await response.json().catch(() => ({}));
+                    const responseText = await response.text();
+                    let data = {};
+                    try {
+                        data = responseText ? JSON.parse(responseText) : {};
+                    } catch (_) {
+                        data = { message: responseText };
+                    }
                     console.log('📥 Respuesta:', response.status, data);
  
                     if (response.ok) {

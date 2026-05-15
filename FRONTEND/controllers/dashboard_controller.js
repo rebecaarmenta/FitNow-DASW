@@ -27,14 +27,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             method: 'GET',
             headers
         });
+        const disciplinesPromise = fetch(`${local_url}/disciplines`, {
+            method: 'GET',
+            headers
+        });
         const profilePromise = user.goals ? Promise.resolve(null) : fetch(`${local_url}/users/${user.id}`, {
             method: 'GET',
             headers
         });
 
-        const [enrollmentsResponse, attendancesResponse, profileResponse] = await Promise.all([
+        const [enrollmentsResponse, attendancesResponse, disciplinesResponse, profileResponse] = await Promise.all([
             enrollmentsPromise,
             attendancesPromise,
+            disciplinesPromise,
             profilePromise
         ]);
 
@@ -44,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const enrollments = await enrollmentsResponse.json();
         const attendances = attendancesResponse.ok ? await attendancesResponse.json() : [];
+        const disciplines = disciplinesResponse.ok ? await disciplinesResponse.json() : [];
 
         if (profileResponse) {
             const profileData = await profileResponse.json();
@@ -54,6 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         dashboardState = {
             enrollments,
             attendances,
+            disciplines,
             userGoals: user.goals || []
         };
 
@@ -135,6 +142,17 @@ function renderHistorialMetas() {
 
     const resumen = {};
 
+    // Incluir todas las disciplinas disponibles
+    dashboardState.disciplines.forEach(discipline => {
+        const id = discipline._id?.toString() || discipline.toString();
+        resumen[id] = {
+            discipline_id: id,
+            name: discipline.name || 'Clase',
+            attendances: 0,
+            goal: goalsByDiscipline[id] ?? 0
+        };
+    });
+
     dashboardState.enrollments.forEach(e => {
         if (e.status !== 'activa' || !e.session_id?.discipline_id) return;
         const discipline = e.session_id.discipline_id;
@@ -145,7 +163,7 @@ function renderHistorialMetas() {
                 discipline_id: id,
                 name: discipline.name || 'Clase',
                 attendances: 0,
-                goal: goalsByDiscipline[id] ?? 4
+                goal: goalsByDiscipline[id] ?? 0
             };
         }
     });
@@ -160,7 +178,7 @@ function renderHistorialMetas() {
                 discipline_id: id,
                 name: discipline.name || 'Clase',
                 attendances: 0,
-                goal: goalsByDiscipline[id] ?? 4
+                goal: goalsByDiscipline[id] ?? 0
             };
         }
 

@@ -13,7 +13,6 @@
         />
         <link rel="stylesheet" href="../style.css">
  
-        <!-- ✅ Fuente que usa el logo -->
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
  
         <script src="../controllers/env.js"></script>
@@ -233,7 +232,6 @@
         </style>
     </head>
  
-    <!-- ✅ <body> va AQUÍ, no después del <header> -->
     <body>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
@@ -257,7 +255,6 @@
                                 <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
                             </li>
                             <li class="nav-item ms-lg-3">
-                                <!-- ✅ id="btnLogout" para que el script lo encuentre -->
                                 <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -321,7 +318,6 @@
                     return;
                 }
  
-                // ✅ Ahora sí encuentra el botón porque tiene id="btnLogout"
                 document.getElementById('btnLogout')?.addEventListener('click', () => {
                     sessionStorage.clear();
                     window.location.href = local_url + '/login';
@@ -353,12 +349,19 @@
                 const match = timeString.match(/(\d{1,2}:\d{2})/);
                 return match ? match[1] : null;
             }
+
+            function parseLocalDate(dateString) {
+                if (!dateString) return null;
+                const [year, month, day] = dateString.slice(0, 10).split('-').map(Number);
+                if ([year, month, day].some(value => isNaN(value))) return null;
+                return new Date(year, month - 1, day);
+            }
  
             function canEditAttendance(session) {
                 if (!session || !session.date || !session.time) return false;
                 const now = new Date();
-                const sessionDate = new Date(session.date);
-                if (sessionDate.toDateString() !== now.toDateString()) return false;
+                const sessionDate = parseLocalDate(session.date);
+                if (!sessionDate || sessionDate.toDateString() !== now.toDateString()) return false;
                 const startTimeText = parseStartTime(session.time);
                 if (!startTimeText) return false;
                 const [hour, minute] = startTimeText.split(':').map(Number);
@@ -399,7 +402,7 @@
                     return {
                         id: user._id || '',
                         name: `${user.name || 'Alumno'} ${user.lastname || ''}`.trim(),
-                        photo: user.photo || 'https://via.placeholder.com/100',
+                        photo: user.photo || 'https://flejedecosas.com/wp-content/uploads/perfil-de-usuario-google-chrome-vacio.jpg',
                         attendanceId: attendanceRecord?._id || null,
                         attended: attendanceRecord?.attended ?? null
                     };
