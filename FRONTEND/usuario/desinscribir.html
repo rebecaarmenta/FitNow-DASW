@@ -287,8 +287,12 @@
 
       grid.innerHTML = activas.map(e => {
         const session = e.session_id;
-        const img = session?.discipline_id?.img || 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg';
-        const nombre = session?.discipline_id?.name || 'Clase';
+        const nombre = (session?.discipline_id?.name || 'Clase').toString();
+        const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
+        const defaultImg = 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg';
+        const img = nombre.toLowerCase().includes('spinning')
+            ? spinningImg
+            : (session?.discipline_id?.img || defaultImg);
         const dia = session?.date ? new Date(session.date).toLocaleDateString('es-ES', { weekday: 'long', day: '2-digit', month: '2-digit' }) : 'Sin fecha';
         const hora = session?.time || 'Sin hora';
         const salon = session?.place || 'Sin salón';
@@ -296,7 +300,7 @@
 
         return `
         <div class="card" id="card-${e._id}">
-          <img class="card-img" src="${img}" alt="${nombre}" loading="lazy" />
+          <img class="card-img" src="${img}" alt="${nombre}" loading="lazy" onerror="this.onerror=null; this.src='${defaultImg}'" />
           <div class="card-info">
             <div>
               <p class="card-name">${nombre}</p>

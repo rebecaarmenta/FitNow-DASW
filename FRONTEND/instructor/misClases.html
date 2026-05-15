@@ -238,12 +238,15 @@
                         if (!d) return;
  
                         // Soporte para discipline_id como objeto o como string
-                        const key  = d._id || d;
-                        const name = d.name || 'Clase';
-                        const img  = d.img  || 'https://via.placeholder.com/300x400?text=Clase';
+                        const key      = d._id || d;
+                        const name     = (d.name || 'Clase').toString();
+                        const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
+                        const isSpinning  = name.toLowerCase().includes('spinning');
+                        const img         = isSpinning ? spinningImg : (d.img || 'https://via.placeholder.com/300x400?text=Clase');
+                        const fallback    = isSpinning ? spinningImg : 'https://via.placeholder.com/300x400?text=Clase';
  
                         if (!disciplineMap[key]) {
-                            disciplineMap[key] = { id: key, name, img, sessions: [] };
+                            disciplineMap[key] = { id: key, name, img, fallback, sessions: [] };
                         }
                         disciplineMap[key].sessions.push(session);
                     });
@@ -272,7 +275,7 @@
                 // asistenciaEliminar.html recibirá ?discipline=<id> y cargará TODAS las sesiones de esa disciplina
                 grid.innerHTML = list.map(d => `
                     <div class="card" onclick="window.location.href='asistenciaEliminar.html?discipline=${d.id}'">
-                        <img src="${d.img}" alt="${d.name}" loading="lazy" />
+                        <img src="${d.img}" alt="${d.name}" loading="lazy" onerror="this.onerror=null; this.src='${d.fallback}'" />
                         <div class="card-overlay"></div>
                         <div class="card-info">
                             <span class="card-name">${d.name}</span>

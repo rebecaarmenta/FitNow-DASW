@@ -33,13 +33,23 @@ function renderGrid(disciplinas) {
         return;
     }
 
-    grid.innerHTML = disciplinas.map(d => `
-        <div class="card" onclick="verDetalle('${d._id}')">
-            <img src="${d.img}" alt="${d.name}" /> 
-            <div class="card-overlay"></div>
-            <span class="card-name">${d.name.toUpperCase()}</span>
-        </div>
-    `).join('');
+    const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
+    grid.innerHTML = disciplinas.map(d => {
+        const name = (d.name || '').toString();
+        const imageSrc = name.toLowerCase().includes('spinning')
+            ? spinningImg
+            : (d.img || 'https://via.placeholder.com/320x420?text=Clase');
+        const fallback = name.toLowerCase().includes('spinning')
+            ? spinningImg
+            : 'https://via.placeholder.com/320x420?text=Clase';
+        return `
+            <div class="card" onclick="verDetalle('${d._id}')">
+                <img src="${imageSrc}" alt="${d.name}" onerror="this.onerror=null;this.src='${fallback}'" />
+                <div class="card-overlay"></div>
+                <span class="card-name">${d.name.toUpperCase()}</span>
+            </div>
+        `;
+    }).join('');
 }
 
 function verDetalle(id) {

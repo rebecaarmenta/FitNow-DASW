@@ -43,7 +43,7 @@ export async function login(req, res) {
 // REGISTER
 export async function register(req, res) {
     try {
-        const { name, email, password, confirm_password, rol, codigo } = req.body;
+        const { name, email, password, confirm_password, rol, codigo, photo } = req.body;
  
         if (password !== confirm_password)
             return res.status(400).send('Las contrasenias no coinciden');
@@ -63,7 +63,7 @@ export async function register(req, res) {
             rolFinal = 'instructor';
         }
  
-        const nuevoUser = new User({ name, email, password, rol: rolFinal });
+        const nuevoUser = new User({ name, email, password, rol: rolFinal, photo });
         await nuevoUser.save();
         res.json(nuevoUser);
     } catch (err) {

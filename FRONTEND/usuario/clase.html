@@ -226,10 +226,15 @@
           .map(e => e.session_id && e.session_id._id ? e.session_id._id : e.session_id)
         );
 
+        const heroDefault = 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg';
+        const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
+        const isSpinning = disciplina.name.toLowerCase().includes('spinning');
+
         titleEl.textContent = disciplina.name.toUpperCase();
         descEl.textContent = disciplina.description || 'Aquí puedes ver las sesiones disponibles y apuntarte.';
         heroTitle.textContent = disciplina.name.toUpperCase();
-        heroImage.src = disciplina.img || (disciplina.name.toLowerCase().includes('spinning') ? 'https://atlantidaclinicaestetica.cat/wp-content/uploads/2021/02/gap-body-pump.jpg' : 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg');
+        heroImage.onerror = () => { heroImage.onerror = null; heroImage.src = isSpinning ? spinningImg : heroDefault; };
+        heroImage.src = disciplina.img || (isSpinning ? spinningImg : heroDefault);
 
         renderSessions(sessions, enrolledIds);
       } catch (error) {

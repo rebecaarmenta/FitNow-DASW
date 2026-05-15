@@ -471,9 +471,15 @@
  
                     // Actualizar hero con la info de la disciplina
                     const disc = allSessions[0].discipline_id;
+                    const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
+                    const heroDefault = 'https://via.placeholder.com/1200x220?text=Clase';
+                    const isSpinning = (disc.name || '').toString().toLowerCase().includes('spinning');
+                    const heroImage = document.getElementById('heroImg');
+
                     document.getElementById('heroTitle').textContent = (disc.name || 'Clase').toUpperCase();
-                    document.getElementById('heroImg').src = disc.img || 'https://via.placeholder.com/1200x220?text=Clase';
-                    document.getElementById('heroImg').alt = disc.name || 'Clase';
+                    heroImage.onerror = () => { heroImage.onerror = null; heroImage.src = isSpinning ? spinningImg : heroDefault; };
+                    heroImage.src = isSpinning ? spinningImg : (disc.img || heroDefault);
+                    heroImage.alt = disc.name || 'Clase';
  
                     renderRows();
  
