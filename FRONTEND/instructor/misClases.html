@@ -2,316 +2,180 @@
 <html lang="en" data-bs-theme="light">
     <head>
         <title>FitNow – Mis clases</title>
-        <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- Bootstrap CSS v5.3.8 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-            crossorigin="anonymous"
-        />
+ 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous"/>
         <link rel="stylesheet" href="../style.css">
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
+        <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet"/>
+        <script src="../controllers/env.js"></script>
+ 
         <style>
+            /* ── NAVBAR ── */
+            .custom-nav { background: #2a2520; padding: 12px 0; }
+            .nav-logo { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; color: #f0ebe3 !important; text-decoration: none; }
+            .nav-logo span { color: #c8b89a; }
+            .nav-links-a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #b0a898 !important; transition: color 0.2s; }
+            .nav-links-a:hover { color: #f0ebe3 !important; }
+            .navbar-toggler { border: none !important; box-shadow: none !important; }
+            .navbar-toggler-icon { filter: invert(0.8); }
+            .navbar-collapse { background: #2a2520; padding: 12px 0; }
+            @media (min-width: 992px) { .navbar-collapse { background: transparent; padding: 0; } }
+            .nav-logout-btn { background: none !important; border: none !important; color: #b0a898; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; }
+            .nav-logout-btn:hover { color: #f0ebe3; }
+ 
+            /* ── BASE ── */
             * { box-sizing: border-box; margin: 0; padding: 0; }
-
-            body {
-                margin: 0;
-                font-family: Arial, Helvetica, sans-serif;
-                background-color: #e6e4e1;
-                overflow-x: hidden;
-            }
-
-            /* CONTAINER */
-            .container {
-                padding: 20px;
-                max-width: 1400px;
-                margin: 0 auto;
-            }
-
-            /* HEADER */
+            body { font-family: 'DM Sans', sans-serif; background: #ede9e2; min-height: 100vh; }
+ 
+            .page-wrap { max-width: 1400px; margin: 0 auto; padding: 36px 24px 60px; }
+ 
+            /* ── CABECERA ── */
             .header-container {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 20px;
+                margin-bottom: 32px;
+                gap: 16px;
+                flex-wrap: wrap;
             }
-
+ 
             .section-title {
-                font-size: 25px;
+                font-family: 'DM Serif Display', serif;
+                font-size: clamp(26px, 4vw, 36px);
                 color: #2a2520;
                 text-transform: uppercase;
-                font-weight:10;
-                font-family: 'DM Sans', sans-serif;
-                margin: 0;
+                font-weight: 400;
             }
-
-            /* BUSCADOR */
-            .search-wrap {
-                margin: 0;
-            }
-
+ 
+            /* ── BUSCADOR ── */
             .search-box {
                 display: flex;
                 align-items: center;
-                background: transparent;
                 border: 1px solid #2a2520;
                 border-radius: 30px;
-                padding: 6px 14px;
+                padding: 8px 16px;
                 gap: 10px;
-                width: 100%;
-                width: 300px;
-                margin: 0 auto;
-                transition: border-color 0.2s;
-            }
-
-            .search-box input {
-                border: none;
-                outline: none;
-                font-family: 'DM Sans', sans-serif;
-                font-size: 14px;
-                color: #4a4035;
+                width: 260px;
                 background: transparent;
-                flex: 1;
             }
-
-            
-            /* GRID DE CLASES*/
+ 
+            .search-box input {
+                border: none; outline: none;
+                font-family: 'DM Sans', sans-serif;
+                font-size: 14px; color: #4a4035;
+                background: transparent; flex: 1;
+            }
+ 
+            /* ── GRID ── */
             .grid {
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 30px;
-                padding: 0 52px;
-                margin-top: -20px;
-                margin-bottom: 20px;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
             }
-
-            /* TARJETAS */
+ 
+            /* ── TARJETA ── */
             .card {
-                border-radius: 14px;
+                border-radius: 16px;
                 overflow: hidden;
                 position: relative;
-                height: 240px;
+                aspect-ratio: 3 / 4;
                 cursor: pointer;
                 border: none;
+                transition: transform 0.25s ease, box-shadow 0.25s ease;
             }
-            
-            .card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(42, 37, 32, 0.2); }
+ 
+            .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(42,37,32,0.22); }
+ 
             .card img {
-                width: 100%;
-                height: 100%;
+                width: 100%; height: 100%;
                 object-fit: cover;
-                filter: brightness(0.65);
+                filter: brightness(0.62);
+                transition: transform 0.3s ease, filter 0.3s ease;
             }
+ 
             .card:hover img { transform: scale(1.05); filter: brightness(0.7); }
-            .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 55%); }
-            .card-name {
+ 
+            .card-overlay {
+                position: absolute; inset: 0;
+                background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);
+            }
+ 
+            .card-info {
                 position: absolute;
-                bottom: 10px;
-                left: 0;
-                font-size: 40px;
-                font-weight: 550;
-                color: white;
+                bottom: 16px; left: 18px;
+                color: #fff;
+            }
+ 
+            .card-name {
+                font-family: 'DM Serif Display', serif;
+                font-size: clamp(20px, 3vw, 26px);
+                display: block;
                 text-transform: uppercase;
             }
-
-            /* MEDIA QUERIES */
-           @media (min-width: 768px) {
-                .header-container {
-                    padding: 40px 30px 20px;
-                }
-
-                .search-wrap {
-                    width: auto;
-                }
-
-                .search-box {
-                    margin: 0;
-                }
-            }
-
-            .no-results { grid-column: 1 / -1; text-align: center; color: #9a8f82; padding: 48px 0; }
-            .hidden { display: none; }
-
-            
-            .logo {
-                height: 35px;  
-                object-fit: contain;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
-            .navbar-custom {
-                background-color: #3f3f3f;
-                height: 60px;
-            }
-
-            .nav-links-a {
-                color: #dcdcdc !important;
-                font-size: 12.5px;
+ 
+            /* Badge con el número de sesiones */
+            .card-badge {
+                display: inline-block;
+                margin-top: 5px;
+                background: rgba(255,255,255,0.18);
+                border: 1px solid rgba(255,255,255,0.35);
+                color: #fff;
+                font-size: 11px;
+                font-weight: 500;
+                letter-spacing: 0.08em;
                 text-transform: uppercase;
-                padding: 12px 18px !important;
-                transition: 0.2s;
+                padding: 3px 10px;
+                border-radius: 20px;
             }
-
-            .nav-links-a:hover {
-                color: white !important;
-            }
-
-            .nav-logout-btn {
-                background: none;
-                border: none;
-                color: #dcdcdc;
-                font-size: 20px;
-                padding: 12px 18px;
-                transition: 0.2s;
-            }
-
-            .nav-logout-btn:hover {
-                color: white;
-            }
-
-            .navbar-toggler {
-                border: none;
-            }
-
-            .navbar-toggler:focus {
-                box-shadow: none;
-            }
-
-            @media (max-width: 767px) {
-                .navbar-collapse {
-                    background-color: #3f3f3f;
-                    position: relative;
-                    z-index: 9999;
-                    margin-top: 10px;
-                    border-radius: 0;
-
-                }
-
-                .navbar-nav {
-                    align-items: center !important;
-                    text-align: center;
-                    padding: 1px 0;
-                }
-
-                .nav-item,
-                .nav-links-a,
-                .nav-logout-btn {
-                    width: 100%;
-                }
-
-                .nav-links-a,
-                .nav-logout-btn {
-                    text-align: center;
-                }
-
-                .nav-links-a {
-                    font-size: 14px;
-                }
-
-                .container {
-                    padding: 16px;
-                }
-
-                .header-container {
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 12px;
-                    margin-bottom: 20px;
-                }
-
-                .section-title {
-                    font-size: 20px;
-                }
-
-                .search-wrap {
-                    width: 75%;
-                }
-
-                .search-box {
-                    width: 100%;
-                    max-width: 100%;
-                    padding: 6px 12px;
-                }
-
-                .grid {
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 16px;
-                    padding: 0 30px;
-                }
-
-                .card {
-                    height: 180px;
-                    border-radius: 14px;
-                }
-
-                .card-name {
-                    font-size: 22px;
-                    left: 8px;
-                    bottom: 10px;
-                }
+ 
+            .no-results { grid-column: 1 / -1; text-align: center; color: #9a8f82; padding: 60px 0; font-size: 16px; }
+ 
+            @media (max-width: 600px) {
+                .grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+                .header-container { flex-direction: column; align-items: flex-start; }
+                .search-box { width: 100%; }
             }
         </style>
     </head>
-
+ 
     <body>
         <header>
-            <!-- NAVEGACIÓN -->
-            <nav class="navbar navbar-expand-md navbar-dark navbar-custom px-3">
-                <a href="clasesSemana.html">
-                    <img src="3-Photoroom.png" class="logo">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="menu">
-                    <ul class="navbar-nav ms-auto align-items-center">
-                        <li class="nav-item">
-                            <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
-                        </li>
-                        <li class="nav-item ms-md-3">
-                            <button class="nav-logout-btn">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </button>
-                        </li>
-                    </ul>
+            <nav class="navbar navbar-expand-lg navbar-dark custom-nav">
+                <div class="container-fluid px-lg-5">
+                    <a class="navbar-brand nav-logo" href="clasesSemana.html">fit<span>now</span></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto align-items-center">
+                            <li class="nav-item"><a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a></li>
+                            <li class="nav-item"><a class="nav-link nav-links-a active" href="misClases.html">Mis clases</a></li>
+                            <li class="nav-item"><a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a></li>
+                            <li class="nav-item ms-lg-3">
+                                <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                        <polyline points="16 17 21 12 16 7"/>
+                                        <line x1="21" y1="12" x2="9" y2="12"/>
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         </header>
-        <main></main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- CUERPO -->
-        <div class="container">
-            <div class="header-container">
-                <h1 class="section-title">mis clases</h1>
-
-                <!-- BUSCADOR -->
-                <div class="search-wrap">
+ 
+        <main>
+            <div class="page-wrap">
+                <div class="header-container">
+                    <h1 class="section-title">Mis clases</h1>
                     <div class="search-box">
-                        <input type="text" id="search" placeholder="Buscar clase" oninput="filtrar()" />
+                        <input type="text" id="search" placeholder="Buscar disciplina" />
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="11" cy="11" r="8"/>
@@ -319,124 +183,108 @@
                         </svg>
                     </div>
                 </div>
+ 
+                <div class="grid" id="grid">
+                    <div class="no-results">Cargando clases...</div>
+                </div>
             </div>
-        </div>
-
-            
-
-            <!-- GRID DE CLASES -->
-            <div class="grid" id="grid"></div>
-
-        </div>
-
+        </main>
+ 
+        <footer></footer>
+ 
         <script>
-            // ── DATOS DE CLASES ──
-            const clases = [
-            { nombre: 'Pilates', img: 'https://i.pinimg.com/1200x/5c/8a/2b/5c8a2bc97a4993d9013bef88eb008272.jpg' },
-            { nombre: 'Spinning', img: 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg' },
-            { nombre: 'Zumba', img: 'https://i.pinimg.com/736x/d6/c3/ba/d6c3bab99ea80eebafdafedb9a1162f8.jpg' },
-            { nombre: 'Barre', img: 'https://i.pinimg.com/1200x/60/cc/86/60cc86d2e5e4574c92fdfe4096ea5af7.jpg' },
-            { nombre: 'Yoga', img: 'https://i.pinimg.com/736x/41/cc/f2/41ccf2d8419a83bb6346e0d318850351.jpg' },
-            { nombre: 'Box', img: 'https://i.pinimg.com/1200x/27/b6/f9/27b6f9dbfb8dc6f2e2ff06c034566ba5.jpg' },
-            { nombre: 'Gap', img: 'https://i.pinimg.com/1200x/f5/d4/5b/f5d45b623d1d9143bcccc2a9c7f98ef5.jpg' },
-            { nombre: 'Jump Fit', img: 'https://i.pinimg.com/1200x/4a/5c/03/4a5c03c74aad6ebb56450ff632b7f2c4.jpg' }
-            ];
-        </script>
-        <script src="../controllers/env.js"></script>
-        <script>
+            // disciplineMap: { [disciplineId]: { id, name, img, sessions[] } }
+            let disciplineMap = {};
+ 
             document.addEventListener('DOMContentLoaded', async () => {
+                const token      = sessionStorage.getItem('token');
                 const userString = sessionStorage.getItem('user');
-                const token = sessionStorage.getItem('token');
-
-                if (!userString || !token) {
+ 
+                if (!token || !userString) {
                     window.location.href = local_url + '/login';
                     return;
                 }
-
+ 
                 const user = JSON.parse(userString);
-                await loadInstructorSessions(user.id, token);
+                const instructorId = user._id || user.id;
+ 
+                await loadSessions(instructorId, token);
                 renderGrid();
-
-                document.querySelector('.nav-logout-btn')?.addEventListener('click', () => {
+ 
+                document.getElementById('btnLogout')?.addEventListener('click', () => {
                     sessionStorage.clear();
                     window.location.href = local_url + '/login';
                 });
+ 
+                document.getElementById('search')?.addEventListener('input', function() {
+                    renderGrid(this.value.toLowerCase().trim());
+                });
             });
-
-            let sessions = [];
-
-            async function loadInstructorSessions(instructorId, token) {
+ 
+            async function loadSessions(instructorId, token) {
                 try {
-                    const response = await fetch(`${local_url}/sessions/instructor/${instructorId}`, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': token
-                        }
+                    const res = await fetch(`${local_url}/sessions/instructor/${instructorId}`, {
+                        headers: { 'Authorization': token }
                     });
-
-                    if (!response.ok) {
-                        console.error('No se pudieron cargar las sesiones del instructor');
-                        return;
-                    }
-
-                    sessions = await response.json();
-                } catch (error) {
-                    console.error('Error cargando sesiones:', error);
+ 
+                    if (!res.ok) { console.error('Error:', res.status); return; }
+ 
+                    const sessions = await res.json();
+ 
+                    // Agrupar sesiones por discipline_id._id
+                    disciplineMap = {};
+                    sessions.forEach(session => {
+                        const d = session.discipline_id;
+                        if (!d) return;
+ 
+                        // Soporte para discipline_id como objeto o como string
+                        const key  = d._id || d;
+                        const name = d.name || 'Clase';
+                        const img  = d.img  || 'https://via.placeholder.com/300x400?text=Clase';
+ 
+                        if (!disciplineMap[key]) {
+                            disciplineMap[key] = { id: key, name, img, sessions: [] };
+                        }
+                        disciplineMap[key].sessions.push(session);
+                    });
+ 
+                } catch (err) {
+                    console.error('Error de red:', err);
                 }
             }
-
-            function renderGrid() {
+ 
+            function renderGrid(filter = '') {
                 const grid = document.getElementById('grid');
-                if (!grid) return;
-
-                if (!sessions || sessions.length === 0) {
-                    grid.innerHTML = '<div class="no-results">No tienes clases programadas</div>';
+                const all  = Object.values(disciplineMap);
+ 
+                const list = filter
+                    ? all.filter(d => d.name.toLowerCase().includes(filter))
+                    : all;
+ 
+                if (!list.length) {
+                    grid.innerHTML = `<div class="no-results">${
+                        all.length ? 'No se encontraron clases con ese nombre.' : 'No tienes clases programadas aún.'
+                    }</div>`;
                     return;
                 }
-
-                const tarjetas = sessions.map((session, i) => {
-                    const disciplineName = session.discipline_id?.name || 'Clase';
-                    const img = session.discipline_id?.img || 'https://via.placeholder.com/300x200?text=Clase';
-                    return `
-                        <div class="card" id="card-${i}" onclick="verSesion('${session._id}')">
-                            <img src="${img}" alt="${disciplineName}" loading="lazy" />
-                            <div class="card-overlay"></div>
-                            <span class="card-name">${disciplineName.toUpperCase()}</span>
+ 
+                // Una tarjeta por disciplina — pasa discipline como query param
+                // asistenciaEliminar.html recibirá ?discipline=<id> y cargará TODAS las sesiones de esa disciplina
+                grid.innerHTML = list.map(d => `
+                    <div class="card" onclick="window.location.href='asistenciaEliminar.html?discipline=${d.id}'">
+                        <img src="${d.img}" alt="${d.name}" loading="lazy" />
+                        <div class="card-overlay"></div>
+                        <div class="card-info">
+                            <span class="card-name">${d.name}</span>
+                            <span class="card-badge">${d.sessions.length} ${d.sessions.length === 1 ? 'sesión' : 'sesiones'}</span>
                         </div>
-                    `;
-                }).join('');
-
-                grid.innerHTML = tarjetas + '<div class="no-results hidden" id="no-results">No se encontraron clases</div>';
-            }
-
-            function verSesion(sessionId) {
-                window.location.href = `asistenciaEliminar.html?id=${sessionId}`;
-            }
-
-            function filtrar() {
-                const query = document.getElementById('search').value.toLowerCase().trim();
-                let visibles = 0;
-
-                sessions.forEach((session, i) => {
-                    const card = document.getElementById(`card-${i}`);
-                    const disciplineName = session.discipline_id?.name || '';
-                    const coincide = disciplineName.toLowerCase().includes(query);
-                    if (card) {
-                        card.classList.toggle('hidden', !coincide);
-                        if (coincide) visibles++;
-                    }
-                });
-
-                const noResults = document.getElementById('no-results');
-                if (noResults) {
-                    noResults.classList.toggle('hidden', visibles > 0);
-                }
+                    </div>
+                `).join('');
             }
         </script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+ 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"
-        ></script>
+            crossorigin="anonymous"></script>
     </body>
 </html>

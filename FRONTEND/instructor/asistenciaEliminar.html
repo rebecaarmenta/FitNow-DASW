@@ -12,86 +12,26 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="../style.css">
- 
-        <!-- ✅ Fuente para el logo -->
         <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet" />
- 
         <script src="../controllers/env.js"></script>
  
         <style>
-            /* ── NAVBAR (igual que clasesSemana) ── */
-            .custom-nav {
-                background: #2a2520;
-                padding: 12px 0;
-            }
- 
-            .nav-logo {
-                font-family: 'DM Serif Display', serif;
-                font-size: 28px;
-                letter-spacing: -0.5px;
-                color: #f0ebe3 !important;
-                text-decoration: none;
-            }
- 
-            .nav-logo span {
-                color: #c8b89a;
-            }
- 
-            .nav-links-a {
-                font-size: 11px;
-                letter-spacing: 0.12em;
-                text-transform: uppercase;
-                color: #b0a898 !important;
-                transition: color 0.2s;
-            }
- 
-            .nav-links-a:hover {
-                color: #f0ebe3 !important;
-            }
- 
-            .navbar-toggler {
-                border: none !important;
-                box-shadow: none !important;
-            }
- 
-            .navbar-toggler-icon {
-                filter: invert(0.8);
-            }
- 
-            .navbar-collapse {
-                background: #2a2520;
-                padding: 12px 0;
-            }
- 
-            @media (min-width: 992px) {
-                .navbar-collapse {
-                    background: transparent;
-                    padding: 0;
-                }
-            }
- 
-            .nav-logout-btn {
-                background: none !important;
-                border: none !important;
-                color: #b0a898;
-                cursor: pointer;
-                transition: color 0.2s;
-                display: flex;
-                align-items: center;
-            }
- 
-            .nav-logout-btn:hover {
-                color: #f0ebe3;
-            }
+            /* ── NAVBAR ── */
+            .custom-nav { background: #2a2520; padding: 12px 0; }
+            .nav-logo { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; color: #f0ebe3 !important; text-decoration: none; }
+            .nav-logo span { color: #c8b89a; }
+            .nav-links-a { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #b0a898 !important; transition: color 0.2s; }
+            .nav-links-a:hover { color: #f0ebe3 !important; }
+            .navbar-toggler { border: none !important; box-shadow: none !important; }
+            .navbar-toggler-icon { filter: invert(0.8); }
+            .navbar-collapse { background: #2a2520; padding: 12px 0; }
+            @media (min-width: 992px) { .navbar-collapse { background: transparent; padding: 0; } }
+            .nav-logout-btn { background: none !important; border: none !important; color: #b0a898; cursor: pointer; transition: color 0.2s; display: flex; align-items: center; }
+            .nav-logout-btn:hover { color: #f0ebe3; }
  
             /* ── BASE ── */
             * { box-sizing: border-box; margin: 0; padding: 0; }
- 
-            body {
-                font-family: 'DM Sans', sans-serif;
-                background: #ede9e2;
-                min-height: 100vh;
-            }
+            body { font-family: 'DM Sans', sans-serif; background: #ede9e2; min-height: 100vh; }
  
             /* ── HERO BANNER ── */
             .hero {
@@ -127,16 +67,10 @@
                 transition: background 0.2s;
             }
  
-            .back-btn:hover {
-                background: rgba(255,255,255,0.35);
-            }
+            .back-btn:hover { background: rgba(255,255,255,0.35); }
  
             /* ── CUERPO Y BUSCADOR ── */
-            .body {
-                padding: 30px 20px;
-                position: relative;
-                z-index: 1;
-            }
+            .body { padding: 30px 20px; position: relative; z-index: 1; }
  
             .search-container {
                 display: flex;
@@ -159,6 +93,23 @@
                 border: none; outline: none;
                 background: transparent;
                 flex: 1; font-size: 16px;
+            }
+ 
+            /* ── ENCABEZADO DE COLUMNAS (solo desktop) ── */
+            .list-header {
+                display: none;
+            }
+ 
+            @media (min-width: 992px) {
+                .list-header {
+                    display: grid;
+                    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
+                    padding: 0 40px 8px;
+                    color: #9a8f82;
+                    font-size: 11px;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                }
             }
  
             /* ── LISTA DE CLASES ── */
@@ -232,8 +183,15 @@
  
             .crear-sesion-btn:hover { opacity: 0.85; }
  
+            /* Estado vacío */
+            .empty-state {
+                text-align: center;
+                color: #9a8f82;
+                padding: 60px 0;
+                font-size: 16px;
+            }
+ 
             /* ── MODAL ELIMINAR ── */
-            /* ✅ Se quitó position: fixed — se usa un wrapper de altura fija en su lugar */
             .modal-wrapper {
                 position: fixed;
                 inset: 0;
@@ -285,15 +243,9 @@
                 border: none;
             }
  
-            .modal-divider {
-                border-color: #b0a898;
-                margin: 10px 0;
-            }
+            .modal-divider { border-color: #b0a898; margin: 10px 0; }
  
-            .modal-box .modal-body {
-                padding: 12px 0;
-                color: #4a4035;
-            }
+            .modal-box .modal-body { padding: 12px 0; color: #4a4035; }
  
             .modal-box .modal-footer {
                 display: flex;
@@ -305,8 +257,7 @@
             }
  
             .modal-btn {
-                border: none;
-                outline: none;
+                border: none; outline: none;
                 padding: 10px 25px;
                 border-radius: 25px;
                 font-weight: bold;
@@ -322,7 +273,7 @@
             .btn-no { background-color: transparent; color: #4a4a46; border: 1px solid #4a4a46; }
             .btn-no:hover { background-color: rgba(0,0,0,0.05); }
  
-            /* ── MEDIA QUERIES PARA PANTALLAS GRANDES ── */
+            /* ── DESKTOP ── */
             @media (min-width: 992px) {
                 .body { padding: 40px 80px; }
  
@@ -333,9 +284,10 @@
                     text-align: left;
                     padding: 15px 40px;
                     border-radius: 40px;
+                    align-items: center;
                 }
  
-                .btn-group { width: auto; justify-content: flex-end; }
+                .btn-group { width: auto; justify-content: flex-end; margin-top: 0; }
                 .crear-sesion-btn { margin-right: 0; }
             }
         </style>
@@ -354,17 +306,10 @@
  
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto align-items-center">
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="misClases.html">Mis clases</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link nav-links-a" href="crearSesion.html">Crear sesion</a></li>
+                            <li class="nav-item"><a class="nav-link nav-links-a active" href="misClases.html">Mis clases</a></li>
+                            <li class="nav-item"><a class="nav-link nav-links-a" href="InstPerfil.html">Mi perfil</a></li>
                             <li class="nav-item ms-lg-3">
-                                <!-- ✅ id="btnLogout" para que el script lo encuentre -->
                                 <button class="nav-logout-btn" id="btnLogout" title="Cerrar sesión">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -383,7 +328,7 @@
         <main>
             <!-- HERO BANNER -->
             <div class="hero">
-                <img
+                <img id="heroImg"
                     src="https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg"
                     alt="Clase"
                 />
@@ -393,14 +338,14 @@
                         <polyline points="15 18 9 12 15 6"/>
                     </svg>
                 </button>
-                <span class="hero-title">CARGANDO...</span>
+                <span class="hero-title" id="heroTitle">CARGANDO...</span>
             </div>
  
             <!-- CUERPO -->
             <div class="body">
                 <div class="search-container">
                     <div class="search-box">
-                        <input type="text" placeholder="Buscar clase" id="searchInput">
+                        <input type="text" placeholder="Buscar sesión" id="searchInput">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -408,7 +353,18 @@
                     </div>
                 </div>
  
-                <div class="class-list" id="class-list"></div>
+                <!-- Encabezado de columnas (solo visible en desktop) -->
+                <div class="list-header">
+                    <span>Clase</span>
+                    <span>Día</span>
+                    <span>Hora</span>
+                    <span>Capacidad</span>
+                    <span></span>
+                </div>
+ 
+                <div class="class-list" id="class-list">
+                    <div class="empty-state">Cargando sesiones...</div>
+                </div>
  
                 <button class="crear-sesion-btn" id="btnCrearSesion">
                     CREAR SESIÓN <span>+</span>
@@ -418,7 +374,7 @@
  
         <footer></footer>
  
-        <!-- ✅ Modal con clase .modal-wrapper para no chocar con Bootstrap -->
+        <!-- Modal eliminar -->
         <div class="modal-wrapper" id="modalOverlay">
             <div class="modal-box">
                 <div class="modal-header">
@@ -437,24 +393,34 @@
         </div>
  
         <script>
+            const DAY_NAMES = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+ 
+            let allSessions    = [];   // todas las sesiones de esta disciplina
+            let sessionToDelete = null;
+ 
+            const modalOverlay  = document.getElementById('modalOverlay');
+            const closeModalBtn = document.getElementById('closeModal');
+            const cancelBtn     = document.getElementById('cancelEliminar');
+            const confirmBtn    = document.getElementById('confirmEliminar');
+ 
+            // ── INIT ──────────────────────────────────────────────
             document.addEventListener('DOMContentLoaded', async () => {
                 const token = sessionStorage.getItem('token');
- 
                 if (!token) {
                     window.location.href = local_url + '/login';
                     return;
                 }
  
-                const urlParams = new URLSearchParams(window.location.search);
-                const sessionId = urlParams.get('id');
+                const urlParams    = new URLSearchParams(window.location.search);
+                const disciplineId = urlParams.get('discipline');
  
-                if (!sessionId) {
-                    alert('Sesión no encontrada');
+                if (!disciplineId) {
+                    alert('Disciplina no encontrada');
                     window.location.href = 'misClases.html';
                     return;
                 }
  
-                await loadSession(sessionId, token);
+                await loadSessionsByDiscipline(disciplineId, token);
  
                 document.getElementById('btnLogout')?.addEventListener('click', () => {
                     sessionStorage.clear();
@@ -465,82 +431,108 @@
                     window.location.href = 'crearSesion.html';
                 });
  
-                // ✅ Buscador funcional — filtra las filas visibles
+                // Buscador — filtra por día u hora
                 document.getElementById('searchInput')?.addEventListener('input', function() {
-                    const query = this.value.toLowerCase();
-                    document.querySelectorAll('.class-row').forEach(row => {
-                        const text = row.querySelector('.col-name')?.textContent.toLowerCase() || '';
-                        row.style.display = text.includes(query) ? '' : 'none';
-                    });
+                    renderRows(this.value.toLowerCase().trim());
                 });
             });
  
-            let currentSession = null;
-            let sessionToDelete = null;
- 
-            const modalOverlay  = document.getElementById('modalOverlay');
-            const closeModalBtn = document.getElementById('closeModal');
-            const cancelBtn     = document.getElementById('cancelEliminar');
-            const confirmBtn    = document.getElementById('confirmEliminar');
- 
-            async function loadSession(sessionId, token) {
+            // ── CARGA: busca el instructor y filtra por disciplina ─
+            async function loadSessionsByDiscipline(disciplineId, token) {
                 try {
-                    const response = await fetch(`${local_url}/sessions/${sessionId}`, {
+                    const userString = sessionStorage.getItem('user');
+                    const user       = JSON.parse(userString);
+                    const instructorId = user._id || user.id;
+ 
+                    const res = await fetch(`${local_url}/sessions/instructor/${instructorId}`, {
                         headers: { 'Authorization': token }
                     });
  
-                    if (!response.ok) {
-                        alert('Sesión no encontrada');
+                    if (!res.ok) {
+                        alert('Error al cargar las sesiones');
                         window.location.href = 'misClases.html';
                         return;
                     }
  
-                    currentSession = await response.json();
-                    renderSession();
-                } catch (error) {
-                    console.error('Error cargando sesión:', error);
-                    alert('Error al cargar la sesión');
+                    const sessions = await res.json();
+ 
+                    // Filtrar solo las que pertenecen a esta disciplina
+                    allSessions = sessions.filter(s => {
+                        const d = s.discipline_id;
+                        return d && (d._id === disciplineId || d === disciplineId);
+                    });
+ 
+                    if (!allSessions.length) {
+                        document.getElementById('heroTitle').textContent = 'SIN SESIONES';
+                        document.getElementById('class-list').innerHTML =
+                            '<div class="empty-state">No hay sesiones para esta disciplina.</div>';
+                        return;
+                    }
+ 
+                    // Actualizar hero con la info de la disciplina
+                    const disc = allSessions[0].discipline_id;
+                    document.getElementById('heroTitle').textContent = (disc.name || 'Clase').toUpperCase();
+                    document.getElementById('heroImg').src = disc.img || 'https://via.placeholder.com/1200x220?text=Clase';
+                    document.getElementById('heroImg').alt = disc.name || 'Clase';
+ 
+                    renderRows();
+ 
+                } catch (err) {
+                    console.error('Error de red:', err);
+                    alert('Error al cargar las sesiones');
                     window.location.href = 'misClases.html';
                 }
             }
  
-            function renderSession() {
-                if (!currentSession) return;
+            // ── RENDER ────────────────────────────────────────────
+            function renderRows(filter = '') {
+                const list = document.getElementById('class-list');
  
-                const disciplineName = currentSession.discipline_id?.name || 'Clase';
-                const img  = currentSession.discipline_id?.img || 'https://via.placeholder.com/300x200?text=Clase';
-                const date = new Date(currentSession.date);
-                const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-                const day  = dayNames[date.getDay()];
-                const time = currentSession.time || 'Hora no definida';
-                const capacity = currentSession.capacity || 'N/A';
+                const filtered = filter
+                    ? allSessions.filter(s => {
+                        const d    = s.discipline_id;
+                        const name = (d?.name || '').toLowerCase();
+                        const day  = DAY_NAMES[new Date(s.date).getDay()].toLowerCase();
+                        const time = (s.time || '').toLowerCase();
+                        return name.includes(filter) || day.includes(filter) || time.includes(filter);
+                    })
+                    : allSessions;
  
-                document.querySelector('.hero img').src = img;
-                document.querySelector('.hero img').alt = disciplineName;
-                document.querySelector('.hero-title').textContent = disciplineName.toUpperCase();
+                if (!filtered.length) {
+                    list.innerHTML = '<div class="empty-state">No se encontraron sesiones.</div>';
+                    return;
+                }
  
-                const classList = document.getElementById('class-list');
-                classList.innerHTML = `
-                    <div class="class-row">
-                        <span class="col-name">${disciplineName.toUpperCase()}</span>
-                        <span class="col-info">${day}</span>
-                        <span class="col-info">${time}</span>
-                        <span class="col-info">${capacity} personas</span>
-                        <div class="btn-group">
-                            <button class="asistencia-btn">ASISTENCIA</button>
-                            <button class="eliminar-btn" data-session-id="${currentSession._id}">ELIMINAR</button>
+                list.innerHTML = filtered.map(session => {
+                    const d        = session.discipline_id;
+                    const name     = d?.name  || 'Clase';
+                    const date     = new Date(session.date);
+                    const day      = DAY_NAMES[date.getDay()];
+                    const time     = session.time     || 'Sin hora';
+                    const capacity = session.capacity || 'N/A';
+ 
+                    return `
+                        <div class="class-row" data-id="${session._id}">
+                            <span class="col-name">${name.toUpperCase()}</span>
+                            <span class="col-info">${day}</span>
+                            <span class="col-info">${time}</span>
+                            <span class="col-info">${capacity} personas</span>
+                            <div class="btn-group">
+                                <button class="asistencia-btn" data-session-id="${session._id}">ASISTENCIA</button>
+                                <button class="eliminar-btn"   data-session-id="${session._id}">ELIMINAR</button>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                }).join('');
             }
  
-            // ✅ Delegación de eventos en el contenedor (funciona aunque el HTML se genere después)
+            // ── DELEGACIÓN DE EVENTOS ─────────────────────────────
             document.getElementById('class-list').addEventListener('click', function(e) {
                 const asistenciaBtn = e.target.closest('.asistencia-btn');
                 const btnEliminar   = e.target.closest('.eliminar-btn');
  
-                if (asistenciaBtn && currentSession) {
-                    window.location.href = `asistencia.html?id=${currentSession._id}`;
+                if (asistenciaBtn) {
+                    window.location.href = `asistencia.html?id=${asistenciaBtn.dataset.sessionId}`;
                     return;
                 }
  
@@ -551,16 +543,13 @@
                 }
             });
  
+            // ── MODAL ─────────────────────────────────────────────
             function abrirModal()  { modalOverlay.classList.add('show'); }
             function cerrarModal() { modalOverlay.classList.remove('show'); sessionToDelete = null; }
  
             closeModalBtn.addEventListener('click', cerrarModal);
             cancelBtn.addEventListener('click', cerrarModal);
- 
-            // ✅ Cierra el modal al hacer clic fuera del contenido
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === modalOverlay) cerrarModal();
-            });
+            modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) cerrarModal(); });
  
             confirmBtn.addEventListener('click', async function() {
                 if (!sessionToDelete) return;
@@ -572,16 +561,25 @@
                     });
  
                     if (response.ok) {
-                        alert('Sesión eliminada exitosamente');
-                        window.location.href = 'misClases.html';
+                        // Quitar la sesión del array local y re-renderizar (sin recargar)
+                        allSessions = allSessions.filter(s => s._id !== sessionToDelete);
+                        cerrarModal();
+ 
+                        if (!allSessions.length) {
+                            // Si ya no quedan sesiones, volver a la lista
+                            window.location.href = 'misClases.html';
+                        } else {
+                            renderRows(document.getElementById('searchInput').value.toLowerCase().trim());
+                        }
                     } else {
                         alert('Error al eliminar la sesión');
+                        cerrarModal();
                     }
                 } catch (error) {
                     console.error('Error eliminando sesión:', error);
                     alert('Error al eliminar la sesión');
+                    cerrarModal();
                 }
-                cerrarModal();
             });
         </script>
  
