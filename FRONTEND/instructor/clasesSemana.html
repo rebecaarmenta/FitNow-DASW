@@ -367,8 +367,13 @@
                 const monday = new Date(now);
                 monday.setDate(now.getDate() - currentDay + 1);
                 monday.setHours(0, 0, 0, 0);
+
+                // If today is Sunday, show next week instead
+                if (currentDay === 0) {
+                    monday.setDate(monday.getDate() + 7);
+                }
                 
-                // Get Saturday of current week
+                // Get Saturday of visible week
                 const saturday = new Date(monday);
                 saturday.setDate(monday.getDate() + 5);
                 saturday.setHours(23, 59, 59, 999);
