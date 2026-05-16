@@ -133,6 +133,12 @@
             }
  
             .photo-label:hover { transform: scale(1.05); background: #333; }
+
+            .photo-label.disabled {
+                opacity: 0.45;
+                cursor: not-allowed;
+                background: #7a7a7a;
+            }
  
             /* ── PILLS CLASES ── */
             .selected-classes {
@@ -357,7 +363,7 @@
                             <i class="fa-solid fa-pencil"></i>
                         </label>
                     </div>
-                    <input id="photoInput" type="file" accept="image/*" class="form-control d-none">
+                    <input id="photoInput" type="file" accept="image/*" class="form-control d-none" disabled>
                 </div>
  
                 <!-- Columna formulario -->
@@ -412,6 +418,7 @@
             const profileName           = document.getElementById('profile-name');
             const profileAvatar         = document.getElementById('profile-avatar');
             const photoInput            = document.getElementById('photoInput');
+            const photoLabel            = document.getElementById('photoLabel');
             const nameInput             = document.getElementById('name');
             const emailInput            = document.getElementById('email');
             const descriptionInput      = document.getElementById('description');
@@ -489,6 +496,8 @@
                 descriptionInput.disabled  = !enabled;
                 saveBtn.disabled           = !enabled;
                 selectClassesBtn.disabled  = !enabled;
+                photoInput.disabled        = !enabled;
+                photoLabel.classList.toggle('disabled', !enabled);
                 if (!enabled) closeClassesModal();
                 renderClassOptions(selectedClasses, enabled);
             }
@@ -513,7 +522,6 @@
  
             editBtn.addEventListener('click', () => {
                 setEditable(true);
-                photoInput.removeAttribute('disabled');
             });
  
             selectClassesBtn.addEventListener('click', openClassesModal);

@@ -488,7 +488,7 @@
                     const endText = allowedEnd.toLocaleDateString(undefined, opts);
                     if (effectiveMin.getTime() > allowedStart.getTime()) {
                         const fromText = effectiveMin.toLocaleDateString(undefined, opts);
-                        weekInfo.textContent = `Semana disponible: ${fromText} — ${endText} (solo días desde hoy)`;
+                        weekInfo.textContent = `Semana disponible: ${fromText} — ${endText}`;
                     } else {
                         weekInfo.textContent = `Semana disponible: ${startText} — ${endText}`;
                     }

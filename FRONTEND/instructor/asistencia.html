@@ -368,9 +368,8 @@
                 const start = new Date(sessionDate);
                 start.setHours(hour, minute, 0, 0);
                 const windowStart = new Date(start);
-                windowStart.setMinutes(start.getMinutes() - 60);
-                const windowEnd = new Date(start);
-                windowEnd.setMinutes(start.getMinutes() + 60);
+                const windowEnd = new Date(sessionDate);
+                windowEnd.setHours(23, 59, 59, 999);
                 return now >= windowStart && now <= windowEnd;
             }
  
@@ -445,7 +444,7 @@
                 if (!editAllowed) {
                     const warning = document.createElement('p');
                     warning.className = 'text-center py-2';
-                    warning.textContent = 'Solo se puede modificar la asistencia el mismo día y dentro de la hora de la sesión.';
+                    warning.textContent = 'Solo se puede modificar la asistencia el mismo día, desde el inicio de la clase hasta el fin del día.';
                     peopleList.prepend(warning);
                 }
             }
