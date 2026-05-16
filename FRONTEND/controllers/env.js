@@ -1,4 +1,4 @@
-const local_url = "http://localhost:3000";
+const local_url = "https://fitnow-dasw-final-njyg.onrender.com";
  
 function validateLogin() {
     const ruta = window.location.pathname.toLowerCase();
