@@ -1,6 +1,7 @@
 import User from '../models/user.js';
 import Enrollment from '../models/enrollment.js';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
  
 const CODIGO_INSTRUCTOR = 'FITNOW2026';
  
@@ -8,8 +9,9 @@ const CODIGO_INSTRUCTOR = 'FITNOW2026';
 export async function login(req, res) {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email, password });
-        if (!user) return res.status(401).send('Credenciales incorrectas');
+        const user = await User.findOne({ email });
+        if (!user || !(await bcrypt.compare(password, user.password)))
+            return res.status(401).send('Credenciales incorrectas');
 
         // Generar el token
         const token = jwt.sign(
@@ -63,7 +65,10 @@ export async function register(req, res) {
             rolFinal = 'instructor';
         }
  
-        const nuevoUser = new User({ name, email, password, rol: rolFinal, photo });
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const nuevoUser = new User({ name, email, password: hashedPassword, rol: rolFinal, photo }); // ✅
         await nuevoUser.save();
         res.json(nuevoUser);
     } catch (err) {
