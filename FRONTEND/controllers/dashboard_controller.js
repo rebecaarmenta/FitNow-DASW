@@ -79,7 +79,7 @@ function renderClasesProgramadas(enrollments) {
 
     const activas = enrollments.filter(e => {
         if (e.status !== 'activa' || !e.session_id) return false;
-        const sessionDate = e.session_id.date ? new Date(e.session_id.date) : null;
+        const sessionDate = parseLocalDate(e.session_id.date);
         return sessionDate ? isDateInCurrentWeek(sessionDate) : true;
     });
 
@@ -90,7 +90,7 @@ function renderClasesProgramadas(enrollments) {
 
     contenedor.innerHTML = activas.map(e => {
         const session = e.session_id;
-        const dateValue = session?.date ? new Date(session.date) : null;
+        const dateValue = parseLocalDate(session?.date);
         const dia = dateValue ? formatDay(dateValue) : (session?.day || 'Sin fecha');
         const hora = session?.time || session?.hour || 'Sin hora';
         const instructor = session?.instructor_id
@@ -113,6 +113,13 @@ function formatDay(date) {
         day: '2-digit',
         month: '2-digit'
     });
+}
+
+function parseLocalDate(dateString) {
+    if (!dateString) return null;
+    const [year, month, day] = dateString.slice(0, 10).split('-').map(Number);
+    if ([year, month, day].some(value => isNaN(value))) return null;
+    return new Date(year, month - 1, day);
 }
 
 function isDateInCurrentWeek(date) {

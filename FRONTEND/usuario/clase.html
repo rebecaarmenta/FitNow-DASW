@@ -334,29 +334,11 @@
         }
 
         showToast('Inscripción exitosa');
-        // Actualizar inscripciones sin recargar la página
-        const enrollmentsResponse = await fetch(`${local_url}/enrollments/user/${user.id}`, {
-          headers: { 'Authorization': token, 'Content-Type': 'application/json' }
-        });
-
-        if (enrollmentsResponse.ok) {
-          const enrollments = await enrollmentsResponse.json();
-          const enrolledIds = new Set(enrollments
-            .filter(e => e.status === 'activa')
-            .map(e => {
-              const sId = e.session_id && e.session_id._id ? e.session_id._id : e.session_id;
-              return String(sId);
-            })
-          );
-
-          // Actualizar el botón de esta sesión
-          const sessionButton = document.querySelector(`button[onclick="enroll('${sessionId}')"]`);
-          if (sessionButton) {
-            sessionButton.textContent = 'Inscrito';
-            sessionButton.disabled = true;
-            sessionButton.classList.add('inscrito');
-          }
-        }
+        
+        // Redirigir al dashboard después de 1 segundo para que vea la clase inscrita
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1000);
       } catch (error) {
         console.error('Error al inscribir:', error);
         showToast('Error al inscribir en la sesión');
