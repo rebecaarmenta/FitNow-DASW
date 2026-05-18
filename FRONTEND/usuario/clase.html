@@ -225,6 +225,8 @@
           })
         );
 
+        const upcomingSessions = sessions.filter(session => isFutureOrToday(session.date));
+
         const heroDefault = 'https://i.pinimg.com/1200x/c3/2c/5c/c32c5cafba97a20d55ff5b825ab2edd7.jpg';
         const spinningImg = 'https://as01.epimg.net/deporteyvida/imagenes/2019/09/03/portada/1567536855_286772_1567537023_noticia_normal_recorte1.jpg';
         const isSpinning = disciplina.name.toLowerCase().includes('spinning');
@@ -234,7 +236,7 @@
         heroImage.onerror = () => { heroImage.onerror = null; heroImage.src = isSpinning ? spinningImg : heroDefault; };
         heroImage.src = disciplina.img || (isSpinning ? spinningImg : heroDefault);
 
-        renderSessions(sessions, enrolledIds);
+        renderSessions(upcomingSessions, enrolledIds);
       } catch (error) {
         console.error('Error al cargar la clase:', error);
         descEl.textContent = 'No se pudo cargar la información de la clase. Intenta nuevamente.';
@@ -296,6 +298,14 @@
     function formatDay(dateString) {
       const date = parseLocalDate(dateString);
       return date ? date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'numeric' }) : 'Sin fecha';
+    }
+
+    function isFutureOrToday(dateString) {
+      const date = parseLocalDate(dateString);
+      if (!date) return false;
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      return date >= today;
     }
 
     async function enroll(sessionId) {
