@@ -37,18 +37,16 @@ export async function createEnrollment(req, res) {
             if (!otherSession || !otherSession.date || !otherSession.time) return false;
             
             // Convertir las fechas a strings si es necesario
-            const otherDateStr = otherSession.date instanceof Date ? otherSession.date.toISOString() : otherSession.date;
-            const sessionDateStr = session.date instanceof Date ? session.date.toISOString() : session.date;
+            const otherDateStr = otherSession.date instanceof Date ? otherSession.date.toISOString().split('T')[0] : otherSession.date.slice(0, 10);
+            const sessionDateStr = session.date instanceof Date ? session.date.toISOString().split('T')[0] : session.date.slice(0, 10);
             
-            const otherDate = parseLocalDate(otherDateStr);
-            const sessionDate = parseLocalDate(sessionDateStr);
             return otherSession._id.toString() !== session._id.toString()
-                && otherDate && sessionDate && otherDate.getTime() === sessionDate.getTime()
+                && otherDateStr === sessionDateStr
                 && otherSession.time === session.time;
         });
 
         if (hasConflict) {
-            return res.status(400).json({ message: 'No puedes inscribirte a dos clases el mismo día y a la misma hora' });
+            return res.status(400).json({ message: 'Conflicto: ya tienes una clase inscrita a la misma hora ese día' });
         }
 
         const total = await Enrollment.countDocuments({

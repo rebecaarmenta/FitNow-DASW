@@ -119,14 +119,41 @@ function isDateInCurrentWeek(date) {
     const now = new Date();
     const dayOfWeek = now.getDay();
     const monday = new Date(now);
-    monday.setDate(now.getDate() - ((dayOfWeek + 6) % 7));
+    const diffToMonday = (dayOfWeek + 6) % 7;
+    monday.setDate(now.getDate() - diffToMonday);
     monday.setHours(0, 0, 0, 0);
+
+    // Si es domingo (0), mostrar semana siguiente
+    if (dayOfWeek === 0) {
+        monday.setDate(monday.getDate() + 7);
+    }
 
     const sunday = new Date(monday);
     sunday.setDate(monday.getDate() + 6);
     sunday.setHours(23, 59, 59, 999);
 
     return date >= monday && date <= sunday;
+}
+
+async function refreshDashboard() {
+    const token = sessionStorage.getItem('token');
+    let user = JSON.parse(sessionStorage.getItem('user'));
+    
+    if (!user || !token) return;
+
+    try {
+        const enrollmentsResponse = await fetch(`${local_url}/enrollments/user/${user.id}`, {
+            headers: { 'Authorization': token, 'Content-Type': 'application/json' }
+        });
+
+        if (enrollmentsResponse.ok) {
+            const enrollments = await enrollmentsResponse.json();
+            dashboardState.enrollments = enrollments;
+            renderClasesProgramadas(enrollments);
+        }
+    } catch (error) {
+        console.error('Error al refrescar dashboard:', error);
+    }
 }
 
 function renderHistorialMetas() {
